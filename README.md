@@ -29,40 +29,40 @@ If the container is started like mentioned above, connect via one of these optio
 
 ## Hints
 
-### 2) Change User of running Sakuli Container
+### Change User of running Container
 
-Per default, since version `1.3.0` all container processes will be executed with user id `1000`. You can change the user id as follows: 
+Per default, all container processes will be executed with user id `1000`. You can change the user id as follows: 
 
-#### 2.1) Using root (user id `0`)
+#### Using root (user id `0`)
 Add the `--user` flag to your docker run command:
 
     docker run -it --user 0 -p 6911:6901 fernandosanchez/vnc
 
-#### 2.2) Using user and group id of host system
+#### Using user and group id of host system
 Add the `--user` flag to your docker run command:
 
     docker run -it -p 6911:6901 --user $(id -u):$(id -g) fernandosanchez/vnc
 
-### 3) Override VNC environment variables
+### Override VNC environment variables
 The following VNC environment variables can be overwritten at the `docker run` phase to customize your desktop environment inside the container:
 * `VNC_COL_DEPTH`, default: `24`
 * `VNC_RESOLUTION`, default: `1280x1024`
 * `VNC_PW`, default: `my-pw`
 
-#### 3.1) Example: Override the VNC password
+#### Example: Override the VNC password
 Simply overwrite the value of the environment variable `VNC_PW`. For example in
 the docker run command:
 
     docker run -it -p 5901:5901 -p 6901:6901 -e VNC_PW=my-pw fernandosanchez/vnc
 
-#### 3.2) Example: Override the VNC resolution
+#### Example: Override the VNC resolution
 Simply overwrite the value of the environment variable `VNC_RESOLUTION`. For example in
 the docker run command:
 
     docker run -it -p 5901:5901 -p 6901:6901 -e VNC_RESOLUTION=800x600 fernandosanchez/vnc
     
-### 4) View only VNC
-Since version `1.2.0` it's possible to prevent unwanted control via VNC. Therefore you can set the environment variable `VNC_VIEW_ONLY=true`. If set, the startup script will create a random password for the control connection and use the value of `VNC_PW` for view only connection over the VNC connection.
+### View only VNC
+It's possible to prevent unwanted control via VNC. Therefore you can set the environment variable `VNC_VIEW_ONLY=true`. If set, the startup script will create a random password for the control connection and use the value of `VNC_PW` for view only connection over the VNC connection.
 
-     docker run -it -p 5901:5901 -p 6901:6901 -e VNC_VIEW_ONLY=true consol/centos-xfce-vnc
+     docker run -it -p 5901:5901 -p 6901:6901 -e VNC_VIEW_ONLY=true fernandosanchez/vnc
 

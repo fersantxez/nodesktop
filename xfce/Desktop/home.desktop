@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=home
+Comment=home directory
+Exec=thunar /home
+Icon=drive-harddisk
+Path=
+Terminal=false
+StartupNotify=false

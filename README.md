@@ -18,13 +18,10 @@ This repository contains a Docker image with a headless VNC environment, install
 
 ## Usage
 
-- Print out help page:
 
-      docker run fernandosanchez/vnc --help
+- Run command with mapping to local port `5901` (vnc protocol) and `6901` (vnc web access), mounting home directory:
 
-- Run command with mapping to local port `5901` (vnc protocol) and `6901` (vnc web access):
-
-      docker run -d -p 5901:5901 -p 6901:6901 fernandosanchez/vnc
+      docker run -d -p 5901:5901 -p 6901:6901 -v $HOME:/home fernandosanchez/vnc
   
 - Change the default user and group within a container to your own with adding `--user $(id -u):$(id -g)`:
 

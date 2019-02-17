@@ -16,7 +16,7 @@ chmod +x /usr/local/bin/dumb-init
 
 git clone https://github.com/vitalif/grive2
 
-cd /grive2 && \
+cd grive2 && \
   mkdir build && \
   cd build && \
   cmake .. && \

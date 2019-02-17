@@ -17,19 +17,14 @@ This repository contains a Docker image with a headless VNC environment, install
  images](./openshift/README.md) 
 
 ## Usage
-
-
-- Run command with mapping to local port `5901` (vnc protocol) and `6901` (vnc web access), mounting home directory:
-
-      docker run -d -p 5901:5901 -p 6901:6901 -v $HOME:/home fernandosanchez/vnc
   
 - Change the default user and group within a container to your own with adding `--user $(id -u):$(id -g)`:
 
-      docker run -d -p 5901:5901 -p 6901:6901 --user $(id -u):$(id -g) fernandosanchez/vnc
+      docker run -d -p 5901:5901 -p 6901:6901 -v $HOME:/home --user $(id -u):$(id -g) fernandosanchez/vnc
 
 - If you want to get into the container use interactive mode `-it` and `bash`
       
-      docker run -it -p 5901:5901 -p 6901:6901 fernandosanchez/vnc
+      docker run -it -p 5901:5901 -p 6901:6901 -v $HOME:/home --user $(id -u):$(id -g) fernandosanchez/vnc
 
 # Connect & Control
 If the container is started like mentioned above, connect via one of these options:

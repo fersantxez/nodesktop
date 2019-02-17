@@ -9,15 +9,19 @@ This repository contains a Docker image with a headless VNC environment, install
 * [**noVNC**](https://github.com/novnc/noVNC) - HTML5 VNC client (default http port `6901`)
 * Chrome (no sandbox)
 
-## Usage
+## Usage examples
   
 - Run with your current user mounting your home directory:
 
       docker run -d -p 5901:5901 -p 6901:6901 -v $HOME:/home --user $(id -u):$(id -g) fernandosanchez/vnc
 
+- Run privileged as current user, mounting your home directory and the host root filesystem under /mnt/root
+
+      docker run -d --privileged -p 5901:5901 -p 6901:6901 -v $HOME:/home -v /:/mnt/root --user $(id -u):$(id -g) fernandosanchez/vnc
+
 - If you want to get into the container use interactive mode `-it` and `bash`
       
-      docker run -it -p 5901:5901 -p 6901:6901 -v $HOME:/home --user $(id -u):$(id -g) fernandosanchez/vnc
+      docker run -it -p 5901:5901 -p 6901:6901 -v $HOME:/home --user $(id -u):$(id -g) fernandosanchez/vnc /bin/bash
 
 # Connect & Control
 If the container is started like mentioned above, connect via one of these options:
@@ -25,7 +29,6 @@ If the container is started like mentioned above, connect via one of these optio
 * connect via __VNC viewer `localhost:5901`__, default password: `vncpassword`
 * connect via __noVNC HTML5 full client__: [`http://localhost:6901/vnc.html`](http://localhost:6901/vnc.html), default password: `vncpassword` 
 * connect via __noVNC HTML5 lite client__: [`http://localhost:6901/?password=vncpassword`](http://localhost:6901/?password=vncpassword) 
-
 
 ## Hints
 

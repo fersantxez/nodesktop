@@ -18,6 +18,10 @@ This repository contains a Docker image with a headless VNC environment, install
 - Run privileged as current user, mounting your home directory and the host root filesystem under /mnt/root
 
       docker run -d --privileged -p 5901:5901 -p 6901:6901 -v $HOME:/mnt/home -v /:/mnt/root --user $(id -u):$(id -g) fernandosanchez/vnc
+      
+- Run privileged as current user, mounting your home directory, the host root filesystem under /mnt/root, and your Google Drive under /mnt/data
+
+      docker run -d --privileged -p 5901:5901 -p 6901:6901 -v $HOME:/mnt/home -v /:/mnt/root -v  --user $(id -u):$(id -g) fernandosanchez/vnc
 
 - If you want to get into the container use interactive mode `-it` and `bash`
       

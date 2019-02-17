@@ -1,4 +1,4 @@
-# Docker container with "headless" VNC session
+# Docker container with "headless" VNC/noVNC session
 
 Forked/adapted from https://github.com/ConSol/docker-headless-vnc-container
 
@@ -11,9 +11,9 @@ This repository contains a Docker image with a headless VNC environment, install
 
 ## Usage examples
   
-- Run with your current user mounting your home directory:
+- Run with your current user mounting your home directory (user appears as "default" but has permissions on your directories):
 
-      docker run -d -p 5901:5901 -p 6901:6901 -v $HOME:/home --user $(id -u):$(id -g) fernandosanchez/vnc
+      docker run -d -p 5901:5901 -p 6901:6901 -v $HOME:/mnt/home --user $(id -u):$(id -g) fernandosanchez/vnc
 
 - Run privileged as current user, mounting your home directory and the host root filesystem under /mnt/root
 

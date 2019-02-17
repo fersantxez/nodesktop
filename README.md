@@ -39,12 +39,12 @@ Per default, all container processes will be executed with user id `1000`. You c
 #### Using root (user id `0`)
 Add the `--user` flag to your docker run command:
 
-    docker run -it --user 0 -p 6911:6901 fernandosanchez/vnc
+    docker run -it --user 0 -p 6901:6901 fernandosanchez/vnc
 
 #### Using user and group id of host system
 Add the `--user` flag to your docker run command:
 
-    docker run -it -p 6911:6901 --user $(id -u):$(id -g) fernandosanchez/vnc
+    docker run -it -p 6901:6901 --user $(id -u):$(id -g) fernandosanchez/vnc
 
 ### Override VNC environment variables
 The following VNC environment variables can be overwritten at the `docker run` phase to customize your desktop environment inside the container:

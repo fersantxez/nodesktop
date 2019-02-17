@@ -33,9 +33,6 @@ RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} +
 RUN $INST_SCRIPTS/tools.sh
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
-### Generate locale
-RUN locale-gen en_US.UTF-8
-
 ### Install xvnc-server & noVNC - HTML5 based VNC viewer
 RUN $INST_SCRIPTS/tigervnc.sh
 RUN $INST_SCRIPTS/no_vnc.sh

@@ -1,4 +1,4 @@
-# Docker container with "headless" VNC session
+# Docker container with "headless" VNC/noVNC session
 
 Forked/adapted from https://github.com/ConSol/docker-headless-vnc-container
 
@@ -9,15 +9,19 @@ This repository contains a Docker image with a headless VNC environment, install
 * [**noVNC**](https://github.com/novnc/noVNC) - HTML5 VNC client (default http port `6901`)
 * Chrome (no sandbox)
 
-## Usage
+## Usage examples
   
-- Run with your current user mounting your home directory:
+- Run with your current user mounting your home directory (user appears as "default" but has permissions on your directories):
 
-      docker run -d -p 5901:5901 -p 6901:6901 -v $HOME:/home --user $(id -u):$(id -g) fernandosanchez/vnc
+      docker run -d -p 5901:5901 -p 6901:6901 -v $HOME:/mnt/home --user $(id -u):$(id -g) fernandosanchez/vnc
+
+- Run privileged as current user, mounting your home directory and the host root filesystem under /mnt/root
+
+      docker run -d --privileged -p 5901:5901 -p 6901:6901 -v $HOME:/mnt/home -v /:/mnt/root --user $(id -u):$(id -g) fernandosanchez/vnc
 
 - If you want to get into the container use interactive mode `-it` and `bash`
       
-      docker run -it -p 5901:5901 -p 6901:6901 -v $HOME:/home --user $(id -u):$(id -g) fernandosanchez/vnc
+      docker run -it -p 5901:5901 -p 6901:6901 -v $HOME:/mnt/home --user $(id -u):$(id -g) fernandosanchez/vnc /bin/bash
 
 # Connect & Control
 If the container is started like mentioned above, connect via one of these options:
@@ -25,7 +29,6 @@ If the container is started like mentioned above, connect via one of these optio
 * connect via __VNC viewer `localhost:5901`__, default password: `vncpassword`
 * connect via __noVNC HTML5 full client__: [`http://localhost:6901/vnc.html`](http://localhost:6901/vnc.html), default password: `vncpassword` 
 * connect via __noVNC HTML5 lite client__: [`http://localhost:6901/?password=vncpassword`](http://localhost:6901/?password=vncpassword) 
-
 
 ## Hints
 
@@ -36,12 +39,12 @@ Per default, all container processes will be executed with user id `1000`. You c
 #### Using root (user id `0`)
 Add the `--user` flag to your docker run command:
 
-    docker run -it --user 0 -p 6911:6901 fernandosanchez/vnc
+    docker run -it --user 0 -p 6901:6901 fernandosanchez/vnc
 
 #### Using user and group id of host system
 Add the `--user` flag to your docker run command:
 
-    docker run -it -p 6911:6901 --user $(id -u):$(id -g) fernandosanchez/vnc
+    docker run -it -p 6901:6901 --user $(id -u):$(id -g) fernandosanchez/vnc
 
 ### Override VNC environment variables
 The following VNC environment variables can be overwritten at the `docker run` phase to customize your desktop environment inside the container:

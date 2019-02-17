@@ -8,5 +8,5 @@ apt-get install -y vim wget net-tools locales bzip2  \
     htop python-numpy #used for websockify/novnc
 apt-get clean -y
 
-echo "generate locales für en_US.UTF-8"
+echo "generate locales for en_US.UTF-8"
 locale-gen en_US.UTF-8

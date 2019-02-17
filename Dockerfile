@@ -25,6 +25,9 @@ ENV HOME=/headless \
     VNC_VIEW_ONLY=false
 WORKDIR $HOME
 
+### Generate locale
+RUN locale-gen en_US.UTF-8
+
 ### Add all install scripts for further steps
 ADD ./install/ $INST_SCRIPTS/
 RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} +

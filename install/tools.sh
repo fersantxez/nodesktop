@@ -10,3 +10,4 @@ apt-get clean -y
 
 echo "generate locales for en_US.UTF-8"
 locale-gen en_US.UTF-8
+dpkg-reconfigure locales

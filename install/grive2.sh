@@ -10,8 +10,8 @@ apt-get install --yes --no-install-recommends g++ cmake build-essential \
   binutils-dev pkg-config zlib1g-dev && \
   rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
 
-wget https://github.com/Yelp/dumb-init/releases/download/v1.2.1/dumb-init_1.2.1_amd64 /usr/local/bin/dumb-init
-
+wget https://github.com/Yelp/dumb-init/releases/download/v1.2.1/dumb-init_1.2.1_amd64 
+mv dumb-init_1.2.1_amd64 /usr/local/bin/dumb-init
 chmod +x /usr/local/bin/dumb-init
 
 git clone https://github.com/vitalif/grive2

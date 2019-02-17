@@ -8,8 +8,6 @@ This repository contains a Docker image with a headless VNC environment, install
 * VNC-Server (default VNC port `5901`)
 * [**noVNC**](https://github.com/novnc/noVNC) - HTML5 VNC client (default http port `6901`)
 * Chromium
-  
-![Docker VNC Desktop access via HTML page](.pics/vnc_container_view.png)
 
 ## Current provided OS & UI sessions:
 

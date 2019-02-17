@@ -17,11 +17,11 @@ This repository contains a Docker image with a headless VNC environment, install
 
 - Run privileged as current user, mounting your home directory and the host root filesystem under /mnt/root
 
-      docker run -d --privileged -p 5901:5901 -p 6901:6901 -v $HOME:/home -v /:/mnt/root --user $(id -u):$(id -g) fernandosanchez/vnc
+      docker run -d --privileged -p 5901:5901 -p 6901:6901 -v $HOME:/mnt/home -v /:/mnt/root --user $(id -u):$(id -g) fernandosanchez/vnc
 
 - If you want to get into the container use interactive mode `-it` and `bash`
       
-      docker run -it -p 5901:5901 -p 6901:6901 -v $HOME:/home --user $(id -u):$(id -g) fernandosanchez/vnc /bin/bash
+      docker run -it -p 5901:5901 -p 6901:6901 -v $HOME:/mnt/home --user $(id -u):$(id -g) fernandosanchez/vnc /bin/bash
 
 # Connect & Control
 If the container is started like mentioned above, connect via one of these options:

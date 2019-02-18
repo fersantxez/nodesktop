@@ -7,7 +7,13 @@ echo "Install Google Drive through Ocamlfuse"
  
 add-apt-repository ppa:alessandro-strada/ppa
 
+#Correct downloaded deb list so that it points to xenial
 sudo tee /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-bionic.list <<-EOF
+deb http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu xenial main
+deb-src http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu xenial main
+EOF
+#remove disco release downloaded
+sudo tee /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-disco.list <<-EOF
 deb http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu xenial main
 deb-src http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu xenial main
 EOF

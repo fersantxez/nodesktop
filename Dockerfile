@@ -55,7 +55,5 @@ RUN $INST_SCRIPTS/chrome.sh
 ### Install Google Drive client
 RUN $INST_SCRIPTS/google-drive-occamlfuse.sh
 
-USER 5001
-
 ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]
 CMD ["--wait"]

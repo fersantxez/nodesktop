@@ -55,10 +55,10 @@ RUN $INST_SCRIPTS/chrome.sh
 ### Install Google Drive client
 RUN $INST_SCRIPTS/google-drive-occamlfuse.sh
 
-### Add myself as a user
+### Add myself as a user if the variable was passed, otherwise nss_wrapper
 ENV NEWUSER=default
-RUN useradd -ms /bin/bash $NEWUSER 
-
+RUN groupadd -g 5001 go \
+&& useradd -m -u 5001 -g $NEWUSER $NEWUSER
 USER 5001
 
 ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]

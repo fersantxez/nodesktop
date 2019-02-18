@@ -7,12 +7,11 @@ echo "Install Google Drive through Ocamlfuse"
  
 add-apt-repository ppa:alessandro-strada/ppa
 
-#echo 'deb http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu xenial main' | \
-#    sudo tee /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-bionic.list >/dev/null
-#replace bionic at the end of both lines with xenial, for version > 0.6.21
-sed -i 's/bionic/xenial/g' /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-bionic.list
-sed -i 's/disco/xenial/g' /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-bionic.list
-sed -i 's/#deb/deb/g' /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-bionic.list
+sudo tee /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-bionic.list <<-EOF
+deb http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu xenial main
+deb-src http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu xenial main
+EOF
+
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AD5F235DF639B041
 apt-get update
 apt-get install google-drive-ocamlfuse

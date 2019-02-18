@@ -9,8 +9,8 @@ echo -e "\n------------------ startup of Xfce4 window manager ------------------
 xset -dpms &
 xset s noblank &
 xset s off &
-if [[ $DEBUG == true ]] || [[ $1 =~ -t|--tail-log ]]; then
-echo -e "start XFCE4\n..."
+if [[ $DEBUG == true ]]; then
+ echo -e "start XFCE4\n..."
 fi
 /usr/bin/startxfce4 --replace > $HOME/wm.log &
 sleep 1

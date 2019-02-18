@@ -53,7 +53,7 @@ RUN $INST_SCRIPTS/install_custom_fonts.sh
 RUN $INST_SCRIPTS/chrome.sh
 
 ### Install Google Drive client
-RUN $INST_SCRIPTS/gdrive.sh
+RUN $INST_SCRIPTS/google-drive-occamlfuse.sh
 
 USER 5001
 

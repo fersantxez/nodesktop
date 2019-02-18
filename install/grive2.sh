@@ -5,7 +5,7 @@ set -e
 echo "Install Google Drive through Grive2"
 
 apt-get install --yes --no-install-recommends g++ cmake build-essential cmake \
-  libgcrypt11-dev libgcrypt libyajl-dev libboost-all-dev \
+  libgcrypt20-dev libgcrypt libyajl-dev libboost-all-dev \
   libcurl4-openssl-dev libexpat1-dev libcppunit-dev \
   binutils-dev pkg-config zlib1g-dev && \
   rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
@@ -16,7 +16,10 @@ chmod +x /usr/local/bin/dumb-init
 
 git clone https://github.com/vitalif/grive2
 
-export PATH=PATH=${PATH}:${HOME}/opt/bin/
+export PATH=PATH=${PATH}:${HOME}/opt/bin/:/usr/bin
+ls /usr/bin/cmake
+find /usr -name cmake
+find /home -name cmake
 
 cd grive2 && \
   mkdir build && \

@@ -16,7 +16,7 @@ chmod +x /usr/local/bin/dumb-init
 
 git clone https://github.com/vitalif/grive2
 
-export PATH=PATH=${PATH}:${HOME}/opt/bin/:/usr/bin
+export PATH=PATH=${PATH}:/headless/usr/bin
 ls /usr/bin/cmake
 find /usr -name cmake
 find /home -name cmake

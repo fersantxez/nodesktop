@@ -26,10 +26,3 @@ if [ x"$USER_ID" != x"0" ]; then
     echo "nss_wrapper location: $LD_PRELOAD"
     export LD_PRELOAD
 fi
-
-
-### Add myself as a user if the NEWUSER variable was passed via docker CLI
-if [ -z "$NEWUSER" ]; then 
-    echo -e "Creating new user "$NEWUSER
-    adduser --shell /bin/bash $NEWUSER
-fi

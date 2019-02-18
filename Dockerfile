@@ -22,7 +22,8 @@ ENV HOME=/headless \
     VNC_COL_DEPTH=24 \
     VNC_RESOLUTION=1280x1024 \
     VNC_PW=vncpassword \
-    VNC_VIEW_ONLY=false
+    VNC_VIEW_ONLY=false \
+    NEWUSER=default
 WORKDIR $HOME
 
 ### Add all install scripts for further steps
@@ -55,7 +56,10 @@ RUN $INST_SCRIPTS/chrome.sh
 ### Install Google Drive client
 RUN $INST_SCRIPTS/google-drive-occamlfuse.sh
 
-USER 1000
+USER 5001
+
+### Add myself as a user
+RUN useradd -r -u 5001 $NEWUSER
 
 ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]
 CMD ["--wait"]

@@ -52,8 +52,8 @@ RUN $INST_SCRIPTS/install_custom_fonts.sh
 ### Install chrome browser
 RUN $INST_SCRIPTS/chrome.sh
 
-### Install Grive2 - Google Drive client
-RUN $INST_SCRIPTS/grive2.sh
+### Install Grive - Google Drive client
+RUN $INST_SCRIPTS/grive.sh
 
 USER 5001
 

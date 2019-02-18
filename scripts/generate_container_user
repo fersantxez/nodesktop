@@ -29,6 +29,7 @@ fi
 
 
 ### Add myself as a user if the NEWUSER variable was passed via docker CLI
-if [ -z $NEWUSER ]; then 
+if [ -z "$NEWUSER" ]; then 
+    echo -e "Creating new user "$NEWUSER
     adduser -D -s /bin/bash $NEWUSER
 fi

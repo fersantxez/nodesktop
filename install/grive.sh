@@ -4,8 +4,6 @@ set -e
 
 echo "Install Google Drive through Grive"
 
-apt-get install software-properties-common
-
 add-apt-repository ppa:nilarimogard/webupd8
 
 apt-get update

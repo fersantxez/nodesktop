@@ -5,7 +5,7 @@ set -e
 echo "Install Google Drive through Grive2"
 
 apt-get install --yes --no-install-recommends g++ cmake build-essential \
-  libgcrypt11-dev libyajl-dev libboost-all-dev \
+  libgcrypt11-dev libgcrypt libyajl-dev libboost-all-dev \
   libcurl4-openssl-dev libexpat1-dev libcppunit-dev \
   binutils-dev pkg-config zlib1g-dev && \
   rm -rf /var/cache/apt/archives /var/lib/apt/lists/*

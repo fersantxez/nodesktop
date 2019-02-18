@@ -12,7 +12,7 @@ echo 'deb http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu xenial main' | \
 #replace bionic at the end of both lines with xenial, for version > 0.6.21
 sed -i 's/bionic/xenial/g' /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-disco.list
 sed -i 's/disco/xenial/g' /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-disco.list
-sed -i 's/#deb-src/deb-src/g' /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-disco.list
+sed -i 's/#deb-src http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu xenial/deb-src http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu xenial/g' /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-disco.list
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AD5F235DF639B041
 apt-get update
 apt-get install google-drive-ocamlfuse

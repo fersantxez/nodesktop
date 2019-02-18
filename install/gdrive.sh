@@ -13,6 +13,6 @@ echo 'deb http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu xenial main' | \
 sed -i 's/bionic/xenial/g' /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-bionic.list
 sed -i 's/disco/xenial/g' /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-bionic.list
 sed -i 's/#deb-src/deb-src/g' /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-bionic.list
-
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AD5F235DF639B041
 apt-get update
 apt-get install google-drive-ocamlfuse

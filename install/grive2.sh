@@ -9,7 +9,7 @@ apt-get install --yes --no-install-recommends g++ cmake build-essential cmake \
   libcurl4-openssl-dev libexpat1-dev libcppunit-dev \
   binutils-dev pkg-config zlib1g-dev && \
   rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
-ß
+
 wget https://github.com/Yelp/dumb-init/releases/download/v1.2.1/dumb-init_1.2.1_amd64 
 mv dumb-init_1.2.1_amd64 /usr/local/bin/dumb-init
 chmod +x /usr/local/bin/dumb-init

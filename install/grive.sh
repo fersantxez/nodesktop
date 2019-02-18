@@ -4,6 +4,10 @@ set -e
 
 echo "Install Google Drive through Grive"
 
+add-apt-repository ppa:nilarimogard/webupd8
+
+apt-get update
+
 apt-get install --yes --no-install-recommends \
   libbinutils libboost-filesystem1.67.0 libboost-program-options1.67.0 \
   libboost-regex1.67.0 libboost-system1.67.0 libcurl4 libgcrypt20 libyajl2 \

@@ -57,7 +57,7 @@ RUN $INST_SCRIPTS/google-drive-occamlfuse.sh
 
 ### Add myself as a user if the variable was passed, otherwise nss_wrapper
 ENV NEWUSER=default
-RUN groupadd -g 5001 go \
+RUN groupadd -g 5001 $NEWUSER \
 && useradd -m -u 5001 -g $NEWUSER $NEWUSER
 USER 5001
 

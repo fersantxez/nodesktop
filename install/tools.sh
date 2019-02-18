@@ -4,9 +4,13 @@ set -e
 
 echo "Install some common tools for further installation"
 apt-get update 
-apt-get install -y vim wget net-tools locales bzip2  \
-    htop python-numpy #used for websockify/novnc
+apt-get install -y vim wget net-tools locales bzip2 git sudo gnupg-agent \
+    htop locales software-properties-common dirmngr python-numpy #used for websockify/novnc
 apt-get clean -y
 
-echo "generate locales for en_US.UTF-8"
-locale-gen en_US.UTF-8
+echo "generate locales" #was en_US.UTF-8 or C.UTF-8
+sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+    locale-gen
+export LANGUAGE=en_US:en
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8

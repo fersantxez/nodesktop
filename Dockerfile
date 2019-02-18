@@ -33,26 +33,29 @@ RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} +
 RUN $INST_SCRIPTS/tools.sh
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
-### Install custom fonts
-RUN $INST_SCRIPTS/install_custom_fonts.sh
-
 ### Install xvnc-server & noVNC - HTML5 based VNC viewer
 RUN $INST_SCRIPTS/tigervnc.sh
 RUN $INST_SCRIPTS/no_vnc.sh
-
-### Install chrome browser
-RUN $INST_SCRIPTS/chrome.sh
-
-### Install xfce UI
-RUN $INST_SCRIPTS/xfce_ui.sh
-ADD ./xfce/ $HOME/
 
 ### configure startup
 RUN $INST_SCRIPTS/libnss_wrapper.sh
 ADD ./scripts $STARTUPDIR
 RUN $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR $HOME
 
-USER 1000
+### Install xfce UI
+RUN $INST_SCRIPTS/xfce_ui.sh
+ADD ./xfce/ $HOME/
+
+### Install custom fonts
+RUN $INST_SCRIPTS/install_custom_fonts.sh
+
+### Install chrome browser
+RUN $INST_SCRIPTS/chrome.sh
+
+### Install Google Drive client
+RUN $INST_SCRIPTS/gdrive.sh
+
+USER 5001
 
 ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]
 CMD ["--wait"]

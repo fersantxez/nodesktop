@@ -28,7 +28,7 @@ if [ x"$USER_ID" != x"0" ]; then
 fi
 
 
-### Add myself as a user
-if [ -z $USER ]; then 
-    adduser -D -s /bin/bash $USER
+### Add myself as a user if the NEWUSER variable was passed via docker CLI
+if [ -z $NEWUSER ]; then 
+    adduser -D -s /bin/bash $NEWUSER
 fi

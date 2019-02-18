@@ -26,3 +26,9 @@ if [ x"$USER_ID" != x"0" ]; then
     echo "nss_wrapper location: $LD_PRELOAD"
     export LD_PRELOAD
 fi
+
+
+### Add myself as a user
+if [ -z $USER ]; then 
+    adduser -D -s /bin/bash $USER
+fi

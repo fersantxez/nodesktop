@@ -16,6 +16,8 @@ chmod +x /usr/local/bin/dumb-init
 
 git clone https://github.com/vitalif/grive2
 
+export PATH=PATH=${PATH}:${HOME}/opt/bin/
+
 cd grive2 && \
   mkdir build && \
   cd build && \

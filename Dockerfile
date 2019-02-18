@@ -57,7 +57,7 @@ RUN $INST_SCRIPTS/google-drive-occamlfuse.sh
 
 ### Add myself as a user
 ENV NEWUSER=default
-RUN useradd -r -u 5001 
+RUN useradd -ms /bin/bash $NEWUSER 
 
 USER 5001
 

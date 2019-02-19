@@ -20,6 +20,8 @@ You can connect with a browser to:
 
 `http://[YOUR_HOST_IP]:6901`
 
+Default password is 'vncpassword'
+
 ## Usage examples
   
 - Run anonymously mounting your home directory (user appears as "default" but has permissions on your directories):

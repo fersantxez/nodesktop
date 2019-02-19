@@ -8,6 +8,7 @@ apt-get install -y vim wget net-tools locales bzip2 git sudo gnupg-agent openssh
     htop locales software-properties-common dirmngr python-numpy #used for websockify/novnc
 apt-get clean -y
 
+#Generate locales
 echo "generate locales" #was en_US.UTF-8 or C.UTF-8
 sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     locale-gen
@@ -18,6 +19,6 @@ export LC_ALL=en_US.UTF-8
 ### Add myself as a user if the variable was passed, otherwise nss_wrapper
 if [ -z "$NEWUSER" ]; then
     echo -e "Adding new user and group: "${NEWUSER}
-    groupadd -g 5001 $NEWUSER \
-    && useradd -s /bin/bash -m -u 5001 -g $NEWUSER $NEWUSER
+    groupadd -g 5001 $NEWUSER &&\
+    useradd -s /bin/bash -m -u 5001 -g $NEWUSER $NEWUSER
 fi

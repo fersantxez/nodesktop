@@ -28,7 +28,6 @@ if [ x"$USER_ID" != x"0" ]; then
 fi
 
 ### Add myself as a user if the variable was passed, otherwise nss_wrapper
-ENV NEWUSER=default
 if [ -z "$NEWUSER"]; then
     echo -e "Adding new user and group: "${NEWUSER}
     groupadd -g 5001 $NEWUSER \

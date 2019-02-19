@@ -22,7 +22,8 @@ ENV HOME=/headless \
     VNC_COL_DEPTH=24 \
     VNC_RESOLUTION=1280x1024 \
     VNC_PW=vncpassword \
-    VNC_VIEW_ONLY=false
+    VNC_VIEW_ONLY=false \
+    NEWUSER=default
 WORKDIR $HOME
 
 ### Add all install scripts for further steps

@@ -19,5 +19,7 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AD5F235DF639B041
 apt-get update
 apt-get install google-drive-ocamlfuse
 
-mkdir -p ~/GoogleDrive
-chmod 777 ~/GoogleDrive
+#Set up variable and directory for mounting Google Drive from script/desktop link
+export GDRIVE_MOUNT_DIR=/headless/GoogleDrive
+mkdir -p $GDRIVE_MOUNT_DIR
+chmod 777 $GDRIVE_MOUNT_DIR

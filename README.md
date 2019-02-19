@@ -14,9 +14,7 @@ This repository contains a Docker image with a headless VNC environment, install
 
 On a host with docker and curl available:
 
-'
-bash | curl https://github.com/fernandosanchezmunoz/vnc/blob/master/run.sh
-'
+`bash | curl https://github.com/fernandosanchezmunoz/vnc/blob/master/run.sh`
 
 ## Usage examples
   

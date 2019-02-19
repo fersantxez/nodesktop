@@ -10,6 +10,18 @@ This repository contains a Docker image with a headless VNC environment, install
 * Chrome (no sandbox)
 * [**OccamlFUSE for Google Drive access**](https://astrada.github.io/google-drive-ocamlfuse/)
 
+## TL;DR
+
+On a host with docker and curl available:
+
+`source <(curl -s https://raw.githubusercontent.com/fernandosanchezmunoz/vnc/master/run.sh)`
+
+You can connect with a browser to:
+
+`http://[YOUR_HOST_IP]:6901`
+
+Default password is 'vncpassword'
+
 ## Usage examples
   
 - Run anonymously mounting your home directory (user appears as "default" but has permissions on your directories):

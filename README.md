@@ -16,9 +16,9 @@ This repository contains a Docker image with a headless VNC environment, install
 
       docker run -d --name vnc -p 5901:5901 -p 6901:6901 -v $HOME:/mnt/home fernandosanchez/vnc
 
-- Run privileged as current user replicating the identity and password of the host system, mounting your home directory and the host root filesystem under /mnt/root
+- Run as current user replicating the identity and password of the host system, mounting your home directory and the host root filesystem under /mnt/root
 
-      docker run -d --name vnc --privileged -p 5901:5901 -p 6901:6901 -v $HOME:/mnt/home -v /:/mnt/root -v /etc/group:/etc/group:ro -v /etc/passwd:/etc/passwd:ro -v /etc/shadow:/etc/shadow:ro -v /etc/sudoers.d:/etc/sudoers.d:ro --user $(id -u):$(id -g) fernandosanchez/vnc
+      docker run -d --name vnc -p 5901:5901 -p 6901:6901 -v $HOME:/mnt/home -v /:/mnt/root -v /etc/group:/etc/group:ro -v /etc/passwd:/etc/passwd:ro -v /etc/shadow:/etc/shadow:ro -v /etc/sudoers.d:/etc/sudoers.d:ro --user $(id -u):$(id -g) fernandosanchez/vnc
 
 - If you want to get into the container use interactive mode `-it` and `bash`
       

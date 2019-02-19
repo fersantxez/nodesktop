@@ -20,3 +20,4 @@ apt-get update
 apt-get install google-drive-ocamlfuse
 
 mkdir -p ~/GoogleDrive
+chmod 777 ~/GoogleDrive

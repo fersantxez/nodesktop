@@ -15,10 +15,3 @@ sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
 export LANGUAGE=en_US:en
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-
-### Add myself as a user if the variable was passed, otherwise nss_wrapper
-if [ ! -z ${NEWUSER} ]; then
-    echo -e "Adding new user and group: "${NEWUSER}
-    groupadd -g $NEWUSER $NEWUSER
-    useradd -s /bin/bash -m -u $NEWUSER -g $NEWUSER $NEWUSER
-fi

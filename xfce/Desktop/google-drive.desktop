@@ -1,9 +1,9 @@
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=ocamlfuse
+Name=Mount Google Drive
 Comment=Mount your Google Drive
-Exec="google-drive-ocamlfuse && mkdir -p ~/GoogleDrive && google-drive-ocamlfuse ~/GoogleDrive && thunar ~/GoogleDrive"
+Exec="google-drive-ocamlfuse ~/GoogleDrive"
 Icon=drive-harddisk
 Path=
 Terminal=false

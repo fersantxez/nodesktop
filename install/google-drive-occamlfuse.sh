@@ -18,3 +18,5 @@ rm /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-disco.list
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AD5F235DF639B041
 apt-get update
 apt-get install google-drive-ocamlfuse
+
+mkdir -p ~/GoogleDrive

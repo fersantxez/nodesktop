@@ -56,7 +56,7 @@ RUN $INST_SCRIPTS/install_custom_fonts.sh
 RUN $INST_SCRIPTS/chrome.sh
 
 ### Install Google Drive client
-RUN $INST_SCRIPTS/google-drive-occamlfuse.sh
+RUN $INST_SCRIPTS/google-drive-ocamlfuse.sh
 
 ### Add myself as a user if the variable was passed, otherwise nss_wrapper
 ENV NEWUSER=default

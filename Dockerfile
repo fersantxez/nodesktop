@@ -22,8 +22,7 @@ ENV HOME=/headless \
     VNC_COL_DEPTH=24 \
     VNC_RESOLUTION=1280x1024 \
     VNC_PW=vncpassword \
-    VNC_VIEW_ONLY=false \
-    NEWUSER=default
+    VNC_VIEW_ONLY=false
 WORKDIR $HOME
 
 ### Add all install scripts for further steps
@@ -47,6 +46,9 @@ RUN $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR $HOME
 RUN $INST_SCRIPTS/xfce_ui.sh
 ADD ./xfce/ $HOME/
 
+### Customize Desktop
+RUN $INST_SCRIPTS/customize.sh
+
 ### Install custom fonts
 RUN $INST_SCRIPTS/install_custom_fonts.sh
 
@@ -56,6 +58,10 @@ RUN $INST_SCRIPTS/chrome.sh
 ### Install Google Drive client
 RUN $INST_SCRIPTS/google-drive-occamlfuse.sh
 
+### Add myself as a user if the variable was passed, otherwise nss_wrapper
+ENV NEWUSER=default
+RUN groupadd -g 5001 $NEWUSER \
+&& useradd -s /bin/bash -m -u 5001 -g $NEWUSER $NEWUSER
 USER 5001
 
 ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]

@@ -12,7 +12,7 @@ xset s off &
 if [[ $DEBUG == true ]]; then
  echo -e "start XFCE4\n..."
 fi
-/usr/bin/startxfce4 --replace > $HOME/wm.log &
+/usr/bin/startxfce4 --replace #> $HOME/wm.log &
 sleep 1
 cat $HOME/wm.log
 

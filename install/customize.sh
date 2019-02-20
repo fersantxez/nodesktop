@@ -4,4 +4,5 @@ set -e
 
 ### configure customization
 tar xvfz $HOME/config_xfce4.tgz
-#TODO: delete archive after uncompressing
+#delete archive after uncompressing
+rm -f $HOME/config_xfce4.tgz

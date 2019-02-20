@@ -16,4 +16,4 @@ fi
 sleep 1
 cat $HOME/wm.log
 
-chown $(whoami) $HOME/Desktop/*
+chown -f 5001 $HOME/Desktop/*

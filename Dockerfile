@@ -61,6 +61,9 @@ RUN $INST_SCRIPTS/google-drive-ocamlfuse.sh
 ### Install Sublime Text
 RUN $INST_SCRIPTS/sublime.sh
 
+### Install Google Cloud SDK
+RUN $INST_SCRIPTS/gcloud.sh
+
 ### Add myself as a user if the variable was passed, otherwise nss_wrapper
 ENV NEWUSER=default
 RUN groupadd -g 5001 $NEWUSER \

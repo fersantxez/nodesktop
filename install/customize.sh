@@ -22,9 +22,10 @@ dpkg -i arc-theme_1488477732.766ae1a-0_all.deb && \
 rm -f arc-theme_1488477732.766ae1a-0_all.deb
 
 ### Install Moka Icons
-echo "Install Moka Icons"
-wget http://ftp.br.debian.org/debian/pool/main/m/moka-icon-theme/moka-icon-theme_5.3.5-1_all.deb && \
-dpkg -i moka-icon-theme_5.3.5-1_all.deb
 echo "Install Faba Icons"
 wget http://ftp.br.debian.org/debian/pool/main/f/faba-icon-theme/faba-icon-theme_4.1.2-1_all.deb && \
 dpkg -i faba-icon-theme_4.1.2-1_all.deb
+echo "Install Moka Icons"
+wget http://ftp.br.debian.org/debian/pool/main/m/moka-icon-theme/moka-icon-theme_5.3.5-1_all.deb && \
+dpkg -i moka-icon-theme_5.3.5-1_all.deb
+

@@ -1,4 +1,4 @@
-# This Dockerfile is used to build an headles vnc image based on Ubuntu
+# This Dockerfile is used to build an headless vnc image based on Debian
 
 FROM debian:stretch-slim
 

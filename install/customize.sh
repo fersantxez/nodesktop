@@ -19,13 +19,15 @@ echo "Install Gnome Arc Theme"
 apt-get install -y gtk2-engines-murrine
 wget https://download.opensuse.org/repositories/home:/Horst3180/Debian_8.0/all/arc-theme_1488477732.766ae1a-0_all.deb
 dpkg -i arc-theme_1488477732.766ae1a-0_all.deb && \
-rm -f $HOME/arc-theme_1488477732.766ae1a-0_all.deb
+rm -f arc-theme_1488477732.766ae1a-0_all.deb
 
 ### Install Moka Icons
 echo "Install Faba Icons"
 wget http://ftp.br.debian.org/debian/pool/main/f/faba-icon-theme/faba-icon-theme_4.1.2-1_all.deb && \
-dpkg -i faba-icon-theme_4.1.2-1_all.deb
+dpkg -i $HOME/faba-icon-theme_4.1.2-1_all.deb && \
+rm -f $HOME/faba-icon-theme_4.1.2-1_all.deb && \
 echo "Install Moka Icons"
 wget http://ftp.br.debian.org/debian/pool/main/m/moka-icon-theme/moka-icon-theme_5.3.5-1_all.deb && \
-dpkg -i $HOME/moka-icon-theme_5.3.5-1_all.deb
+dpkg -i $HOME/moka-icon-theme_5.3.5-1_all.deb && \
+rm -f $HOME/moka-icon-theme_5.3.5-1_all.deb
 

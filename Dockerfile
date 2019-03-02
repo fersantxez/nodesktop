@@ -67,15 +67,14 @@ RUN $INST_SCRIPTS/gcloud.sh
 ### re-fix user permissions
 RUN $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR $HOME
 
+### Clean up all packages
+RUN $INST_SCRIPTS/cleanup.sh
+
 ### Add myself as a user if the variable was passed, otherwise nss_wrapper
 ENV NEWUSER=default
 RUN groupadd -g 5001 $NEWUSER \
 && useradd -s /bin/bash -m -u 5001 -g $NEWUSER $NEWUSER
 USER 5001
-
-### Clean up all packages
-RUN sudo apt-get clean
-RUN sudo apt-get remove --purge -y $BUILD_PACKAGES $(apt-mark showauto) && rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]
 CMD ["--wait"]

@@ -74,8 +74,8 @@ RUN groupadd -g 5001 $NEWUSER \
 USER 5001
 
 ### Clean up all packages
-RUN apt-get clean
-RUN apt-get remove --purge -y $BUILD_PACKAGES $(apt-mark showauto) && rm -rf /var/lib/apt/lists/*
+RUN sudo apt-get clean
+RUN sudo apt-get remove --purge -y $BUILD_PACKAGES $(apt-mark showauto) && rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]
 CMD ["--wait"]

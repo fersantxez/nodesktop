@@ -64,6 +64,9 @@ RUN $INST_SCRIPTS/sublime.sh
 ### Install Google Cloud SDK
 RUN $INST_SCRIPTS/gcloud.sh
 
+### Install Xreader
+#RUN $INST_SCRIPTS/xreader.sh
+
 ### re-fix user permissions
 RUN $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR $HOME
 

@@ -22,7 +22,7 @@ http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libjavascriptcoregtk-
 http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libwebkit2gtk-3.0-25_2.4.10-0ubuntu1_amd64.deb \
 http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libwebkitgtk-3.0-common_2.4.10-0ubuntu1_all.deb \
 http://archive.ubuntu.com/ubuntu/pool/main/f/fontconfig/fontconfig-config_2.11.94-0ubuntu1_all.deb && \
-sudo apt install ./*.deb && \
+sudo apt install -y ./*.deb && \
 sudo rm -f *.deb && \
 ## Debian packages
 sudo apt-get install -y \
@@ -62,7 +62,7 @@ http://packages.linuxmint.com/pool/backport/x/xreader/libxreaderview3_1.2.2%2bse
 http://packages.linuxmint.com/pool/backport/x/xreader/xreader-common_1.2.2%2bserena_all.deb \
 http://packages.linuxmint.com/pool/backport/x/xreader/xreader-dbg_1.2.2%2bserena_amd64.deb \
 http://packages.linuxmint.com/pool/backport/x/xreader/xreader_1.2.2%2bserena_amd64.deb && \
-sudo apt install ./*.deb && \
+sudo apt install -y ./*.deb && \
 sudo rm -f *.deb
 
 

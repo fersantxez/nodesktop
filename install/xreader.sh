@@ -20,7 +20,8 @@ http://archive.ubuntu.com/ubuntu/pool/main/libw/libwebp/libwebp5_0.4.4-1_amd64.d
 http://archive.ubuntu.com/ubuntu/pool/main/f/fontconfig/libfontconfig1_2.11.94-0ubuntu1_amd64.deb \
 http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libjavascriptcoregtk-3.0-0_2.4.10-0ubuntu1_amd64.deb \
 http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libwebkit2gtk-3.0-25_2.4.10-0ubuntu1_amd64.deb \
-http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libwebkitgtk-3.0-common_2.4.10-0ubuntu1_all.deb && \
+http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libwebkitgtk-3.0-common_2.4.10-0ubuntu1_all.deb \
+http://archive.ubuntu.com/ubuntu/pool/main/f/fontconfig/fontconfig-config_2.11.94-0ubuntu1_all.deb && \
 sudo apt install ./*.deb && \
 sudo rm -f *.deb && \
 ## Debian packages

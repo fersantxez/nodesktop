@@ -6,6 +6,19 @@ echo "Install Xreader document viewer"
 
 ### Install from packages
 
+## Mint backports 
+
+mkdir xreader
+cd xreader
+
+wget http://archive.ubuntu.com/ubuntu/pool/main/i/icu/libicu55_55.1-7_amd64.deb \
+http://archive.ubuntu.com/ubuntu/pool/main/g/geoclue/libgeoclue0_0.12.99-4ubuntu1_amd64.deb \
+http://archive.ubuntu.com/ubuntu/pool/main/libj/libjpeg8-empty/libjpeg8_8c-2ubuntu8_amd64.deb \
+http://archive.ubuntu.com/ubuntu/pool/main/libj/libjpeg-turbo/libjpeg-turbo8_1.4.2-0ubuntu3_amd64.deb \
+http://archive.ubuntu.com/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb \
+http://archive.ubuntu.com/ubuntu/pool/main/libw/libwebp/libwebp5_0.4.4-1_amd64.deb && \
+sudo apt install ./*.deb && \
+sudo rm -f *.deb && \
 ## Debian packages
 sudo apt-get install -y \
 libcaja-extension1 \
@@ -32,22 +45,8 @@ libjs-mathjax \
 fonts-mathjax \
 fonts-mathjax-extras \
 fonts-stix \
-libjs-mathjax-doc
-
-
-## Mint backports 
-
-mkdir xreader
-cd xreader
-
-wget http://archive.ubuntu.com/ubuntu/pool/main/i/icu/libicu55_55.1-7_amd64.deb \
-http://archive.ubuntu.com/ubuntu/pool/main/g/geoclue/libgeoclue0_0.12.99-4ubuntu1_amd64.deb \
-http://archive.ubuntu.com/ubuntu/pool/main/libj/libjpeg8-empty/libjpeg8_8c-2ubuntu8_amd64.deb \
-http://archive.ubuntu.com/ubuntu/pool/main/libj/libjpeg-turbo/libjpeg-turbo8_1.4.2-0ubuntu3_amd64.deb \
-http://archive.ubuntu.com/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb \
-http://archive.ubuntu.com/ubuntu/pool/main/libw/libwebp/libwebp5_0.4.4-1_amd64.deb && \
-sudo apt install ./*.deb && \
-sudo rm -f *.deb && \
+libjs-mathjax-doc && \
+### app packages 
 wget \
 http://packages.linuxmint.com/pool/backport/x/xreader/gir1.2-xreader_1.2.2%2bserena_amd64.deb \
 http://packages.linuxmint.com/pool/backport/x/xreader/libxreaderdocument3-dbg_1.2.2%2bserena_amd64.deb \

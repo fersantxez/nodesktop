@@ -11,8 +11,8 @@ echo "Install Xreader document viewer"
 mkdir xreader
 cd xreader
 
-sudo apt-get install -y \
-http://ftp.br.debian.org/debian/pool/main/w/webkit2gtk/libwebkit2gtk-4.0-37_2.18.6-1~deb9u1_amd64.deb 
+wget http://ftp.br.debian.org/debian/pool/main/w/webkit2gtk/libwebkit2gtk-4.0-37_2.18.6-1~deb9u1_amd64.deb 
+sudo apt-get install -y libwebkit2gtk-4.0-37_2.18.6-1~deb9u1_amd64.deb
 
 #http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libwebkit2gtk-3.0-25_2.4.11-0ubuntu0.1_amd64.deb \
 #http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libwebkitgtk-3.0-common_2.4.11-0ubuntu0.1_all.deb \

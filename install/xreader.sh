@@ -45,7 +45,8 @@ libjs-mathjax \
 fonts-mathjax \
 fonts-mathjax-extras \
 fonts-stix \
-libjs-mathjax-doc && \
+libjs-mathjax-doc \
+libwebkit2gtk && \
 ### app packages 
 wget \
 http://packages.linuxmint.com/pool/backport/x/xreader/gir1.2-xreader_1.2.2%2bserena_amd64.deb \

@@ -11,8 +11,6 @@ echo "Install Xreader document viewer"
 mkdir xreader
 cd xreader
 
-#http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libwebkitgtk-3.0-common_2.4.10-0ubuntu1_all.deb \
-
 wget http://archive.ubuntu.com/ubuntu/pool/main/i/icu/libicu55_55.1-7_amd64.deb \
 http://archive.ubuntu.com/ubuntu/pool/main/g/geoclue/libgeoclue0_0.12.99-4ubuntu1_amd64.deb \
 http://archive.ubuntu.com/ubuntu/pool/main/libj/libjpeg8-empty/libjpeg8_8c-2ubuntu8_amd64.deb \
@@ -21,7 +19,8 @@ http://archive.ubuntu.com/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu
 http://archive.ubuntu.com/ubuntu/pool/main/libw/libwebp/libwebp5_0.4.4-1_amd64.deb \
 http://archive.ubuntu.com/ubuntu/pool/main/f/fontconfig/libfontconfig1_2.11.94-0ubuntu1_amd64.deb \
 http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libjavascriptcoregtk-3.0-0_2.4.10-0ubuntu1_amd64.deb \
-http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libwebkit2gtk-3.0-25_2.4.10-0ubuntu1_amd64.deb \
+http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libwebkit2gtk-3.0-25_2.4.11-0ubuntu0.1_amd64.deb \
+http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libwebkitgtk-3.0-common_2.4.11-0ubuntu0.1_all.deb \
 http://archive.ubuntu.com/ubuntu/pool/main/f/fontconfig/fontconfig-config_2.11.94-0ubuntu1_all.deb && \
 sudo apt install -y ./*.deb && \
 sudo rm -f *.deb && \

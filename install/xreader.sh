@@ -46,7 +46,7 @@ http://archive.ubuntu.com/ubuntu/pool/main/libj/libjpeg8-empty/libjpeg8_8c-2ubun
 http://archive.ubuntu.com/ubuntu/pool/main/libj/libjpeg-turbo/libjpeg-turbo8_1.4.2-0ubuntu3_amd64.deb \
 http://archive.ubuntu.com/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb \
 http://archive.ubuntu.com/ubuntu/pool/main/libw/libwebp/libwebp5_0.4.4-1_amd64.deb && \
-sudo dpkg -i ./*.deb && \
+sudo apt install ./*.deb && \
 sudo rm -f *.deb && \
 wget \
 http://packages.linuxmint.com/pool/backport/x/xreader/gir1.2-xreader_1.2.2%2bserena_amd64.deb \
@@ -58,7 +58,8 @@ http://packages.linuxmint.com/pool/backport/x/xreader/libxreaderview3_1.2.2%2bse
 http://packages.linuxmint.com/pool/backport/x/xreader/xreader-common_1.2.2%2bserena_all.deb \
 http://packages.linuxmint.com/pool/backport/x/xreader/xreader-dbg_1.2.2%2bserena_amd64.deb \
 http://packages.linuxmint.com/pool/backport/x/xreader/xreader_1.2.2%2bserena_amd64.deb && \
-sudo dpkg -i ./*.deb
+sudo apt install ./*.deb. && \
+sudo rm -f *.deb
 
 
 ### Install from source

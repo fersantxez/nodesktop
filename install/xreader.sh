@@ -58,6 +58,11 @@ libjavascriptcoregtk-3.0-0 \
 && \
 ### app packages 
 wget \
+http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libwebkit2gtk-3.0-25_2.4.11-0ubuntu0.1_amd64.deb \
+&& \
+sudo apt install -y ./*.deb && \
+sudo rm -f *.deb && \
+wget \
 http://packages.linuxmint.com/pool/backport/x/xreader/gir1.2-xreader_1.2.2%2bserena_amd64.deb \
 http://packages.linuxmint.com/pool/backport/x/xreader/libxreaderdocument3-dbg_1.2.2%2bserena_amd64.deb \
 http://packages.linuxmint.com/pool/backport/x/xreader/libxreaderdocument3_1.2.2%2bserena_amd64.deb \
@@ -70,6 +75,8 @@ http://packages.linuxmint.com/pool/backport/x/xreader/xreader_1.2.2%2bserena_amd
 sudo apt-get install -y -f ./*.deb && \
 sudo rm -f *.deb
 
+cd ..
+rm -Rf xreader
 
 ### Install from source
 #sudo apt install -y git dpkg-dev

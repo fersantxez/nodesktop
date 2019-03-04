@@ -18,6 +18,7 @@ http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libjavascriptcoregtk-
 http://ftp.br.debian.org/debian/pool/main/g/gst-plugins-good1.0/gstreamer1.0-plugins-good_1.10.4-1_amd64.deb \
 http://archive.ubuntu.com/ubuntu/pool/main/f/fontconfig/libfontconfig1_2.11.94-0ubuntu1_amd64.deb \
 http://archive.ubuntu.com/ubuntu/pool/main/f/fontconfig/fontconfig-config_2.11.94-0ubuntu1_all.deb \
+http://mirrors.kernel.org/ubuntu/pool/universe/w/webkitgtk/libjavascriptcoregtk-3.0-0_2.4.10-0ubuntu1_amd64.deb \
 && \
 sudo apt install -y ./*.deb && \
 sudo rm -f *.deb
@@ -54,7 +55,6 @@ fonts-mathjax \
 fonts-mathjax-extras \
 fonts-stix \
 libjs-mathjax-doc \
-libjavascriptcoregtk-3.0-0 \
 && \
 ### app packages 
 wget \

@@ -14,7 +14,9 @@ cd xreader
 wget \
 http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libwebkit2gtk-3.0-25_2.4.11-0ubuntu0.1_amd64.deb \
 http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libwebkitgtk-3.0-common_2.4.11-0ubuntu0.1_all.deb \
-http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libjavascriptcoregtk-3.0-0_2.4.11-0ubuntu0.1_amd64.deb && \
+http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libjavascriptcoregtk-3.0-0_2.4.11-0ubuntu0.1_amd64.deb \
+http://ftp.br.debian.org/debian/pool/main/g/gst-plugins-good1.0/gstreamer1.0-plugins-good_1.10.4-1_amd64.deb \
+&& \
 sudo apt install -y ./*.deb && \
 sudo rm -f *.deb
 
@@ -45,16 +47,13 @@ libjpeg8 \
 libpng12-0 \
 libwebp5 \
 libxslt1.1 \
-libwebkitgtk-3.0-0 \
-gstreamer1.0-plugins-good \
-libcaja-extension1 \
 libjs-mathjax \
 fonts-mathjax \
 fonts-mathjax-extras \
 fonts-stix \
 libjs-mathjax-doc \
 libjavascriptcoregtk-3.0-0 \
- && \
+&& \
 ### app packages 
 wget \
 http://packages.linuxmint.com/pool/backport/x/xreader/gir1.2-xreader_1.2.2%2bserena_amd64.deb \

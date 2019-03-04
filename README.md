@@ -1,4 +1,4 @@
-# Docker container with "headless" VNC/noVNC session
+# Docker container with headless VNC/noVNC session
 
 Forked/adapted from https://github.com/ConSol/docker-headless-vnc-container
 

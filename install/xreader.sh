@@ -67,7 +67,7 @@ http://packages.linuxmint.com/pool/backport/x/xreader/libxreaderview3_1.2.2%2bse
 http://packages.linuxmint.com/pool/backport/x/xreader/xreader-common_1.2.2%2bserena_all.deb \
 http://packages.linuxmint.com/pool/backport/x/xreader/xreader-dbg_1.2.2%2bserena_amd64.deb \
 http://packages.linuxmint.com/pool/backport/x/xreader/xreader_1.2.2%2bserena_amd64.deb && \
-sudo apt install -y ./*.deb && \
+sudo apt install -y libwebkit2gtk-3.0-25- ./*.deb && \
 sudo rm -f *.deb
 
 

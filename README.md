@@ -9,6 +9,7 @@ This repository contains a Docker image with a headless VNC environment, install
 * [**noVNC**](https://github.com/novnc/noVNC) - HTML5 VNC client (default http port `6901`)
 * Chrome (no sandbox)
 * [**OccamlFUSE for Google Drive access**](https://astrada.github.io/google-drive-ocamlfuse/)
+* [**Sublime Text**](https://www.sublimetext.com/)
 
 ## TL;DR
 

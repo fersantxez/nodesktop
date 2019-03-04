@@ -14,9 +14,8 @@ cd xreader
 wget \
 http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libwebkit2gtk-3.0-25_2.4.11-0ubuntu0.1_amd64.deb \
 http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libwebkitgtk-3.0-common_2.4.11-0ubuntu0.1_all.deb \
-http://archive.ubuntu.com/ubuntu/pool/main/f/fontconfig/libfontconfig1_2.11.94-0ubuntu1_amd64.deb \
 http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libjavascriptcoregtk-3.0-0_2.4.11-0ubuntu0.1_amd64.deb && \
-sudo apt install -y ./libwebkit2gtk-4.0-37_2.18.6-1~deb9u1_amd64.deb && \
+sudo apt install -y ./*.deb && \
 sudo rm -f *.deb
 
 

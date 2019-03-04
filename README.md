@@ -7,7 +7,7 @@ This repository contains a Docker image with a headless VNC environment, install
 * Desktop environment [**Xfce4**](http://www.xfce.org)
 * VNC-Server (default VNC port `5901`)
 * [**noVNC**](https://github.com/novnc/noVNC) - HTML5 VNC client (default http port `6901`)
-* Chrome (no sandbox)
+* Google Chrome
 * [**OccamlFUSE for Google Drive access**](https://astrada.github.io/google-drive-ocamlfuse/)
 * [**Sublime Text**](https://www.sublimetext.com/)
 

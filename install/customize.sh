@@ -30,3 +30,16 @@ wget http://ftp.br.debian.org/debian/pool/main/m/moka-icon-theme/moka-icon-theme
 dpkg -i $HOME/moka-icon-theme_5.3.5-1_all.deb && \
 rm -f $HOME/moka-icon-theme_5.3.5-1_all.deb
 
+### Install Dank Neon for VIM
+
+export VIM_COLOR_URI=https://raw.githubusercontent.com/DankNeon/vim/master/colors/dank-neon.vim
+export VIMRC=/headless/.vimrc
+mkdir -p /headless/.vim/colors/
+cd /headless/.vim/colors/
+curl -O ${VIM_COLOR_URI}
+cp ${VIMRC} ${VIMRC}.bak
+tee ${VIMRC} <<-EOF
+syntax on
+filetype plugin indent on
+colorscheme dank-neon
+EOF

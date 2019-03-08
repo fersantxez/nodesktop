@@ -37,7 +37,6 @@ export VIMRC=/headless/.vimrc
 mkdir -p /headless/.vim/colors/
 cd /headless/.vim/colors/
 curl -O ${VIM_COLOR_URI}
-cp ${VIMRC} ${VIMRC}.bak
 tee ${VIMRC} <<-EOF
 syntax on
 filetype plugin indent on

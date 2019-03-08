@@ -67,6 +67,9 @@ RUN $INST_SCRIPTS/gcloud.sh
 ### Install Evince document viewer
 RUN $INST_SCRIPTS/evince.sh
 
+### Install Bash-it
+RUN $INST_SCRIPTS/bash_it.sh
+
 ### re-fix user permissions
 RUN $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR $HOME
 

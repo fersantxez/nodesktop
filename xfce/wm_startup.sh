@@ -16,5 +16,3 @@ fi
 sleep 1
 cat $HOME/wm.log
 
-#manually override xfce4 theme
-xfconf-query -c xsettings -p /Net/ThemeName -s "Arc-Dark"

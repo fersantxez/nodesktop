@@ -10,6 +10,8 @@ This repository contains a Docker image with a headless VNC environment, install
 * [**Google Chrome**](https://www.google.com/chrome/)
 * [**OccamlFUSE for Google Drive access**](https://astrada.github.io/google-drive-ocamlfuse/)
 * [**Sublime Text**](https://www.sublimetext.com/)
+* [**Evince**](https://wiki.gnome.org/Apps/Evince)
+* [**Bash-it**](https://github.com/Bash-it/bash-it)
 
 ## TL;DR
 

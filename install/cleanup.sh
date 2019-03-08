@@ -11,3 +11,7 @@ sudo apt-get clean -y
 cat /var/lib/dpkg/statoverride | tail -n +3 > ./statoverride && \
 sudo mv /var/lib/dpkg/statoverride /var/lib/dpkg/statoverride.bak && \
 sudo mv ./statoverride /var/lib/dpkg/statoverride
+
+
+### Manually override XFCE4 theme
+xfconf-query -c xsettings -p /Net/ThemeName -s "Arc-Dark"

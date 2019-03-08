@@ -30,5 +30,3 @@ wget http://ftp.br.debian.org/debian/pool/main/m/moka-icon-theme/moka-icon-theme
 dpkg -i $HOME/moka-icon-theme_5.3.5-1_all.deb && \
 rm -f $HOME/moka-icon-theme_5.3.5-1_all.deb
 
-### Manually override XFCE4 theme
-xfconf-query -c xsettings -p /Net/ThemeName -s "Arc-Dark"

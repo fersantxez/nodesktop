@@ -15,3 +15,4 @@ fi
 /usr/bin/startxfce4 --replace > $HOME/wm.log &
 sleep 1
 cat $HOME/wm.log
+

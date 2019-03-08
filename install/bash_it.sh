@@ -6,5 +6,5 @@ echo "Install Bash-it"
 
 git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \
 ~/.bash_it/install.sh --silent && \
-echo "export BASH_IT_THEME='zork'" >> /headless/.bashrc
+sed -i -e 's/bobby/zork/g' /headless/.bashrc
 

@@ -44,7 +44,7 @@ export TAG=novnc-server
 
 # Prefixes output and writes to STDERR:
 error() {
-	echo -e "\n\nodesktop error: $@\n" >&2
+	echo -e "\n\** nodesktop error: $@\n" >&2
 }
 
 # Checks for command presence in $PATH, errors:
@@ -97,12 +97,12 @@ enable_api() {
 
 # Check for our requisite binaries:
 
-echo "Checking for requisite binaries..."
-check_command gcloud "Please install the Google Cloud SDK from: https://cloud.google.com/sdk/downloads"
+echo "** Checking for requisite binaries..."
+check_command gcloud "** Please install the Google Cloud SDK from: https://cloud.google.com/sdk/downloads"
 
 # This executes all the gcloud commands in parallel and then assigns them to separate variables:
 # Needed for non-array capabale bashes, and for speed.
-echo "Checking gcloud variables..."
+echo "** Checking gcloud variables..."
 PARAMS=$(cat <(gcloud_activeconfig_intercept config get-value compute/zone) \
 	<(gcloud_activeconfig_intercept config get-value compute/region) \
 	<(gcloud_activeconfig_intercept config get-value project) \
@@ -118,7 +118,7 @@ check_config $GCP_ZONE "compute/zone"
 printf '%-50s' " - 'application-default access token'..."
 if [[ $GCP_AUTHTOKEN == *"ERROR"* ]]; then
 	echo "[ UNSET ]"
-	error "You do not have application-default credentials set, please run this command:
+	error "** You do not have application-default credentials set, please run this command:
 	gcloud auth application-default login"
 	exit 1
 fi
@@ -137,7 +137,7 @@ REQUIRED_APIS="
 "
 
 # Bulk parallel process all of the API enablement:
-echo "Checking requisiste GCP APIs..."
+echo -e "** Checking requisiste GCP APIs..."
 
 # Read-in our currently enabled APIs, less the googleapis.com part:
 GCP_CURRENT_APIS=$(gcloud services list | grep -v NAME | cut -f1 -d'.')
@@ -161,17 +161,19 @@ done
 
 # If we've enabeld any API, wait for child processes to finish:
 if [ $ENABLED_ANY -eq 0 ]; then
-	printf '%-50s' " Concurrently enabling APIs..."
+	printf '%-50s' "**  Concurrently enabling APIs..."
 	wait
 
 else
-	printf '%-50s' " API status..."
+	printf '%-50s' "** API status..."
 fi
 echo "[ OK ]"
 
 # =============================================================================
 # Open firewall ports
 # =============================================================================
+
+echo -e "** Opening firewall port..."
 
 gcloud compute firewall-rules create  \
 	${TAG}
@@ -186,6 +188,8 @@ gcloud compute firewall-rules create  \
 # =============================================================================
 # Launch instance with container
 # =============================================================================
+
+echo -e "** Creating instance..."
 
 gcloud beta compute instances \
 	create-with-container ${NAME} \
@@ -219,5 +223,5 @@ gcloud beta compute instances \
 # Show info message with URL
 
 export EXT_IP=$(gcloud compute instances list | grep ${NAME} | awk '{print $5}')
-echo -e "Success! nodesktop will be available shortly at:"
+echo -e "** Success! nodesktop will be available shortly at:"
 echo -e "http://"${EXT_IP}":"${NOVNC_PORT}

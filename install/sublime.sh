@@ -18,11 +18,6 @@ mkdir -p /headless/.config/sublime-text-3/Packages/User/Dank_Neon && \
 cd /headless/.config/sublime-text-3/Packages/User/Dank_Neon && \
 wget https://raw.githubusercontent.com/DankNeon/sublime/master/Dank_Neon.tmTheme && \
 echo "{
-        "color_scheme": "Packages/Dank_Neon/Dank_Neon.tmTheme",
-        "ignored_packages":
-        [
-                "Vintage"
-        ],
-        "theme": "Default.sublime-theme"
+        "color_scheme": "Packages/User/Dank_Neon/Dank_Neon.tmTheme"
 }
 " > /headless/.config/sublime-text-3/Packages/User/Preferences.sublime-settings

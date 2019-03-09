@@ -1,7 +1,16 @@
 #!/usr/bin/env bash
-# Evaluate arguments and run a docker container with them
 
+# No-desktop pre-flight script
 # Fernando Sanchez <fernandosanchezmunoz@gmail.com>
+
+# =============================================================================
+# Default values
+# =============================================================================
+
+export VNC_PORT=5901
+export NOVNC_PORT=6901
+export HOME_MOUNT_DIR=/mnt/home
+export ROOT_MOUNT_DIR=/mnt/root
 
 # =============================================================================
 # Functions
@@ -44,13 +53,15 @@ check_command docker "Please install Docker. Visit https://docs.docker.com/insta
 #### FIXME
 
 
+# run with selected arguments
+
 docker run -d \
 --privileged \
 --name vnc \
--p 5901:5901 \
--p 6901:6901 \
--v $HOME:/mnt/home \
--v /:/mnt/root \
+-p ${VNC_PORT}:5901 \
+-p ${NOVNC_PORT}:6901 \
+-v ${HOME}:${HOME_MOUNT_DIR} \
+-v /:${ROOT_MOUNT_DIR} \
 -v /etc/group:/etc/group:ro \
 -v /etc/passwd:/etc/passwd:ro \
 -v /etc/shadow:/etc/shadow:ro \

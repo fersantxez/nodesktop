@@ -203,5 +203,5 @@ gcloud beta compute instances \
 # Show info message with URL
 
 export EXT_IP=$(gcloud compute instances list | grep ${NAME} | awk '{print $5}')
-echo -e "Success! nodesktop is available at:"
+echo -e "Success! nodesktop will be available shortly at:"
 echo -e "http://"${EXT_IP}":"${NOVNC_PORT}

@@ -203,7 +203,7 @@ gcloud beta compute instances \
 	--container-image=${CONTAINER_IMAGE} \
 	--container-restart-policy=always \
 	--labels=container-vm=${IMAGE} \
-	--tags=${TAG}
+	--tags=${TAG} \
 	--container-env=VNC_COL_DEPTH=${VNC_COL_DEPTH},VNC_RESOLUTION=${VNC_RESOLUTION},VNC_PW=${VNC_PW}
 
 # These are set from gcloud config values

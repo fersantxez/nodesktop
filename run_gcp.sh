@@ -182,11 +182,7 @@ gcloud beta compute instances \
 	--container-image=${CONTAINER_IMAGE} \
 	--container-restart-policy=always \
 	--labels=container-vm=${IMAGE} \
-	--container-env=[ \
-		VNC_COL_DEPTH=${VNC_COL_DEPTH}, \
-		VNC_RESOLUTION=${VNC_RESOLUTION}, \
-		VNC_PW=${VNC_PW} \
-		]
+	--container-env=VNC_COL_DEPTH=${VNC_COL_DEPTH},VNC_RESOLUTION=${VNC_RESOLUTION},VNC_PW=${VNC_PW}
 
 # These are set from gcloud config values
 #	--project=${PROJECT} \
@@ -205,5 +201,5 @@ gcloud beta compute instances \
 # Show info message with URL
 
 export EXT_IP=$(gcloud compute instances list | grep ${NAME} | awk '{print $5}')
-echo -e "Success!"
-echo -e "nodesktop is available at http://"${EXT_IP}":"
+echo -e "Success! nodesktop is available at:"
+echo -e "http://"${EXT_IP}":"${NOVNC_PORT}

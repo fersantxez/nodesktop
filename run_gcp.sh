@@ -168,7 +168,9 @@ else
 fi
 echo "[ OK ]"
 
-# Launch a VM running a vnc desktop container on GCP
+# =============================================================================
+# Launch instance with container
+# =============================================================================
 
 gcloud beta compute instances \
 	create-with-container ${NAME} \

@@ -18,7 +18,7 @@ echo -e "
 # Default values
 # =============================================================================
 
-export NAME=vnc
+export NAME=vnc2
 export MACHINE_TYPE=n1-standard-2
 export IMAGE=cos-stable-72-11316-136-0
 export IMAGE_PROJECT=cos-cloud
@@ -29,6 +29,13 @@ export CONTAINER_IMAGE=fernandosanchez/vnc
 #export ZONE=us-east1-c 
 # These are generated automatically
 #export SVC_ACCOUNT=537060948457-compute@developer.gserviceaccount.com
+export VNC_COL_DEPTH=24
+export VNC_RESOLUTION=1280x1024
+export VNC_PW=nopassword
+export VNC_PORT=5901
+export NOVNC_PORT=6901
+export HOME_MOUNT_DIR=/mnt/home
+export ROOT_MOUNT_DIR=/mnt/root
 
 # =============================================================================
 # Functions
@@ -174,7 +181,12 @@ gcloud beta compute instances \
 	--boot-disk-device-name=${NAME} \
 	--container-image=${CONTAINER_IMAGE} \
 	--container-restart-policy=always \
-	--labels=container-vm=${IMAGE}
+	--labels=container-vm=${IMAGE} \
+	--container-env=[ \
+		VNC_COL_DEPTH=${VNC_COL_DEPTH}, \
+		VNC_RESOLUTION=${VNC_RESOLUTION}, \
+		VNC_PW=${VNC_PW} \
+		]
 
 # These are set from gcloud config values
 #	--project=${PROJECT} \
@@ -194,4 +206,4 @@ gcloud beta compute instances \
 
 export EXT_IP=$(gcloud compute instances list | grep ${NAME} | awk '{print $5}')
 echo -e "Success!"
-echo -e "nodesktop is available at http://"${EXT_IP}
+echo -e "nodesktop is available at http://"${EXT_IP}":"

@@ -3,4 +3,4 @@
 set -e
 
 echo "Installing fonts"
-apt-get install -y ttf-wqy-zenhei fonts-inconsolata
+apt-get install -y ttf-wqy-zenhei fonts-inconsolata fonts-lato

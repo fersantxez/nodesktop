@@ -46,11 +46,11 @@ RUN $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR $HOME
 RUN $INST_SCRIPTS/xfce_ui.sh
 ADD ./xfce/ $HOME/
 
+### Install custom fonts
+RUN $INST_SCRIPTS/custom_fonts.sh
+
 ### Customize Desktop
 RUN $INST_SCRIPTS/customize.sh
-
-### Install custom fonts
-RUN $INST_SCRIPTS/install_custom_fonts.sh
 
 ### Install chrome browser
 RUN $INST_SCRIPTS/chrome.sh

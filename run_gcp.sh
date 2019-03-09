@@ -173,7 +173,7 @@ echo "[ OK ]"
 # Open firewall ports
 # =============================================================================
 echo -e "** Checking for firewall port..."
-if [[ ! gcloud compute firewall-rules list --format=json|grep ${TAG} ]];then
+if [[ ! $(gcloud compute firewall-rules list --format=json|grep ${TAG}) ]];then
 	echo -e "** Opening firewall port..."
 
 	gcloud compute firewall-rules create  \

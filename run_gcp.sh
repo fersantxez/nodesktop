@@ -176,7 +176,7 @@ echo "[ OK ]"
 echo -e "** Opening firewall port..."
 
 gcloud compute firewall-rules create  \
-	${TAG}
+	${TAG} \
 	--direction=INGRESS \
 	--priority=1000 \
 	--network=default \

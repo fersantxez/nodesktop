@@ -24,10 +24,10 @@ MiscDefaultWorkingDir=
 MiscRewrapOnResize=TRUE
 MiscUseShiftArrowsToScroll=FALSE
 MiscSlimTabs=FALSE
-ColorCursor=#0f4999
-ColorPalette=#000000;#aa0000;#44aa44;#aa5500;#0039aa;#aa22aa;#1a92aa;#aaaaaa;#777777;#ff8787;#4ce64c;#ded82c;#295fcc;#cc58cc;#4ccce6;#ffffff
-ColorBoldUseDefault=FALSE
-ColorForeground=#b7b7b7
-ColorBackground=#131926
-ColorBold=#b7b7b7
+ColorCursor=#191B2A
+ColorForeground=#EFF0F6
+ColorBackground=#191B2A
+TabActivityColor=#F92672
+ColorPalette=#3B4252;#F92672;#77DCB8;#FD971F;#3887FF;#F92672;#F92672;#F0F0F0;#AE81FF;#F92672;#77DCB8;#FD971F;3887FF;#F92672;#66D9EF;#F0F0F0
+ColorBold=#191B2A
 

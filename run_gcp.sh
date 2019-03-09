@@ -172,18 +172,22 @@ echo "[ OK ]"
 # =============================================================================
 # Open firewall ports
 # =============================================================================
+echo -e "** Checking for firewall port..."
+if [[ ! gcloud compute firewall-rules list --format=json|grep ${TAG} ]];then
+	echo -e "** Opening firewall port..."
 
-echo -e "** Opening firewall port..."
-
-gcloud compute firewall-rules create  \
-	${TAG} \
-	--direction=INGRESS \
-	--priority=1000 \
-	--network=default \
-	--action=ALLOW \
-	--rules=tcp:${NOVNC_PORT} \
-	--source-ranges=0.0.0.0/0 \
-	--target-tags=${TAG}
+	gcloud compute firewall-rules create  \
+		${TAG} \
+		--direction=INGRESS \
+		--priority=1000 \
+		--network=default \
+		--action=ALLOW \
+		--rules=tcp:${NOVNC_PORT} \
+		--source-ranges=0.0.0.0/0 \
+		--target-tags=${TAG}
+else
+	echo -e "** Firewall port already open"
+fi
 
 # =============================================================================
 # Launch instance with container

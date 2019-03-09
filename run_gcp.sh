@@ -3,19 +3,32 @@
 # No-desktop GCP launcher script
 # Fernando Sanchez <fernandosanchezmunoz@gmail.com>
 
+# every exit != 0 fails the script
+set -e
+
+echo -e "
+           _         _   _           
+ ___ ___ _| |___ ___| |_| |_ ___ ___ 
+|   | . | . | -_|_ -| '_|  _| . | . |
+|_|_|___|___|___|___|_,_|_| |___|  _|
+                                |_|  
+"
+
 # =============================================================================
 # Default values
 # =============================================================================
 
 export NAME=vnc
-export PROJECT=ml-sme-training
-export ZONE=us-east1-c
 export MACHINE_TYPE=n1-standard-2
-export SVC_ACCOUNT=537060948457-compute@developer.gserviceaccount.com
 export IMAGE=cos-stable-72-11316-136-0
 export IMAGE_PROJECT=cos-cloud
-export BOOT_DISK_SIZE=200GB
+export BOOT_DISK_SIZE=10GB
 export CONTAINER_IMAGE=fernandosanchez/vnc
+# These are all checked as required gcloud settings
+#export PROJECT=ml-sme-training
+#export ZONE=us-east1-c 
+# These are generated automatically
+#export SVC_ACCOUNT=537060948457-compute@developer.gserviceaccount.com
 
 # =============================================================================
 # Functions
@@ -23,7 +36,7 @@ export CONTAINER_IMAGE=fernandosanchez/vnc
 
 # Prefixes output and writes to STDERR:
 error() {
-	echo -e "\n\nNo-Desktop Error: $@\n" >&2
+	echo -e "\n\nodesktop error: $@\n" >&2
 }
 
 # Checks for command presence in $PATH, errors:
@@ -70,7 +83,6 @@ enable_api() {
 	fi
 }
 
-
 # =============================================================================
 # Base sanity checking
 # =============================================================================
@@ -79,7 +91,6 @@ enable_api() {
 
 echo "Checking for requisite binaries..."
 check_command gcloud "Please install the Google Cloud SDK from: https://cloud.google.com/sdk/downloads"
-
 
 # This executes all the gcloud commands in parallel and then assigns them to separate variables:
 # Needed for non-array capabale bashes, and for speed.
@@ -111,20 +122,13 @@ echo "[ OK ]"
 
 # List of requisite APIs:
 REQUIRED_APIS="
-	cloudresourcemanager
-	compute container
+	compute
 	dns
-	iam
-	replicapool
-	replicapoolupdater
-	resourceviews
-	sql-component
-	sqladmin
 	storage-api
 	storage-component
 "
 
-# Bulk parrallel process all of the API enablement:
+# Bulk parallel process all of the API enablement:
 echo "Checking requisiste GCP APIs..."
 
 # Read-in our currently enabled APIs, less the googleapis.com part:
@@ -157,13 +161,10 @@ else
 fi
 echo "[ OK ]"
 
-
 # Launch a VM running a vnc desktop container on GCP
 
 gcloud beta compute instances \
 	create-with-container ${NAME} \
-	--project=${PROJECT} \
-	--zone=${ZONE} \
 	--machine-type=${MACHINE_TYPE} \
 	--subnet=default \
 	--image=${IMAGE} \
@@ -175,6 +176,10 @@ gcloud beta compute instances \
 	--container-restart-policy=always \
 	--labels=container-vm=${IMAGE}
 
+# These are set from gcloud config values
+#	--project=${PROJECT} \
+#	--zone=${ZONE} \
+# These are not required
 	#--network-tier=PREMIUM \
 	#--maintenance-policy=MIGRATE \
 	#--service-account=${SVC_ACCOUNT} \
@@ -184,3 +189,9 @@ gcloud beta compute instances \
 #https://www.googleapis.com/auth/servicecontrol,\
 #https://www.googleapis.com/auth/service.management.readonly,\
 #https://www.googleapis.com/auth/trace.append \
+
+# Show info message with URL
+
+export EXT_IP=$(gcloud compute instances list | grep ${NAME} | awk '{print $5}')
+echo -e "Success!"
+echo -e "nodesktop is available at http://"${EXT_IP}

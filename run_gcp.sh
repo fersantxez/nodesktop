@@ -18,7 +18,7 @@ echo -e "
 # Default values
 # =============================================================================
 
-export NAME=vnc2
+export NAME=vnc
 export MACHINE_TYPE=n1-standard-2
 export IMAGE=cos-stable-72-11316-136-0
 export IMAGE_PROJECT=cos-cloud

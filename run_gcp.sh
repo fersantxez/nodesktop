@@ -36,6 +36,7 @@ export VNC_PORT=5901
 export NOVNC_PORT=6901
 export HOME_MOUNT_DIR=/mnt/home
 export ROOT_MOUNT_DIR=/mnt/root
+export TAG=novnc-server
 
 # =============================================================================
 # Functions
@@ -169,6 +170,20 @@ fi
 echo "[ OK ]"
 
 # =============================================================================
+# Open firewall ports
+# =============================================================================
+
+gcloud compute firewall-rules create  \
+	${TAG}
+	--direction=INGRESS \
+	--priority=1000 \
+	--network=default \
+	--action=ALLOW \
+	--rules=tcp:${NOVNC_PORT} \
+	--source-ranges=0.0.0.0/0 \
+	--target-tags=${TAG}
+
+# =============================================================================
 # Launch instance with container
 # =============================================================================
 
@@ -184,6 +199,7 @@ gcloud beta compute instances \
 	--container-image=${CONTAINER_IMAGE} \
 	--container-restart-policy=always \
 	--labels=container-vm=${IMAGE} \
+	--tags=${TAG}
 	--container-env=VNC_COL_DEPTH=${VNC_COL_DEPTH},VNC_RESOLUTION=${VNC_RESOLUTION},VNC_PW=${VNC_PW}
 
 # These are set from gcloud config values

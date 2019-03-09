@@ -17,7 +17,7 @@ sudo apt-get install -y sublime-text && \
 mkdir -p /headless/.config/sublime-text-3/Packages/User/Dank_Neon && \
 cd /headless/.config/sublime-text-3/Packages/User/Dank_Neon && \
 wget https://raw.githubusercontent.com/DankNeon/sublime/master/Dank_Neon.tmTheme && \
-echo "{
+echo '{
         "color_scheme": "Packages/User/Dank_Neon/Dank_Neon.tmTheme"
 }
-" > /headless/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
+' > /headless/.config/sublime-text-3/Packages/User/Preferences.sublime-settings

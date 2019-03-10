@@ -12,10 +12,4 @@ cat /var/lib/dpkg/statoverride | tail -n +3 > ./statoverride && \
 sudo mv /var/lib/dpkg/statoverride /var/lib/dpkg/statoverride.bak && \
 sudo mv ./statoverride /var/lib/dpkg/statoverride
 
-#clean up home directory
-rm -Rf \
-  /headless/install \
-  wm.log \
-  wm_startup.sh
-
 

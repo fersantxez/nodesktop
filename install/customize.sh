@@ -11,7 +11,6 @@ rm -f $HOME/config_xfce4.tgz
 mv -f /etc/xdg/xfce4/panel/default.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml && \
 rm -f $HOME/.config/xfce4/panel/default.xml 
 
-
 ### Install GTK theme
 echo "Install Gnome Arc Theme"
 #https://github.com/horst3180/arc-theme
@@ -19,6 +18,9 @@ apt-get install -y gtk2-engines-murrine
 wget https://download.opensuse.org/repositories/home:/Horst3180/Debian_8.0/all/arc-theme_1488477732.766ae1a-0_all.deb
 dpkg -i arc-theme_1488477732.766ae1a-0_all.deb && \
 rm -f arc-theme_1488477732.766ae1a-0_all.deb
+
+### Install base icons
+apt-get install -y gnome-icon-theme
 
 ### Install Moka Icons
 echo "Install Faba Icons"

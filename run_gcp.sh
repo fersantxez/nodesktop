@@ -24,19 +24,16 @@ export IMAGE=cos-stable-72-11316-136-0
 export IMAGE_PROJECT=cos-cloud
 export BOOT_DISK_SIZE=200GB
 export CONTAINER_IMAGE=fernandosanchez/nodesktop
-# These are all checked as required gcloud settings
-#export PROJECT=ml-sme-training
-#export ZONE=us-east1-c 
-# These are generated automatically
-#export SVC_ACCOUNT=537060948457-compute@developer.gserviceaccount.com
 export VNC_COL_DEPTH=24
 export VNC_RESOLUTION=1280x1024
 export VNC_PW=nopassword
-export VNC_PORT=5901
-export NOVNC_PORT=6901
 export HOME_MOUNT_DIR=/mnt/home
 export ROOT_MOUNT_DIR=/mnt/root
-export TAG=novnc-server
+export VNC_PORT=5901
+export NOVNC_PORT=6901
+export NOVNC_TAG=novnc-server
+
+
 
 # =============================================================================
 # Functions
@@ -44,7 +41,7 @@ export TAG=novnc-server
 
 # Prefixes output and writes to STDERR:
 error() {
-	echo -e "\n\** nodesktop error: $@\n" >&2
+	echo -e "\n\n nodesktop error: $@\n" >&2
 }
 
 # Checks for command presence in $PATH, errors:
@@ -91,13 +88,42 @@ enable_api() {
 	fi
 }
 
+# Enable a firewall rule for a tag/port:
+enable_firewall_for_tag() {
+	TESTTAG=$1
+	TESTPORT=$2
+
+	printf '%-50s' " - $TESTTAG..."
+	
+	if [[ ! $(gcloud compute firewall-rules list --format=json|grep $TESTTAG) ]];then
+		echo -e "[CLOSED]"
+		printf "Opening firewall port for "$TESTTAG" ..."
+
+		gcloud compute firewall-rules create  \
+			$TESTTAG \
+			--direction=INGRESS \
+			--priority=1000 \
+			--network=default \
+			--action=ALLOW \
+			--rules=tcp:$TESTPORT \
+			--source-ranges=0.0.0.0/0 \
+			--target-tags=$TESTTAG \
+			> /dev/null 2>&1
+		if [ ! $? -eq 0 ]; then
+			error "Error opening port "$TESTPORT" for tag "$TESTTAG
+			exit 1
+		fi
+	else
+		echo -e "[OPEN]"
+	fi
+}
+
 # =============================================================================
 # Base sanity checking
 # =============================================================================
 
 # Check for our requisite binaries:
-
-echo "** Checking for requisite binaries..."
+printf "** Checking for requisite binaries..."
 check_command gcloud "** Please install the Google Cloud SDK from: https://cloud.google.com/sdk/downloads"
 
 # This executes all the gcloud commands in parallel and then assigns them to separate variables:
@@ -172,22 +198,9 @@ echo "[ OK ]"
 # =============================================================================
 # Open firewall ports
 # =============================================================================
-echo -e "** Checking for firewall port..."
-if [[ ! $(gcloud compute firewall-rules list --format=json|grep ${TAG}) ]];then
-	echo -e "** Opening firewall port..."
 
-	gcloud compute firewall-rules create  \
-		${TAG} \
-		--direction=INGRESS \
-		--priority=1000 \
-		--network=default \
-		--action=ALLOW \
-		--rules=tcp:${NOVNC_PORT} \
-		--source-ranges=0.0.0.0/0 \
-		--target-tags=${TAG}
-else
-	echo -e "** Firewall port already open"
-fi
+echo -e "** Checking for firewall ports..."
+enable_firewall_for_tag ${NOVNC_TAG} ${NOVNC_PORT}
 
 # =============================================================================
 # Launch instance with container

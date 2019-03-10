@@ -23,7 +23,7 @@ export MACHINE_TYPE=n1-standard-2
 export IMAGE=cos-stable-72-11316-136-0
 export IMAGE_PROJECT=cos-cloud
 export BOOT_DISK_SIZE=200GB
-export CONTAINER_IMAGE=fernandosanchez/vnc
+export CONTAINER_IMAGE=fernandosanchez/nodesktop
 # These are all checked as required gcloud settings
 #export PROJECT=ml-sme-training
 #export ZONE=us-east1-c 

@@ -8,6 +8,9 @@ apt-get install -y vim wget curl net-tools locales bzip2 git sudo gnupg-agent op
     iputils-* transmission htop locales software-properties-common dirmngr python-numpy #used for websockify/novnc
 apt-get clean -y
 
+### Hide userland threads for HTop
+echo "hide_userland_threads=1" >> /headless/.htoprc
+
 #Generate locales
 echo "generate locales" #was en_US.UTF-8 or C.UTF-8
 sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \

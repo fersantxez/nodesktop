@@ -41,7 +41,7 @@ export NOVNC_TAG=novnc-server
 
 # Prefixes output and writes to STDERR:
 error() {
-	echo -e "\n\n nodesktop error: $@\n" >&2
+	echo -e "\n\nnodesktop error: $@\n" >&2
 }
 
 # Checks for command presence in $PATH, errors:
@@ -53,7 +53,6 @@ check_command() {
 	command -v $TESTCOMMAND >/dev/null 2>&1 || {
 		echo "[ MISSING ]"
 		error "The '$TESTCOMMAND' command was not found. $HELPTEXT"
-
 		exit 1
 	}
 	echo "[ OK ]"
@@ -123,12 +122,12 @@ enable_firewall_for_tag() {
 # =============================================================================
 
 # Check for our requisite binaries:
-printf "** Checking for requisite binaries..."
+echo -e "** Checking for requisite binaries..."
 check_command gcloud "** Please install the Google Cloud SDK from: https://cloud.google.com/sdk/downloads"
 
 # This executes all the gcloud commands in parallel and then assigns them to separate variables:
 # Needed for non-array capabale bashes, and for speed.
-echo "** Checking gcloud variables..."
+echo -e "** Checking gcloud variables..."
 PARAMS=$(cat <(gcloud_activeconfig_intercept config get-value compute/zone) \
 	<(gcloud_activeconfig_intercept config get-value compute/region) \
 	<(gcloud_activeconfig_intercept config get-value project) \
@@ -220,7 +219,7 @@ gcloud beta compute instances \
 	--container-image=${CONTAINER_IMAGE} \
 	--container-restart-policy=always \
 	--labels=container-vm=${IMAGE} \
-	--tags=${TAG} \
+	--tags=${NOVNC_TAG} \
 	--container-env=VNC_COL_DEPTH=${VNC_COL_DEPTH},VNC_RESOLUTION=${VNC_RESOLUTION},VNC_PW=${VNC_PW}
 
 # These are set from gcloud config values

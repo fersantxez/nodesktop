@@ -14,7 +14,7 @@ This repository contains a Docker image with a headless VNC/NoVNC environment in
 
 On a host with docker and curl available:
 
-`source <(curl -s https://raw.githubusercontent.com/fernandosanchezmunoz/nodesktop/master/run.sh)`
+`source <(curl -s https://raw.githubusercontent.com/fernandosanchezmunoz/nodesktop/master/run_local.sh)`
 
 You can connect with a browser to:
 

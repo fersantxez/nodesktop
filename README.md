@@ -1,7 +1,5 @@
 # Headless Desktop on a Docker container through NoVNC
 
-Forked/adapted from https://github.com/ConSol/docker-headless-vnc-container
-
 This repository contains a Docker image with a headless VNC/NoVNC environment including a few handy things:
 
 * Desktop environment [**Xfce4**](http://www.xfce.org)
@@ -38,7 +36,7 @@ Default password is 'vncpassword'
       
       docker run -it --name vnc -p 5901:5901 -p 6901:6901 -v $HOME:/mnt/home --user $(id -u):$(id -g) fernandosanchez/vnc /bin/bash
 
-# Connect & Control
+## Connect & Control
 
 * connect with __any web browser__: [`http://YOUR_HOST:6901`](http://localhost:6901), default password: `vncpassword` 
 * or with a __VNC viewer__: [`YOUR_HOST:5901`](http://localhost:5901), default password: `vncpassword`
@@ -81,4 +79,8 @@ the docker run command:
 It's possible to prevent unwanted control via VNC. Therefore you can set the environment variable `VNC_VIEW_ONLY=true`. If set, the startup script will create a random password for the control connection and use the value of `VNC_PW` for view only connection over the VNC connection.
 
      docker run -it -p 5901:5901 -p 6901:6901 -e VNC_VIEW_ONLY=true fernandosanchez/vnc
+     
+### Credits
+
+This was largely forked/adapted from https://github.com/ConSol/docker-headless-vnc-container
 

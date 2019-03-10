@@ -2,7 +2,7 @@
 
 Forked/adapted from https://github.com/ConSol/docker-headless-vnc-container
 
-This repository contains a Docker image with a headless VNC environment, including a few handy things:
+This repository contains a Docker image with a headless VNC/NoVNC environment including a few handy things:
 
 * Desktop environment [**Xfce4**](http://www.xfce.org)
 * VNC-Server (default VNC port `5901`)

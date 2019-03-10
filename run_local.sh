@@ -19,7 +19,7 @@ echo -e "
 # =============================================================================
 
 export NAME=vnc
-export IMAGE_NAME=fernandosanchez/vnc
+export IMAGE_NAME=gcr.io/nodesktop  #fernandosanchez/vnc
 export VNC_COL_DEPTH=24
 export VNC_RESOLUTION=1280x1024
 export VNC_PW=nopassword

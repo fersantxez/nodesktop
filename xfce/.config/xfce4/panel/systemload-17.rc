@@ -1,4 +1,4 @@
-i[Main]
+[Main]
 Timeout=250
 Timeout_Seconds=1
 Use_Timeout_Seconds=true
@@ -20,7 +20,7 @@ Text=mem
 [SL_Swap]
 Enabled=true
 Use_Label=true
-Color=#F92672
+Color=#FD971F
 Text=swap
 
 [SL_Uptime]

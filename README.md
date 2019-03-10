@@ -39,11 +39,9 @@ Default password is 'vncpassword'
       docker run -it --name vnc -p 5901:5901 -p 6901:6901 -v $HOME:/mnt/home --user $(id -u):$(id -g) fernandosanchez/vnc /bin/bash
 
 # Connect & Control
-If the container is started like mentioned above, connect via one of these options:
 
-* connect via __VNC viewer `localhost:5901`__, default password: `vncpassword`
-* connect via __noVNC HTML5 full client__: [`http://localhost:6901/vnc.html`](http://localhost:6901/vnc.html), default password: `vncpassword` 
-* connect via __noVNC HTML5 lite client__: [`http://localhost:6901/?password=vncpassword`](http://localhost:6901/?password=vncpassword) 
+* connect with __any web browser__: [`http://YOUR_HOST:6901`](http://localhost:6901), default password: `vncpassword` 
+* or with a __VNC viewer__: [`YOUR_HOST:5901`](http://localhost:5901), default password: `vncpassword`
 
 ## Hints
 

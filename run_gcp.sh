@@ -18,7 +18,7 @@ echo -e "
 # Default values
 # =============================================================================
 
-export NAME=vnc
+export NAME=nodesktop
 export MACHINE_TYPE=n1-standard-2
 export IMAGE=cos-stable-72-11316-136-0
 export IMAGE_PROJECT=cos-cloud

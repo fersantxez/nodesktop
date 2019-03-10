@@ -18,6 +18,7 @@ mkdir -p /headless/.config/sublime-text-3/Packages/User/Dank_Neon && \
 cd /headless/.config/sublime-text-3/Packages/User/Dank_Neon && \
 wget https://raw.githubusercontent.com/DankNeon/sublime/master/Dank_Neon.tmTheme && \
 echo '{
-        "color_scheme": "Packages/User/Dank_Neon/Dank_Neon.tmTheme"
+        "color_scheme": "Packages/User/Dank_Neon/Dank_Neon.tmTheme",
+        "theme": "Adaptive.sublime-theme"
 }
 ' > /headless/.config/sublime-text-3/Packages/User/Preferences.sublime-settings

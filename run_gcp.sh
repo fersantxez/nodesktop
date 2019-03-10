@@ -4,15 +4,7 @@
 # Fernando Sanchez <fernandosanchezmunoz@gmail.com>
 
 # every exit != 0 fails the script
-set -e
-
-echo -e "
-           _         _   _           
- ___ ___ _| |___ ___| |_| |_ ___ ___ 
-|   | . | . | -_|_ -| '_|  _| . | . |
-|_|_|___|___|___|___|_,_|_| |___|  _|
-                                |_|  
-"
+#set -e
 
 # =============================================================================
 # Default values
@@ -33,7 +25,21 @@ export VNC_PORT=5901
 export NOVNC_PORT=6901
 export NOVNC_TAG=novnc-server
 
+# =============================================================================
+# pretty colours
+# =============================================================================
 
+RED='\033[0;31m'
+BLUE='\033[1;34m'
+NC='\033[0m' # No Color
+
+echo -e "${BLUE}
+           _         _   _           
+ ___ ___ _| |___ ___| |_| |_ ___ ___ 
+|   | . | . | -_|_ -| '_|  _| . | . |
+|_|_|___|___|___|___|_,_|_| |___|  _|
+                                |_|  
+${NC}"
 
 # =============================================================================
 # Functions
@@ -41,7 +47,7 @@ export NOVNC_TAG=novnc-server
 
 # Prefixes output and writes to STDERR:
 error() {
-	echo -e "\n\nnodesktop error: $@\n" >&2
+	echo -e "\n\n${RED}nodesktop error${NC}: $@\n" >&2
 }
 
 # Checks for command presence in $PATH, errors:
@@ -51,7 +57,7 @@ check_command() {
 
 	printf '%-50s' " - $TESTCOMMAND..."
 	command -v $TESTCOMMAND >/dev/null 2>&1 || {
-		echo "[ MISSING ]"
+		echo "${RED}[ MISSING ]${NC}"
 		error "The '$TESTCOMMAND' command was not found. $HELPTEXT"
 		exit 1
 	}
@@ -82,7 +88,7 @@ gcloud_activeconfig_intercept() {
 enable_api() {
 	gcloud services enable $1 >/dev/null 2>&1
 	if [ ! $? -eq 0 ]; then
-		echo -e "\n  ! - Error enabling $1"
+		error "cannot enable $1. Please make sure you have privileges to enable this API"
 		exit 1
 	fi
 }
@@ -109,7 +115,7 @@ enable_firewall_for_tag() {
 			--target-tags=$TESTTAG \
 			> /dev/null 2>&1
 		if [ ! $? -eq 0 ]; then
-			error "Error opening port "$TESTPORT" for tag "$TESTTAG
+			error "Error opening port "$TESTPORT" for tag "$TESTTAG". Please check your privileges."
 			exit 1
 		fi
 	else
@@ -143,7 +149,7 @@ check_config $GCP_ZONE "compute/zone"
 printf '%-50s' " - 'application-default access token'..."
 if [[ $GCP_AUTHTOKEN == *"ERROR"* ]]; then
 	echo "[ UNSET ]"
-	error "** You do not have application-default credentials set, please run this command:
+	error "You do not have application-default credentials set, please run this command:
 	gcloud auth application-default login"
 	exit 1
 fi
@@ -220,7 +226,12 @@ gcloud beta compute instances \
 	--container-restart-policy=always \
 	--labels=container-vm=${IMAGE} \
 	--tags=${NOVNC_TAG} \
-	--container-env=VNC_COL_DEPTH=${VNC_COL_DEPTH},VNC_RESOLUTION=${VNC_RESOLUTION},VNC_PW=${VNC_PW}
+	--container-env=VNC_COL_DEPTH=${VNC_COL_DEPTH},VNC_RESOLUTION=${VNC_RESOLUTION},VNC_PW=${VNC_PW} \
+	> /dev/null 2>&1
+	if [ ! $? -eq 0 ]; then
+		error "Error creating instance "$NAME". Please check your privileges."
+		exit 1
+	fi
 
 # These are set from gcloud config values
 #	--project=${PROJECT} \
@@ -239,5 +250,5 @@ gcloud beta compute instances \
 # Show info message with URL
 
 export EXT_IP=$(gcloud compute instances list | grep ${NAME} | awk '{print $5}')
-echo -e "** Success! nodesktop will be available shortly at:"
-echo -e "http://"${EXT_IP}":"${NOVNC_PORT}
+echo -e "** ${BLUE}Success!${NC} nodesktop will be available shortly at:"
+echo -e "${BLUE}http://"${EXT_IP}":"${NOVNC_PORT}${NC}

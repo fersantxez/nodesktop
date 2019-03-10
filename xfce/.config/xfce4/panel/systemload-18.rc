@@ -6,14 +6,14 @@ Use_Click_Command=false
 Click_Command=xfce4-taskmanager
 
 [SL_Cpu]
-Enabled=true
-Use_Label=true
+Enabled=false
+Use_Label=false
 Color=#3887FF
 Text=cpu
 
 [SL_Mem]
 Enabled=true
-Use_Label=true
+Use_Label=false
 Color=#77dcb8
 Text=mem
 

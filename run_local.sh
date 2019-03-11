@@ -77,6 +77,27 @@ check_command docker "Please install Docker. Visit https://docs.docker.com/insta
 # =============================================================================
 # Run with selected arguments
 # =============================================================================
+declare -a VARS=( \
+"NAME" \
+"IMAGE_NAME" \
+"VNC_COL_DEPTH" \
+"VNC_RESOLUTION" \
+"VNC_PW" \
+"VNC_PORT" \
+"NOVNC_PORT" \
+"HOME_MOUNT_DIR" \
+"ROOT_MOUNT_DIR" \
+"SILENT" \
+"MINIMAL"
+)
+
+for var in "${VARS[@]}"; do
+    while [ -z "${!var}" ]; do 
+        echo "**ERROR: "$var" is unset or empty."
+        read -r -p "**INFO: Please enter a value for "$var" : " $var
+    done
+    echo "**DEBUG: "$var" is set to "${!var}
+done
 
 docker run -d \
 --privileged \
@@ -90,9 +111,9 @@ docker run -d \
 -v /etc/shadow:/etc/shadow:ro \
 -v /etc/sudoers.d:/etc/sudoers.d:ro \
 --user $(id -u):$(id -g) \
--e VNC_COL_DEPTH ${VNC_COL_DEPTH} \
--e VNC_RESOLUTION ${VNC_RESOLUTION} \
--e VNC_PW ${VNC_PW} \
+-e VNC_COL_DEPTH=${VNC_COL_DEPTH} \
+-e VNC_RESOLUTION=${VNC_RESOLUTION} \
+-e VNC_PW=${VNC_PW} \
 ${IMAGE_NAME}
 
 

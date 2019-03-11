@@ -6,14 +6,6 @@
 # every exit != 0 fails the script
 set -e
 
-echo -e "
-           _         _   _           
- ___ ___ _| |___ ___| |_| |_ ___ ___ 
-|   | . | . | -_|_ -| '_|  _| . | . |
-|_|_|___|___|___|___|_,_|_| |___|  _|
-                                |_|  
-"
-
 # =============================================================================
 # Default values
 # =============================================================================
@@ -44,7 +36,7 @@ NC='\033[0m' # No Color
 
 # Prefixes output and writes to STDERR:
 error() {
-	echo -e "\n\nodesktop error: $@\n" >&2
+	echo -e "\n\n${RED}nodesktop error${NC}: $@\n" >&2
 }
 
 # Checks for command presence in $PATH, errors:

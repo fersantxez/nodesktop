@@ -7,7 +7,7 @@ echo "Install Tor"
 sudo apt-get install -y tor
 
 sudo mkdir -p /opt/tor
-sudo cd /opt/tor
+cd /opt/tor
 sudo wget https://www.torproject.org/dist/torbrowser/8.0.6/tor-browser-linux64-8.0.6_en-US.tar.xz
 sudo tar xf tor-browser-linux64-8.0.6_en-US.tar.xz
 sudo chmod 755 -R /opt/tor/

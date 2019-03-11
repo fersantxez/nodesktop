@@ -4,6 +4,8 @@ set -e
 
 echo "Install Tor"
 
+sudo apt-get install -y tor
+
 #sudo apt-get install -y apt-transport-https
 
 #Tor stretch repo

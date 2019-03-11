@@ -2,7 +2,7 @@
 Version=1.0
 Type=Application
 Name=Change Resolution
-Comment=arandr
+Comment=Change screen size with arandr
 Exec=arandr
 Icon=view-fullscreen-symbolic
 Path=

@@ -27,6 +27,16 @@ export VNC_PORT=5901
 export NOVNC_PORT=6901
 export HOME_MOUNT_DIR=/mnt/home
 export ROOT_MOUNT_DIR=/mnt/root
+export SILENT=false
+export MINIMAL=false
+
+# =============================================================================
+# Pretty colours
+# =============================================================================
+
+RED='\033[0;31m'
+BLUE='\033[1;34m'
+NC='\033[0m' # No Color
 
 # =============================================================================
 # Functions
@@ -53,6 +63,18 @@ check_command() {
 }
 
 # =============================================================================
+# Banner
+# =============================================================================
+
+echo -e "${BLUE}
+           _         _   _           
+ ___ ___ _| |___ ___| |_| |_ ___ ___ 
+|   | . | . | -_|_ -| '_|  _| . | . |
+|_|_|___|___|___|___|_,_|_| |___|  _|
+                                |_|  
+${NC}"
+
+# =============================================================================
 # Base sanity checking
 # =============================================================================
 
@@ -60,16 +82,9 @@ check_command() {
 echo "Checking for requisite binaries..."
 check_command docker "Please install Docker. Visit https://docs.docker.com/install/ for more information."
 
-# Check if we've been called with silent, if so run defaults
-
-#### FIXME
-
-# Else if not silent, interactive check for \
-# name, resolution, novnc port, password, privileged, root, home, minimal/full
-
-#### FIXME
-
-# run with selected arguments
+# =============================================================================
+# Run with selected arguments
+# =============================================================================
 
 docker run -d \
 --privileged \

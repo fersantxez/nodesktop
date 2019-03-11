@@ -5,7 +5,7 @@ set -e
 echo "Install some common tools for further installation"
 apt-get update 
 apt-get install -y vim wget curl net-tools locales bzip2 git sudo gnupg-agent openssh-client openssh-server \
-    iputils-* transmission htop locales software-properties-common dirmngr python-numpy xscreensaver
+    iputils-* transmission htop locales software-properties-common dirmngr python-numpy xscreensaver arandr
 apt-get clean -y
 
 ### Hide userland threads for HTop

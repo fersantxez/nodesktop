@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Change Resolution
+Comment=
+Exec=arandr
+Icon=view-fullscreen-symbolic
+Path=
+Terminal=false
+StartupNotify=false
+

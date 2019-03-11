@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=chrome
+Name=Google Chrome
 Comment=
 Exec=google-chrome --no-sandbox
 Icon=google-chrome

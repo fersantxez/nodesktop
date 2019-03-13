@@ -4,9 +4,6 @@ set -e
 
 echo "Install Tor"
 
-### find uid to make tor available to -- assume its the last one on /etc/passwd
-USER_ID=$(cat /etc/passwd | tail -n1 | awk -F":" '{print $3}')
-
 sudo apt-get install -y tor
 
 sudo mkdir -p /opt/tor
@@ -17,9 +14,9 @@ sudo rm -f tor-browser-linux64-8.0.6_en-US.tar.xz && \
 sudo mv tor-browser_en-US/* /opt/tor && \
 sudo rm -Rf tor-browser_en-US && \
 sudo chmod a+x -R /opt/tor/ && \
-sudo chown ${USER_ID}:${USER_ID} -R /opt/tor && \
+sudo chown 1000:1000 -R /opt/tor && \
 sudo ln -s /opt/tor/ /headless/Desktop/tor && \
-sudo chown ${USER_ID}:${USER_ID} /headless/Desktop/tor
+sudo chown 1000:1000 /headless/Desktop/tor
 
 #sudo apt-get install -y apt-transport-https
 

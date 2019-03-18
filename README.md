@@ -1,14 +1,13 @@
-# Headless Desktop on a Docker container through NoVNC
+# Web Desktop on a Docker container
 
-This repository contains a Docker image with a headless VNC/NoVNC environment including a few handy things:
+A Web-based ephemeral desktop environment running on a docker container and including a few handy things:
 
-* Desktop environment [**Xfce4**](http://www.xfce.org)
-* [**noVNC**](https://github.com/novnc/noVNC) - HTML5 VNC client enabling access through a standard web browser 
 * [**Google Chrome**](https://www.google.com/chrome/)
-* [**OccamlFUSE for Google Drive access**](https://astrada.github.io/google-drive-ocamlfuse/)
+* [**Google Drive access**](https://astrada.github.io/google-drive-ocamlfuse/)
 * [**Sublime Text**](https://www.sublimetext.com/)
 * [**Evince**](https://wiki.gnome.org/Apps/Evince)
 * [**Bash-it**](https://github.com/Bash-it/bash-it)
+
 
 ## TL;DR
 

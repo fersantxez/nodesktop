@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Mount Remote Filesystems
+Comment=Mount Remote Filesystems with Gigolo
+Exec=gigolo
+Icon=network-workgroup
+Path=
+Terminal=false
+StartupNotify=false
+

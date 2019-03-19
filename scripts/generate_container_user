@@ -26,8 +26,3 @@ if [ x"$USER_ID" != x"0" ]; then
     echo "nss_wrapper location: $LD_PRELOAD"
     export LD_PRELOAD
 fi
-
-#link /home/$USER with /headless
-USER=$(whoami)
-ln -s /headless /home/${USER}
-sudo chown ${USER}:${USER} /home/${USER}

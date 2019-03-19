@@ -22,5 +22,5 @@ kill $FIRST_PANEL_PID
 
 #link /home/$USER with /headless
 USER=$(whoami)
-ln -s /headless /home/${USER}
+sudo ln -s /headless /home/${USER}
 sudo chown ${USER}:${USER} /home/${USER}

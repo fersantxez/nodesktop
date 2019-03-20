@@ -12,6 +12,10 @@ apt-get clean -y
 ### Hide userland threads for HTop
 echo "hide_userland_threads=1" >> /headless/.htoprc
 
+### Gotop
+git clone --depth 1 https://github.com/cjbassi/gotop /tmp/gotop
+/tmp/gotop/scripts/download.sh
+
 #Generate locales
 echo "generate locales" #was en_US.UTF-8 or C.UTF-8
 sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \

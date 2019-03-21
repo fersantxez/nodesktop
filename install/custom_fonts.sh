@@ -28,8 +28,8 @@ sudo mkdir -p $pkgdir
 sudo find ${srcdir} -type f -name "*.ttf" -exec install -Dm644 {} ${pkgdir} \;
 
 echo "Cleaning up..."
-sudo find ${pkgdir} -type f -name "Cantarell-*.tff" -delete \;
-sudo find ${pkgdir} -type f -name "Ubuntu-*.tff" -delete \;
+sudo find ${pkgdir} -type f -name "Cantarell-*.tff" -exec rm -f {} \;
+sudo find ${pkgdir} -type f -name "Ubuntu-*.tff" -exec rm -f {} \;
 
 # provides roboto
 sudo apt-get --purge remove fonts-roboto

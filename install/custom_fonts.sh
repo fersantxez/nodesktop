@@ -31,8 +31,5 @@ echo "Cleaning up..."
 sudo find ${pkgdir} -type f -name "Cantarell-*.tff" -exec rm -f {} \;
 sudo find ${pkgdir} -type f -name "Ubuntu-*.tff" -exec rm -f {} \;
 
-# provides roboto
-sudo apt-get --purge remove fonts-roboto
-
 echo "Updating font-cache..."
 sudo fc-cache -f > /dev/null

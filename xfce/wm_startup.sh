@@ -3,6 +3,8 @@
 ### every exit != 0 fails the script
 #set -e
 
+set -x #show every command as executed in log
+
 echo -e "\n------------------ startup of Xfce4 window manager ------------------"
 
 ### disable screensaver and power management

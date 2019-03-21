@@ -25,11 +25,11 @@ git clone $giturl
 
 echo "Installing fonts..."
 sudo mkdir -p $pkgdir
-sudo find $srcdir -type f -name "*.ttf" -exec install -Dm644 {} $pkgdir \;
+sudo find ${srcdir} -type f -name "*.ttf" -exec install -Dm644 {} ${pkgdir} \;
 
 echo "Cleaning up..."
-sudo find $pkgdir -type f -name "Cantarell-*.tff" -delete \;
-sudo find $pkgdir -type f -name "Ubuntu-*.tff" -delete \;
+sudo find ${pkgdir} -type f -name "Cantarell-*.tff" -delete \;
+sudo find ${pkgdir} -type f -name "Ubuntu-*.tff" -delete \;
 
 # provides roboto
 sudo apt-get --purge remove fonts-roboto

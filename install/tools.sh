@@ -14,7 +14,7 @@ echo "hide_userland_threads=1" >> /headless/.htoprc
 
 ### Gotop
 git clone --depth 1 https://github.com/cjbassi/gotop /tmp/gotop
-/tmp/gotop/scripts/download.sh
+bash /tmp/gotop/scripts/download.sh
 
 #Generate locales
 echo "generate locales" #was en_US.UTF-8 or C.UTF-8

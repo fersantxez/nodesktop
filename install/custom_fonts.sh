@@ -3,7 +3,12 @@
 set -e
 
 echo "Installing fonts"
-apt-get install -y ttf-wqy-zenhei fonts-inconsolata fonts-lato fonts-cantarell ttf-ubuntu-font-family git
+apt-get install -y ttf-wqy-zenhei fonts-inconsolata fonts-lato fonts-cantarell git
+
+wget http://mirrors.kernel.org/ubuntu/pool/main/u/ubuntu-font-family-sources/ttf-ubuntu-font-family_0.83-0ubuntu2_all.deb && \
+dpkg -i ./ttf-ubuntu-font-family_0.83-0ubuntu2_all.deb && \
+rm -f ./ttf-ubuntu-font-family_0.83-0ubuntu2_all.deb
+
 
 echo "Installing Google fonts"
 #https://gist.github.com/keeferrourke/d29bf364bd292c78cf774a5c37a791db

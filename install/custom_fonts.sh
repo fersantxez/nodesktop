@@ -14,9 +14,9 @@ echo "Installing Google fonts"
 #https://gist.github.com/keeferrourke/d29bf364bd292c78cf774a5c37a791db
 
 # dependancies: fonts-cantarell, ttf-ubuntu-font-family, git
-srcdir="/tmp/google-fonts"
-pkgdir="/usr/share/fonts/truetype/google-fonts"
-giturl="git://github.com/google/fonts.git"
+export srcdir="/tmp/google-fonts"
+export pkgdir="/usr/share/fonts/truetype/google-fonts"
+export giturl="git://github.com/google/fonts.git"
 
 mkdir $srcdir
 cd $srcdir

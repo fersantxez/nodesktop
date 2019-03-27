@@ -6,7 +6,7 @@ set -e
 help (){
 echo "
 USAGE:
-docker run -it -p 6901:6901 -p 5901:5901 vnc/<image>:<tag> <option>
+docker run -it -p 6901:6901 -p 5901:5901 fernandosanchez/nodesktop:<tag> <option>
 
 TAGS:
 latest  stable version of branch 'master'
@@ -20,7 +20,7 @@ OPTIONS:
                 e.g. 'docker run consol/centos-xfce-vnc --debug bash'
 -h, --help      print out this help
 
-Fore more information see: https://github.com/fernandosanchez/vnc
+Fore more information see: https://github.com/fernandosanchez/nodesktop
 "
 }
 if [[ $1 =~ -h|--help ]]; then
@@ -75,6 +75,17 @@ fi
 echo "$VNC_PW" | vncpasswd -f >> $PASSWD_PATH
 chmod 600 $PASSWD_PATH
 
+## Generate Certificate
+echo -e "\n------------------ Generate Certificate ----------------------------"
+sudo mkdir -p /etc/certs
+#openssl req -new -x509 -days 365 -nodes -out /etc/certs/self.pem -keyout /etc/certs/self.pem
+sudo openssl req -nodes -newkey rsa:2048 -keyout /etc/certs/private.key -out /etc/certs/self.pem \
+   -subj "/C=US/ST=NY/L=New York/O=nodesktop OU=IT/CN=ssl.nodesktop.org"
+#If you have a self.pem at the top-level of you noVNC repo/installation then launch.sh will automatically 
+#add the --cert option to the websockify invocation. Or you can just launch websockify directly and pass the 
+#--cert option pointing to your SSL certificate file.
+sudo cp /etc/certs/self.pem $NO_VNC_HOME
+
 
 ## start vncserver and noVNC webclient
 echo -e "\n------------------ start noVNC  ----------------------------"
@@ -87,6 +98,7 @@ echo "remove old vnc locks to be a reattachable container"
 vncserver -kill $DISPLAY &> $STARTUPDIR/vnc_startup.log \
     || rm -rfv /tmp/.X*-lock /tmp/.X11-unix &> $STARTUPDIR/vnc_startup.log \
     || echo "no locks present"
+
 
 echo -e "start vncserver with param: VNC_COL_DEPTH=$VNC_COL_DEPTH, VNC_RESOLUTION=$VNC_RESOLUTION\n..."
 if [[ $DEBUG == true ]]; then echo "vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION"; fi

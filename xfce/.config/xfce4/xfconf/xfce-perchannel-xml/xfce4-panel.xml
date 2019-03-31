@@ -19,6 +19,7 @@
         <value type="int" value="6"/>
         <value type="int" value="2"/>
       </property>
+      <property name="background-alpha" type="uint" value="0"/>
     </property>
     <property name="panel-2" type="empty">
       <property name="position" type="string" value="p=12;x=682;y=1001"/>
@@ -39,6 +40,7 @@
       <property name="length-adjust" type="bool" value="true"/>
       <property name="length" type="uint" value="22"/>
       <property name="size" type="uint" value="38"/>
+      <property name="background-alpha" type="uint" value="0"/>
     </property>
   </property>
   <property name="plugins" type="empty">

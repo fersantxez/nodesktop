@@ -46,6 +46,7 @@ EOF
 
 #Install Vala AppMenu for OSX-style contextual menu
 sudo apt-get install -y dirmngr
-sudo add-apt-repository -y ppa:webupd8team/mate
+#sudo add-apt-repository -y ppa:webupd8team/mate
+echo "deb http://ppa.launchpad.net/webupd8team/mate/ubuntu xenial main #appmenu" | tee -a /etc/apt/sources.list.d/webupd8team.list 
 sudo apt update -y
 sudo apt-get install -y xfce4-topmenu-plugin topmenu-gtk3

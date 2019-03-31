@@ -77,16 +77,16 @@ chmod 600 $PASSWD_PATH
 
 ## Generate Certificate
 echo -e "\n------------------ Generate Certificate ----------------------------"
-mkdir -p /etc/certs
+mkdir -p $HOME/.certs
 #openssl req -new -x509 -days 365 -nodes -out /etc/certs/self.pem -keyout /etc/certs/self.pem
-openssl req -nodes -newkey rsa:2048 -keyout /etc/certs/private.key -out /etc/certs/self.pem \
+openssl req -nodes -newkey rsa:2048 -keyout $HOME/.certs/private.key -out $HOME/.certs/self.pem \
    -subj "/C=US/ST=NY/L=New York/O=nodesktop OU=IT/CN=ssl.nodesktop.org"
 #If you have a self.pem at the top-level of you noVNC repo/installation then launch.sh will automatically 
 #add the --cert option to the websockify invocation. Or you can just launch websockify directly and pass the 
 #--cert option pointing to your SSL certificate file.
 #Once you've done that, websockify will automatically start answering 
 #https requests on the same port as normal http (and WebSocket connections).
-cp /etc/certs/self.pem $NO_VNC_HOME
+cp $HOME/.certs/self.pem $NO_VNC_HOME
 
 
 ## start vncserver and noVNC webclient

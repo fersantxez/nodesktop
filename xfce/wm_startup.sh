@@ -22,6 +22,7 @@ cat $HOME/wm.log
 export FIRST_PANEL_PID=$(ps aux|grep xfce4-panel| head -n1| awk {'print $2'})
 kill $FIRST_PANEL_PID
 
+#TODO: run this only if the container is running as privileged
 #link /home/$USER with /headless
 USER=$(whoami)
 sudo ln -s /headless /home/${USER}

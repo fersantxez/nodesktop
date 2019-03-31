@@ -43,3 +43,9 @@ syntax on
 filetype plugin indent on
 colorscheme dank-neon
 EOF
+
+#Install Vala AppMenu for OSX-style contextual menu
+sudo apt-get install -y dirmngr
+sudo add-apt-repository -y ppa:webupd8team/mate
+sudo apt update -y
+sudo apt-get install -y xfce4-topmenu-plugin topmenu-gtk3

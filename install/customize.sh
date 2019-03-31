@@ -48,5 +48,6 @@ EOF
 sudo apt-get install -y dirmngr
 #sudo add-apt-repository -y ppa:webupd8team/mate
 echo "deb http://ppa.launchpad.net/webupd8team/mate/ubuntu xenial main #appmenu" | tee -a /etc/apt/sources.list.d/webupd8team.list 
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 7B2C3B0889BF5709A105D03AC2518248EEA14886
 sudo apt update -y
 sudo apt-get install -y xfce4-topmenu-plugin topmenu-gtk3

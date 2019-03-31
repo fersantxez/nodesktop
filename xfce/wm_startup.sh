@@ -23,6 +23,6 @@ export FIRST_PANEL_PID=$(ps aux|grep xfce4-panel| head -n1| awk {'print $2'})
 kill $FIRST_PANEL_PID
 
 #link /home/$USER with /headless
-#USER=$(whoami)
-#sudo ln -s /headless /home/${USER}
-#sudo chown ${USER}:${USER} /home/${USER}
+USER=$(whoami)
+sudo ln -s /headless /home/${USER}
+sudo chown ${USER}:${USER} /home/${USER}

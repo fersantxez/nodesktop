@@ -24,10 +24,6 @@ Default password is 'nopassword'
 
 ## Usage examples
   
-- Run anonymously mounting your home directory (user appears as "default" but has permissions on your directories):
-
-      docker run -d --name nodesktop -p 5901:5901 -p 6901:6901 -v $HOME:/mnt/home fernandosanchez/nodesktop
-
 - Run as privileged as current user replicating the identity and password of the host system, mounting your home directory and the host root filesystem under /mnt/root
 
       docker run -d --privileged --name nodesktop -p 5901:5901 -p 6901:6901 -v $HOME:/mnt/home -v /:/mnt/root -v /etc/group:/etc/group:ro -v /etc/passwd:/etc/passwd:ro -v /etc/shadow:/etc/shadow:ro -v /etc/sudoers.d:/etc/sudoers.d:ro --user $(id -u):$(id -g) fernandosanchez/nodesktop

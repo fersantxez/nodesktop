@@ -15,8 +15,8 @@ wget \
 	http://ftp.us.debian.org/debian/pool/non-free/u/unrar-nonfree/unrar_5.3.2-1+deb9u1_amd64.deb
 
 dpkg -i \
-	http://ftp.us.debian.org/debian/pool/non-free/r/rar/rar_5.4.0%2Bdfsg.1-0.1_amd64.deb \
-	http://ftp.us.debian.org/debian/pool/non-free/u/unrar-nonfree/unrar_5.3.2-1+deb9u1_amd64.deb
+	./rar_5.4.0%2Bdfsg.1-0.1_amd64.deb \
+	./unrar_5.3.2-1+deb9u1_amd64.deb
 
 rm -f \
 	rar* \

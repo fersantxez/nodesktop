@@ -9,6 +9,19 @@ apt-get install -y vim wget curl net-tools locales bzip2 git sudo gnupg-agent op
     gigolo gvfs-fuse gvfs-backends
 apt-get clean -y
 
+### Install rar, unrar
+wget \
+	http://ftp.us.debian.org/debian/pool/non-free/r/rar/rar_5.4.0+dfsg.1-0.1_amd64.deb \
+	http://ftp.us.debian.org/debian/pool/non-free/u/unrar-nonfree/unrar_5.3.2-1+deb9u1_amd64.deb
+
+dpkg -i \
+	http://ftp.us.debian.org/debian/pool/non-free/r/rar/rar_5.4.0+dfsg.1-0.1_amd64.deb \
+	http://ftp.us.debian.org/debian/pool/non-free/u/unrar-nonfree/unrar_5.3.2-1+deb9u1_amd64.deb
+
+rm -f \
+	http://ftp.us.debian.org/debian/pool/non-free/r/rar/rar_5.4.0+dfsg.1-0.1_amd64.deb \
+	http://ftp.us.debian.org/debian/pool/non-free/u/unrar-nonfree/unrar_5.3.2-1+deb9u1_amd64.deb
+
 ### Hide userland threads for HTop
 echo "hide_userland_threads=1" >> /headless/.htoprc
 

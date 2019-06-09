@@ -1,14 +1,13 @@
-# Headless Desktop on a Docker container through NoVNC
+# Web Desktop on a Docker container
 
-This repository contains a Docker image with a headless VNC/NoVNC environment including a few handy things:
+A Web-based ephemeral desktop environment running on a docker container and including a few handy things:
 
-* Desktop environment [**Xfce4**](http://www.xfce.org)
-* [**noVNC**](https://github.com/novnc/noVNC) - HTML5 VNC client enabling access through a standard web browser 
 * [**Google Chrome**](https://www.google.com/chrome/)
-* [**OccamlFUSE for Google Drive access**](https://astrada.github.io/google-drive-ocamlfuse/)
+* [**Google Drive access**](https://astrada.github.io/google-drive-ocamlfuse/)
 * [**Sublime Text**](https://www.sublimetext.com/)
 * [**Evince**](https://wiki.gnome.org/Apps/Evince)
 * [**Bash-it**](https://github.com/Bash-it/bash-it)
+
 
 ## TL;DR
 
@@ -23,19 +22,23 @@ You can connect with a browser to:
 Default password is 'nopassword'
 
 ## Usage examples
-  
+
 - Run as privileged as current user replicating the identity and password of the host system, mounting your home directory and the host root filesystem under /mnt/root
 
-      docker run -d --privileged --name nodesktop -p 5901:5901 -p 6901:6901 -v $HOME:/mnt/home -v /:/mnt/root -v /etc/group:/etc/group:ro -v /etc/passwd:/etc/passwd:ro -v /etc/shadow:/etc/shadow:ro -v /etc/sudoers.d:/etc/sudoers.d:ro --user $(id -u):$(id -g) fernandosanchez/nodesktop
+      docker run -d --privileged --name nodesktop -p 6901:6901 -v $HOME:/mnt/home -v /:/mnt/root -v /etc/group:/etc/group:ro -v /etc/passwd:/etc/passwd:ro -v /etc/shadow:/etc/shadow:ro -v /etc/sudoers.d:/etc/sudoers.d:ro --user $(id -u):$(id -g) fernandosanchez/nodesktop
+
+
+- Run anonymously mounting your home directory (user appears as "default" but has permissions on your directories):
+
+      docker run -d --name nodesktop -p 6901:6901 -v $HOME:/mnt/home fernandosanchez/nodesktop
 
 - If you want to get into the container use interactive mode `-it` and `bash`
       
-      docker run -it --name nodesktop -p 5901:5901 -p 6901:6901 -v $HOME:/mnt/home --user $(id -u):$(id -g) fernandosanchez/nodesktop /bin/bash
+      docker run -it --name nodesktop -p 6901:6901 -v $HOME:/mnt/home --user $(id -u):$(id -g) fernandosanchez/nodesktop /bin/bash
 
 ## Connect & Control
 
 * connect with __any web browser__: [`http://YOUR_HOST:6901`](http://localhost:6901), default password: `nopassword` 
-* or with a __VNC viewer__: [`YOUR_HOST:5901`](http://localhost:5901), default password: `nopassword`
 
 ## Hints
 

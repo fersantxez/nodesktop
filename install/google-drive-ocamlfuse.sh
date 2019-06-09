@@ -12,8 +12,8 @@ tee /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-bionic.list <<-EOF
 deb http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu xenial main
 deb-src http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu xenial main
 EOF
-#remove disco release downloaded
-#rm /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-disco.list 
+#remove eoan release downloaded
+rm /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-eoan.list 
 
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AD5F235DF639B041
 apt-get update

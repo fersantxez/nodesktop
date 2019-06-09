@@ -12,6 +12,7 @@
       <property name="size" type="uint" value="30"/>
       <property name="plugin-ids" type="array">
         <value type="int" value="1"/>
+        <value type="int" value="19"/>
         <value type="int" value="3"/>
         <value type="int" value="15"/>
         <value type="int" value="4"/>
@@ -19,6 +20,7 @@
         <value type="int" value="6"/>
         <value type="int" value="2"/>
       </property>
+      <property name="background-alpha" type="uint" value="0"/>
     </property>
     <property name="panel-2" type="empty">
       <property name="position" type="string" value="p=12;x=682;y=1001"/>
@@ -39,6 +41,7 @@
       <property name="length-adjust" type="bool" value="true"/>
       <property name="length" type="uint" value="22"/>
       <property name="size" type="uint" value="38"/>
+      <property name="background-alpha" type="uint" value="0"/>
     </property>
   </property>
   <property name="plugins" type="empty">
@@ -94,5 +97,6 @@
     <property name="plugin-16" type="string" value="cpugraph"/>
     <property name="plugin-17" type="string" value="netload"/>
     <property name="plugin-18" type="string" value="systemload"/>
+    <property name="plugin-19" type="string" value="topmenu"/>
   </property>
 </channel>

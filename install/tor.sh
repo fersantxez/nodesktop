@@ -6,7 +6,7 @@ echo "Install Tor"
 
 sudo apt-get install -y tor
 
-TOR_VERSION=8.0.8
+TOR_VERSION=8.5.1
 
 sudo mkdir -p /opt/tor
 cd /opt/tor

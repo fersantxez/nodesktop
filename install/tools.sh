@@ -18,9 +18,9 @@ dpkg -i \
 	./rar* \
 	./unrar*
 
-rm -f \
-	rar* \
-	unrar*
+#rm -f \
+#	./rar* \
+#	./unrar*
 
 ### Hide userland threads for HTop
 echo "hide_userland_threads=1" >> /headless/.htoprc

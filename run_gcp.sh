@@ -10,12 +10,12 @@
 # Default values
 # =============================================================================
 
-export NAME=nodesktop
+export NAME=fuchsia-test-03
 export MACHINE_TYPE=n1-standard-2
-export IMAGE=cos-stable-72-11316-136-0
-export IMAGE_PROJECT=cos-cloud
-export BOOT_DISK_SIZE=200GB
-export CONTAINER_IMAGE=fernandosanchez/nodesktop
+export IMAGE=debian-9-stretch-v20190514
+export IMAGE_PROJECT=debian-cloud
+export BOOT_DISK_SIZE=100GB
+export NODESKTOP_IMAGE="fernandosanchez/nodesktop:0.3"
 export VNC_COL_DEPTH=24
 export VNC_RESOLUTION=1280x1024
 export VNC_PW=nopassword
@@ -24,6 +24,7 @@ export ROOT_MOUNT_DIR=/mnt/root
 export VNC_PORT=5901
 export NOVNC_PORT=6901
 export NOVNC_TAG=novnc-server
+
 
 # =============================================================================
 # pretty colours
@@ -214,7 +215,7 @@ enable_firewall_for_tag ${NOVNC_TAG} ${NOVNC_PORT}
 echo -e "** Creating instance..."
 
 gcloud beta compute instances \
-	create-with-container ${NAME} \
+	create ${NAME} \
 	--machine-type=${MACHINE_TYPE} \
 	--subnet=default \
 	--image=${IMAGE} \
@@ -222,11 +223,15 @@ gcloud beta compute instances \
 	--boot-disk-size=${BOOT_DISK_SIZE} \
 	--boot-disk-type=pd-standard \
 	--boot-disk-device-name=${NAME} \
-	--container-image=${CONTAINER_IMAGE} \
-	--container-restart-policy=always \
-	--labels=container-vm=${IMAGE} \
 	--tags=${NOVNC_TAG} \
-	--container-env=VNC_COL_DEPTH=${VNC_COL_DEPTH},VNC_RESOLUTION=${VNC_RESOLUTION},VNC_PW=${VNC_PW} \
+	--metadata-from-file startup-script=startup.sh \
+	--metadata \
+image=${NODESKTOP_IMAGE},\
+name=${NAME},\
+vnc-col-depth=${VNC_COL_DEPTH},\
+vnc-resolution=${VNC_RESOLUTION},\
+vnc-pw=${VNC_PW},\
+novnc-port=${NOVNC_PORT}
 	> /dev/null 2>&1
 	if [ ! $? -eq 0 ]; then
 		error "Error creating instance "$NAME". Please check your privileges."

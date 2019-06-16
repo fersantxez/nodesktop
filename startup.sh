@@ -4,8 +4,6 @@
 
 export NODESKTOP_STARTUP="/usr/bin/docker-nodesktop_on.sh"
 export NODESKTOP_SERVICE="docker-nodesktop.service"
-export VNC_PW="YesPlease!" #CHANGEME
-export MY_UID="fersanchez" #FIXME
 
 # Print commands as executed:
 set -x

@@ -10,7 +10,7 @@ set -e
 # Default values
 # =============================================================================
 
-export NAME=nodesktop-00
+export NAME=nodesktop-01
 export MACHINE_TYPE=n1-standard-2
 export IMAGE=debian-9-stretch-v20190514
 export IMAGE_PROJECT=debian-cloud

@@ -75,10 +75,8 @@ fi
 echo "$VNC_PW" | vncpasswd -f >> $PASSWD_PATH
 chmod 600 $PASSWD_PATH
 
-## This is done in the ssl.sh script
 ## Generate Certificate
-#echo -e "\n------------------ Generate Certificate ----------------------------"
-#mkdir -p $HOME/.certs
+echo -e "\n------------------ Generate Certificate ----------------------------"
 #openssl req -new -x509 -days 365 -nodes -out /etc/certs/self.pem -keyout /etc/certs/self.pem
 #openssl req -nodes -newkey rsa:2048 -keyout $HOME/.certs/private.key -out $HOME/.certs/self.pem \
 #   -subj "/C=US/ST=NY/L=New York/O=nodesktop OU=IT/CN=ssl.nodesktop.org"
@@ -94,14 +92,20 @@ export ORGANIZATION="nodesktop"
 export OU="nodesktop"
 export CN="nodesktop.org"
 
+#-newkey rsa:4096 \
+
+mkdir -p ${NO_VNC_HOME}
+
 openssl req \
--nodes \
+-new \
 -x509 \
--newkey rsa:4096 \
--keyout ${PRIV_KEY} \
--out ${CERT} \
 -days ${DURATION_DAYS} \
+-nodes \
+-out ${CERT} \
+-keyout ${PRIV_KEY} \
 -subj "/C=${COUNTRY}/ST=${STATE}/L=${LOCATION}/O=${ORGANIZATION}/OU=${OU}/CN=${CN}"
+
+echo "**DEBUG: content of "${NO_VNC_HOME}" is "$(ls -la ${NO_VNC_HOME})
 
 ## start vncserver and noVNC webclient
 echo -e "\n------------------ start noVNC  ----------------------------"

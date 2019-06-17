@@ -10,7 +10,7 @@
 # Default values
 # =============================================================================
 
-export NAME=fuchsia-test-03
+export NAME=nodesktop-00
 export MACHINE_TYPE=n1-standard-2
 export IMAGE=debian-9-stretch-v20190514
 export IMAGE_PROJECT=debian-cloud
@@ -21,7 +21,6 @@ export VNC_RESOLUTION=1280x1024
 export VNC_PW=nopassword
 export HOME_MOUNT_DIR=/mnt/home
 export ROOT_MOUNT_DIR=/mnt/root
-export VNC_PORT=5901
 export NOVNC_PORT=6901
 export NOVNC_TAG=novnc-server
 

@@ -75,24 +75,38 @@ fi
 echo "$VNC_PW" | vncpasswd -f >> $PASSWD_PATH
 chmod 600 $PASSWD_PATH
 
+## This is done in the ssl.sh script
 ## Generate Certificate
-echo -e "\n------------------ Generate Certificate ----------------------------"
-mkdir -p $HOME/.certs
+#echo -e "\n------------------ Generate Certificate ----------------------------"
+#mkdir -p $HOME/.certs
 #openssl req -new -x509 -days 365 -nodes -out /etc/certs/self.pem -keyout /etc/certs/self.pem
-openssl req -nodes -newkey rsa:2048 -keyout $HOME/.certs/private.key -out $HOME/.certs/self.pem \
-   -subj "/C=US/ST=NY/L=New York/O=nodesktop OU=IT/CN=ssl.nodesktop.org"
-#If you have a self.pem at the top-level of you noVNC repo/installation then launch.sh will automatically 
-#add the --cert option to the websockify invocation. Or you can just launch websockify directly and pass the 
-#--cert option pointing to your SSL certificate file.
-#Once you've done that, websockify will automatically start answering 
-#https requests on the same port as normal http (and WebSocket connections).
-cp $HOME/.certs/self.pem $NO_VNC_HOME
+#openssl req -nodes -newkey rsa:2048 -keyout $HOME/.certs/private.key -out $HOME/.certs/self.pem \
+#   -subj "/C=US/ST=NY/L=New York/O=nodesktop OU=IT/CN=ssl.nodesktop.org"
+#cp $HOME/.certs/self.pem $NO_VNC_HOME
 
+export CERT=${NO_VNC_HOME}/self.pem
+export PRIV_KEY=${NO_VNC_HOME}/key.pem
+export DURATION_DAYS=365
+export COUNTRY="US"
+export STATE="NY"
+export LOCATION="New York"
+export ORGANIZATION="nodesktop"
+export OU="nodesktop"
+export CN="nodesktop.org"
+
+openssl req \
+-nodes \
+-x509 \
+-newkey rsa:4096 \
+-keyout ${PRIV_KEY} \
+-out ${CERT} \
+-days ${DURATION_DAYS} \
+-subj "/C=${COUNTRY}/ST=${STATE}/L=${LOCATION}/O=${ORGANIZATION}/OU=${OU}/CN=${CN}"
 
 ## start vncserver and noVNC webclient
 echo -e "\n------------------ start noVNC  ----------------------------"
 if [[ $DEBUG == true ]]; then echo "$NO_VNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT"; fi
-$NO_VNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT &> $STARTUPDIR/no_vnc_startup.log &
+$NO_VNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT --cert $CERT &> $STARTUPDIR/no_vnc_startup.log &
 PID_SUB=$!
 
 echo -e "\n------------------ start VNC server ------------------------"

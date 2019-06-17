@@ -14,4 +14,4 @@ chmod +x -v $NO_VNC_HOME/utils/*.sh
 ln -s $NO_VNC_HOME/vnc_lite.html $NO_VNC_HOME/index.html
 
 #copy cert from /
-cp self.pem $NO_VNC_HOME/self.pem
+cp -r self.pem $NO_VNC_HOME/self.pem

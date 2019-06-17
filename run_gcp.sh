@@ -4,7 +4,7 @@
 # Fernando Sanchez <fernandosanchezmunoz@gmail.com>
 
 # every exit != 0 fails the script
-#set -e
+set -e
 
 # =============================================================================
 # Default values
@@ -237,22 +237,7 @@ novnc-port=${NOVNC_PORT}
 		exit 1
 	fi
 
-# These are set from gcloud config values
-#	--project=${PROJECT} \
-#	--zone=${ZONE} \
-# These are not required
-	#--network-tier=PREMIUM \
-	#--maintenance-policy=MIGRATE \
-	#--service-account=${SVC_ACCOUNT} \
-	#--scopes=https://www.googleapis.com/auth/devstorage.read_only,\
-#https://www.googleapis.com/auth/logging.write,\
-#https://www.googleapis.com/auth/monitoring.write,\
-#https://www.googleapis.com/auth/servicecontrol,\
-#https://www.googleapis.com/auth/service.management.readonly,\
-#https://www.googleapis.com/auth/trace.append \
-
 # Show info message with URL
-
 export EXT_IP=$(gcloud compute instances list | grep ${NAME} | awk '{print $5}')
 echo -e "** ${BLUE}Success!${NC} nodesktop will be available shortly at:"
 echo -e "${BLUE}http://"${EXT_IP}":"${NOVNC_PORT}${NC}

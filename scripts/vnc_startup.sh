@@ -105,12 +105,15 @@ openssl req \
 -keyout ${PRIV_KEY} \
 -subj "/C=${COUNTRY}/ST=${STATE}/L=${LOCATION}/O=${ORGANIZATION}/OU=${OU}/CN=${CN}"
 
+#Copy the cert to new location
+cp $CERT $NO_VNC_HOME/websockify
+
 echo "**DEBUG: content of "${NO_VNC_HOME}" is "$(tree ${NO_VNC_HOME})
 
 ## start vncserver and noVNC webclient
 echo -e "\n------------------ start noVNC  ----------------------------"
 if [[ $DEBUG == true ]]; then echo "$NO_VNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT"; fi
-$NO_VNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT --cert $NO_VNC_HOME/self.pem &> $STARTUPDIR/no_vnc_startup.log &
+$NO_VNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT --cert $NO_VNC_HOME/websockify/self.pem &> $STARTUPDIR/no_vnc_startup.log &
 PID_SUB=$!
 
 echo -e "\n------------------ start VNC server ------------------------"

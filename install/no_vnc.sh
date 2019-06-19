@@ -12,6 +12,3 @@ wget -qO- https://github.com/novnc/websockify/archive/v0.6.1.tar.gz | tar xz --s
 chmod +x -v $NO_VNC_HOME/utils/*.sh
 ## create index.html to forward automatically to `vnc_lite.html`
 ln -s $NO_VNC_HOME/vnc_lite.html $NO_VNC_HOME/index.html
-
-#copy cert from /
-cp -r self.pem $NO_VNC_HOME/self.pem

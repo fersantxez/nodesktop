@@ -11,7 +11,7 @@ ENV DISPLAY=:1 \
     NO_VNC_PORT=6901
 EXPOSE $NO_VNC_PORT
 
-### Envrionment config
+### Environment config
 ENV HOME=/headless \
     TERM=xterm \
     STARTUPDIR=/dockerstartup \

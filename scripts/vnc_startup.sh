@@ -134,7 +134,7 @@ export OU="nodesktop"
 export CN="nodesktop.org"
 
 #-newkey rsa:4096 \
-
+rm -f $CERT
 openssl req \
 -new \
 -x509 \

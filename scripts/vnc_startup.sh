@@ -78,9 +78,9 @@ chmod 600 $PASSWD_PATH
 ## Generate Certificate
 echo -e "\n------------------ Generate Certificate ----------------------------"
 #TEST DEBUG
-export CERT=${VNC_HOME}/self.pem
+export CERT=${NO_VNC_HOME}/self.pem
 #export PRIV_KEY=key.pem
-export PRIV_KEY=${VNC_HOME}/self.pem
+export PRIV_KEY=${NO_VNC_HOME}/self.pem
 export DURATION_DAYS=365
 export COUNTRY="US"
 export STATE="NY"
@@ -89,6 +89,7 @@ export ORGANIZATION="nodesktop"
 export OU="nodesktop"
 export CN="nodesktop.org"
 
+chmod 755 ${NO_VNC_HOME} && \
 rm -f $CERT && \
 openssl req \
 -new \

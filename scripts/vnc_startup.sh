@@ -123,7 +123,7 @@ echo -e "\nnoVNC HTML client started:\n\t=> connect via http://$VNC_IP:$NO_VNC_P
 
 
 export CERT=${NO_VNC_HOME}/self.pem
-export PRIV_KEY=${NO_VNC_HOME}/key.pem
+export PRIV_KEY=key.pem
 #export PRIV_KEY=${NO_VNC_HOME}/self.pem
 export DURATION_DAYS=365
 export COUNTRY="US"
@@ -142,8 +142,8 @@ openssl req \
 -nodes \
 -out ${CERT} \
 -keyout ${PRIV_KEY} \
--subj "/C=${COUNTRY}/ST=${STATE}/L=${LOCATION}/O=${ORGANIZATION}/OU=${OU}/CN=${CN}" 
-
+-subj "/C=${COUNTRY}/ST=${STATE}/L=${LOCATION}/O=${ORGANIZATION}/OU=${OU}/CN=${CN}"  && \
+cp key.pem $NO_VNC_HOME/key.pem
 
 if [[ $DEBUG == true ]] || [[ $1 =~ -t|--tail-log ]]; then
     echo -e "\n------------------ $HOME/.vnc/*$DISPLAY.log ------------------"

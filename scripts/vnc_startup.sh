@@ -90,8 +90,8 @@ export OU="nodesktop"
 export CN="nodesktop.org"
 
 sudo chmod 755 ${NO_VNC_HOME} && \
-rm -f $CERT && \
-openssl req \
+sudo rm -f $CERT && \
+sudo openssl req \
 -new \
 -x509 \
 -days ${DURATION_DAYS} \

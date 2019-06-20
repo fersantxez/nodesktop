@@ -75,36 +75,6 @@ fi
 echo "$VNC_PW" | vncpasswd -f >> $PASSWD_PATH
 chmod 600 $PASSWD_PATH
 
-## Generate Certificate
-echo -e "\n------------------ Generate Certificate ----------------------------"
-#openssl req -new -x509 -days 365 -nodes -out /etc/certs/self.pem -keyout /etc/certs/self.pem
-#openssl req -nodes -newkey rsa:2048 -keyout $HOME/.certs/private.key -out $HOME/.certs/self.pem \
-#   -subj "/C=US/ST=NY/L=New York/O=nodesktop OU=IT/CN=ssl.nodesktop.org"
-#cp $HOME/.certs/self.pem $NO_VNC_HOME
-
-export CERT=${NO_VNC_HOME}/self.pem
-export PRIV_KEY=key.pem
-#export PRIV_KEY=${NO_VNC_HOME}/self.pem
-export DURATION_DAYS=365
-export COUNTRY="US"
-export STATE="NY"
-export LOCATION="New York"
-export ORGANIZATION="nodesktop"
-export OU="nodesktop"
-export CN="nodesktop.org"
-
-#-newkey rsa:4096 \
-rm -f $CERT
-openssl req \
--new \
--x509 \
--days ${DURATION_DAYS} \
--nodes \
--out ${CERT} \
--keyout ${PRIV_KEY} \
--subj "/C=${COUNTRY}/ST=${STATE}/L=${LOCATION}/O=${ORGANIZATION}/OU=${OU}/CN=${CN}"  && \
-cp ${PRIV_KEY} $NO_VNC_HOME/key.pem
-
 ## start vncserver and noVNC webclient
 echo -e "\n------------------ start noVNC  ----------------------------"
 if [[ $DEBUG == true ]]; then echo "$NO_VNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT"; fi
@@ -117,12 +87,38 @@ vncserver -kill $DISPLAY &> $STARTUPDIR/vnc_startup.log \
     || rm -rfv /tmp/.X*-lock /tmp/.X11-unix &> $STARTUPDIR/vnc_startup.log \
     || echo "no locks present"
 
-
 echo -e "start vncserver with param: VNC_COL_DEPTH=$VNC_COL_DEPTH, VNC_RESOLUTION=$VNC_RESOLUTION\n..."
 if [[ $DEBUG == true ]]; then echo "vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION"; fi
 vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION &> $STARTUPDIR/no_vnc_startup.log
 echo -e "start window manager\n..."
 $HOME/wm_startup.sh &> $STARTUPDIR/wm_startup.log
+
+## Generate Certificate
+echo -e "\n------------------ Generate Certificate ----------------------------"
+#openssl req -new -x509 -days 365 -nodes -out /etc/certs/self.pem -keyout /etc/certs/self.pem
+#openssl req -nodes -newkey rsa:2048 -keyout $HOME/.certs/private.key -out $HOME/.certs/self.pem \
+#   -subj "/C=US/ST=NY/L=New York/O=nodesktop OU=IT/CN=ssl.nodesktop.org"
+
+export CERT=${NO_VNC_HOME}/self.pem
+#export PRIV_KEY=key.pem
+export PRIV_KEY=${NO_VNC_HOME}/self.pem
+export DURATION_DAYS=365
+export COUNTRY="US"
+export STATE="NY"
+export LOCATION="New York"
+export ORGANIZATION="nodesktop"
+export OU="nodesktop"
+export CN="nodesktop.org"
+
+rm -f $CERT
+openssl req \
+-new \
+-x509 \
+-days ${DURATION_DAYS} \
+-nodes \
+-out ${CERT} \
+-keyout ${PRIV_KEY} \
+-subj "/C=${COUNTRY}/ST=${STATE}/L=${LOCATION}/O=${ORGANIZATION}/OU=${OU}/CN=${CN}"
 
 ## log connect options
 echo -e "\n\n------------------ VNC environment started ------------------"

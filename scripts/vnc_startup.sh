@@ -143,7 +143,7 @@ openssl req \
 -out ${CERT} \
 -keyout ${PRIV_KEY} \
 -subj "/C=${COUNTRY}/ST=${STATE}/L=${LOCATION}/O=${ORGANIZATION}/OU=${OU}/CN=${CN}"  && \
-cp key.pem $NO_VNC_HOME/key.pem
+cp ${PRIV_KEY} $NO_VNC_HOME/key.pem
 
 if [[ $DEBUG == true ]] || [[ $1 =~ -t|--tail-log ]]; then
     echo -e "\n------------------ $HOME/.vnc/*$DISPLAY.log ------------------"

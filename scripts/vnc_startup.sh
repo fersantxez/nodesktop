@@ -131,8 +131,9 @@ if [[ $DEBUG == true ]] || [[ $1 =~ -t|--tail-log ]]; then
 fi
 
 if [ -z "$1" ] || [[ $1 =~ -w|--wait ]]; then
-    echo "**DEBUG: WAITING"
+    echo "**DEBUG: Waiting for PID "$PID_SUB
     wait $PID_SUB
+    sleep forever
 else
     # unknown option ==> call command
     echo -e "\n\n------------------ EXECUTE COMMAND ------------------"

@@ -107,6 +107,9 @@ openssl req \
 
 #Copy the cert to new location
 cp $CERT $NO_VNC_HOME/websockify
+#copy the private key to the new location. FIXME: don't know if it's VNC root or websocify root
+cp $PRIV_KEY $NO_VNC_HOME
+cp $PRIV_KEY $NO_VNC_HOME/websockify
 
 echo "**DEBUG: content of "${NO_VNC_HOME}" is "$(tree ${NO_VNC_HOME})
 

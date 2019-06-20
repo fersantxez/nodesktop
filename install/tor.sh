@@ -10,8 +10,7 @@ TOR_VERSION=8.5.1
 
 sudo mkdir -p /opt/tor
 cd /opt/tor
-#sudo wget https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_en-US.tar.xz && \
-sudo wget https://82.195.75.101/dist/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_en-US.tar.xz && \
+sudo wget https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_en-US.tar.xz && \
 sudo tar xf tor-browser-linux64-${TOR_VERSION}_en-US.tar.xz && \
 sudo rm -f tor-browser-linux64-${TOR_VERSION}_en-US.tar.xz && \
 sudo mv tor-browser_en-US/* /opt/tor && \

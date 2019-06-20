@@ -123,8 +123,8 @@ echo -e "\nnoVNC HTML client started:\n\t=> connect via http://$VNC_IP:$NO_VNC_P
 
 
 export CERT=${NO_VNC_HOME}/self.pem
-#export PRIV_KEY=${NO_VNC_HOME}/key.pem
-export PRIV_KEY=${NO_VNC_HOME}/self.pem
+export PRIV_KEY=${NO_VNC_HOME}/key.pem
+#export PRIV_KEY=${NO_VNC_HOME}/self.pem
 export DURATION_DAYS=365
 export COUNTRY="US"
 export STATE="NY"

@@ -83,7 +83,8 @@ echo -e "\n------------------ Generate Certificate ----------------------------"
 #cp $HOME/.certs/self.pem $NO_VNC_HOME
 
 export CERT=${NO_VNC_HOME}/self.pem
-export PRIV_KEY=${NO_VNC_HOME}/key.pem
+#export PRIV_KEY=${NO_VNC_HOME}/key.pem
+export PRIV_KEY=${NO_VNC_HOME}/self.pem
 export DURATION_DAYS=365
 export COUNTRY="US"
 export STATE="NY"
@@ -108,8 +109,8 @@ openssl req \
 #Copy the cert to new location
 cp $CERT $NO_VNC_HOME/websockify
 #copy the private key to the new location. FIXME: don't know if it's VNC root or websocify root
-cp $PRIV_KEY $NO_VNC_HOME
-cp $PRIV_KEY $NO_VNC_HOME/websockify
+#cp $PRIV_KEY $NO_VNC_HOME
+#cp $PRIV_KEY $NO_VNC_HOME/websockify
 
 echo "**DEBUG: content of "${NO_VNC_HOME}" is "$(tree ${NO_VNC_HOME})
 

@@ -95,13 +95,10 @@ $HOME/wm_startup.sh &> $STARTUPDIR/wm_startup.log
 
 ## Generate Certificate
 echo -e "\n------------------ Generate Certificate ----------------------------"
-#openssl req -new -x509 -days 365 -nodes -out /etc/certs/self.pem -keyout /etc/certs/self.pem
-#openssl req -nodes -newkey rsa:2048 -keyout $HOME/.certs/private.key -out $HOME/.certs/self.pem \
-#   -subj "/C=US/ST=NY/L=New York/O=nodesktop OU=IT/CN=ssl.nodesktop.org"
-
-export CERT=${NO_VNC_HOME}/self.pem
+#TEST DEBUG
+export CERT=${VNC_HOME}/self.pem
 #export PRIV_KEY=key.pem
-export PRIV_KEY=${NO_VNC_HOME}/self.pem
+export PRIV_KEY=${VNC_HOME}/self.pem
 export DURATION_DAYS=365
 export COUNTRY="US"
 export STATE="NY"
@@ -110,7 +107,7 @@ export ORGANIZATION="nodesktop"
 export OU="nodesktop"
 export CN="nodesktop.org"
 
-rm -f $CERT
+rm -f $CERT && \
 openssl req \
 -new \
 -x509 \

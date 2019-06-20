@@ -5,7 +5,6 @@ FROM debian:stretch-slim
 MAINTAINER Fernando Sanchez <fernandosanchezmunoz@gmail.com>
 
 ## Connection ports for controlling the UI:
-# VNC port:5901
 # noVNC webport, connect via http://IP:6901/?password=vncpassword
 ENV DISPLAY=:1 \
     NO_VNC_PORT=6901

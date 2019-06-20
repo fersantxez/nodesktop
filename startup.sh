@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# nodesktop configuration script
+# nodesktop startup script to be used for the virtual machine configuration
 
 
 export NODESKTOP_STARTUP="/usr/bin/docker-nodesktop_on.sh"
@@ -119,5 +119,6 @@ systemctl daemon-reload
 
 #start nodesktop service
 systemctl start ${NODESKTOP_SERVICE}
+
 # Mark this script as having run successfully:
 touch ${STATEFILE}

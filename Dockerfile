@@ -85,4 +85,4 @@ USER 5001
 
 #ENTRYPOINT ["/dockerstartup/vnc_startup.sh"] #FIXME: change dockerstartup for ${STARTUPDIR}
 ENTRYPOINT ${STARTUPDIR}/vnc_startup.sh --wait
-#CMD ["--wait"]
+CMD ["sleep infinity"]

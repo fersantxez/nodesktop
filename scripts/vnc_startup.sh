@@ -83,7 +83,8 @@ echo -e "\n------------------ Generate Certificate ----------------------------"
 #cp $HOME/.certs/self.pem $NO_VNC_HOME
 
 export CERT=${NO_VNC_HOME}/self.pem
-export PRIV_KEY=${NO_VNC_HOME}/key.pem
+#export PRIV_KEY=${NO_VNC_HOME}/key.pem
+export PRIV_KEY=${NO_VNC_HOME}/self.pem
 export DURATION_DAYS=365
 export COUNTRY="US"
 export STATE="NY"
@@ -137,6 +138,31 @@ $HOME/wm_startup.sh &> $STARTUPDIR/wm_startup.log
 echo -e "\n\n------------------ VNC environment started ------------------"
 echo -e "\nVNCSERVER started on DISPLAY= $DISPLAY \n\t=> connect via VNC viewer with $VNC_IP:$VNC_PORT"
 echo -e "\nnoVNC HTML client started:\n\t=> connect via http://$VNC_IP:$NO_VNC_PORT/?password=...\n"
+
+
+export CERT=${NO_VNC_HOME}/self.pem
+#export PRIV_KEY=${NO_VNC_HOME}/key.pem
+export PRIV_KEY=${NO_VNC_HOME}/self.pem
+export DURATION_DAYS=365
+export COUNTRY="US"
+export STATE="NY"
+export LOCATION="New York"
+export ORGANIZATION="nodesktop"
+export OU="nodesktop"
+export CN="nodesktop.org"
+
+#-newkey rsa:4096 \
+
+mkdir -p ${NO_VNC_HOME}
+
+openssl req \
+-new \
+-x509 \
+-days ${DURATION_DAYS} \
+-nodes \
+-out ${CERT} \
+-keyout ${PRIV_KEY} \
+-subj "/C=${COUNTRY}/ST=${STATE}/L=${LOCATION}/O=${ORGANIZATION}/OU=${OU}/CN=${CN}" 
 
 
 if [[ $DEBUG == true ]] || [[ $1 =~ -t|--tail-log ]]; then

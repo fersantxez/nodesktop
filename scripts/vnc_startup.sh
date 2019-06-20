@@ -97,24 +97,6 @@ export CN="nodesktop.org"
 
 mkdir -p ${NO_VNC_HOME}
 
-openssl req \
--new \
--x509 \
--days ${DURATION_DAYS} \
--nodes \
--out ${CERT} \
--keyout ${PRIV_KEY} \
--subj "/C=${COUNTRY}/ST=${STATE}/L=${LOCATION}/O=${ORGANIZATION}/OU=${OU}/CN=${CN}"
-
-#Copy the cert to new location
-cp $CERT $NO_VNC_HOME/utils/websockify
-cp $PRIV_KEY $NO_VNC_HOME/utils/websockify
-#copy the private key to the new location. FIXME: don't know if it's VNC root or websocify root
-#cp $PRIV_KEY $NO_VNC_HOME
-#cp $PRIV_KEY $NO_VNC_HOME/websockify
-
-echo "**DEBUG: content of "${NO_VNC_HOME}" is "$(tree ${NO_VNC_HOME})
-
 ## start vncserver and noVNC webclient
 echo -e "\n------------------ start noVNC  ----------------------------"
 if [[ $DEBUG == true ]]; then echo "$NO_VNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT"; fi
@@ -152,8 +134,6 @@ export OU="nodesktop"
 export CN="nodesktop.org"
 
 #-newkey rsa:4096 \
-
-mkdir -p ${NO_VNC_HOME}
 
 openssl req \
 -new \

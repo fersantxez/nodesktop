@@ -1,6 +1,7 @@
 #!/bin/bash
 ### every exit != 0 fails the script
 set -e
+set -x
 
 ## print out help
 help (){

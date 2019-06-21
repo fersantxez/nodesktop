@@ -207,17 +207,36 @@ echo "[ OK ]"
 echo -e "** Checking for firewall ports..."
 enable_firewall_for_tag ${NOVNC_TAG} ${NOVNC_PORT}
 
+
+# =============================================================================
+# FIXME: Usage
+# =============================================================================
+
+# =============================================================================
+# Get Name
+# =============================================================================
+
+#first argument is the name
+if [ $# -le 0 ]
+  then
+    read -p "** Enter a name for the instance: " $NAME
+else
+  export VNC_PW=$1
+fi
+
 # =============================================================================
 # Get Password
 # =============================================================================
 
-#first argument is the password
-if [ $# -eq 0 ]
+#second argument is the password
+if [ $# -le 1 ]
   then
     read -p "** Enter a password for the NoVNC session: " $VNC_PW
 else
-  export VNC_PW=$1
+  export VNC_PW=$2
 fi
+
+echo "*** Starting instance "$NAME" with password "$VNC_PW
 
 # =============================================================================
 # Launch instance with container

@@ -75,16 +75,34 @@ echo "Checking for requisite binaries..."
 check_command docker "Please install Docker. Visit https://docs.docker.com/install/ for more information."
 
 # =============================================================================
-# Get Password
+# FIXME: Usage
 # =============================================================================
 
-#first argument is the password
-if [ $# -eq 0 ]
+# =============================================================================
+# Get Name
+# =============================================================================
+
+#first argument is the name
+if [ $# -le 0 ]
   then
-    read -p "** Enter a password for the NoVNC session: " $VNC_PW
+    read -p "** Enter a name for the instance: " $NAME
 else
   export VNC_PW=$1
 fi
+
+# =============================================================================
+# Get Password
+# =============================================================================
+
+#second argument is the password
+if [ $# -le 1 ]
+  then
+    read -p "** Enter a password for the NoVNC session: " $VNC_PW
+else
+  export VNC_PW=$2
+fi
+
+echo "*** Starting instance "$NAME" with password "$VNC_PW
 
 # =============================================================================
 # Run with selected arguments

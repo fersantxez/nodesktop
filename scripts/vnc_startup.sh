@@ -79,7 +79,6 @@ chmod 600 $PASSWD_PATH
 echo -e "\n------------------ Generate Certificate ----------------------------"
 #TEST DEBUG
 export CERT=${NO_VNC_HOME}/self.pem
-#export PRIV_KEY=key.pem
 export PRIV_KEY=${NO_VNC_HOME}/self.pem
 export DURATION_DAYS=365
 export COUNTRY="US"
@@ -119,7 +118,6 @@ vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION &> $STARTUPDI
 echo -e "start window manager\n..."
 $HOME/wm_startup.sh &> $STARTUPDIR/wm_startup.log
 
-
 ## log connect options
 echo -e "\n\n------------------ VNC environment started ------------------"
 echo -e "\nVNCSERVER started on DISPLAY= $DISPLAY \n\t=> connect via VNC viewer with $VNC_IP:$VNC_PORT"
@@ -132,7 +130,6 @@ if [[ $DEBUG == true ]] || [[ $1 =~ -t|--tail-log ]]; then
 fi
 
 if [ -z "$1" ] || [[ $1 =~ -w|--wait ]]; then
-    echo "**DEBUG: Waiting for PID "$PID_SUB
     echo "**DEBUG: startup.log is: \n" $(cat $STARTUPDIR/no_vnc_startup.log)
     wait $PID_SUB
 else

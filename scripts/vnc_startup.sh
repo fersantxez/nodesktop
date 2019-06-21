@@ -90,7 +90,7 @@ export ORGANIZATION="nodesktop"
 export OU="nodesktop"
 export CN="nodesktop.org"
 
-sudo chmod 755 ${NO_VNC_HOME} && \
+sudo chmod 777 ${NO_VNC_HOME} && \
 sudo rm -f $CERT && \
 sudo openssl req \
 -new \

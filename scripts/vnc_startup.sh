@@ -133,6 +133,7 @@ fi
 
 if [ -z "$1" ] || [[ $1 =~ -w|--wait ]]; then
     echo "**DEBUG: Waiting for PID "$PID_SUB
+    echo "**DEBUG: startup.log is: \n" $(cat $STARTUPDIR/no_vnc_startup.log)
     wait $PID_SUB
 else
     # unknown option ==> call command

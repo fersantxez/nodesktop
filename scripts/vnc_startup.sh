@@ -134,7 +134,6 @@ fi
 if [ -z "$1" ] || [[ $1 =~ -w|--wait ]]; then
     echo "**DEBUG: Waiting for PID "$PID_SUB
     wait $PID_SUB
-    sleep 7d #7 days
 else
     # unknown option ==> call command
     echo -e "\n\n------------------ EXECUTE COMMAND ------------------"

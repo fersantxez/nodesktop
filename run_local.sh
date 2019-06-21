@@ -10,7 +10,7 @@ set -e
 # Default values
 # =============================================================================
 
-export NAME=nodesktop
+#export NAME=nodesktop
 export IMAGE_NAME=fernandosanchez/nodesktop
 export VNC_COL_DEPTH=24
 export VNC_RESOLUTION=1280x1024

@@ -1,7 +1,6 @@
 #!/bin/bash
 ### every exit != 0 fails the script
 set -e
-set -x
 
 ## print out help
 help (){
@@ -99,7 +98,8 @@ sudo openssl req \
 -nodes \
 -out ${CERT} \
 -keyout ${PRIV_KEY} \
--subj "/C=${COUNTRY}/ST=${STATE}/L=${LOCATION}/O=${ORGANIZATION}/OU=${OU}/CN=${CN}"
+-subj "/C=${COUNTRY}/ST=${STATE}/L=${LOCATION}/O=${ORGANIZATION}/OU=${OU}/CN=${CN}" && \
+sudo chmod 0644 ${CERT}
 
 ## start vncserver and noVNC webclient
 echo -e "\n------------------ start noVNC  ----------------------------"

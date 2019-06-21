@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# nodesktop startup script to be used for the virtual machine configuration
-
+# nodesktop startup script to be used for the virtual machine startup in cloud as metadata
 
 export NODESKTOP_STARTUP="/usr/bin/docker-nodesktop_on.sh"
 export NODESKTOP_SERVICE="docker-nodesktop.service"

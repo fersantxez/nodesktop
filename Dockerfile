@@ -5,14 +5,13 @@ FROM debian:stretch-slim
 MAINTAINER Fernando Sanchez <fernandosanchezmunoz@gmail.com>
 
 ## Connection ports for controlling the UI:
-# VNC port:5901
 # noVNC webport, connect via http://IP:6901/?password=vncpassword
 ENV DISPLAY=:1 \
     VNC_PORT=5901 \
     NO_VNC_PORT=6901
-EXPOSE $VNC_PORT $NO_VNC_PORT
+EXPOSE $NO_VNC_PORT
 
-### Envrionment config
+### Environment config
 ENV HOME=/headless \
     TERM=xterm \
     STARTUPDIR=/dockerstartup \
@@ -85,5 +84,4 @@ RUN groupadd -g 5001 $NEWUSER \
 && useradd -s /bin/bash -m -u 5001 -g $NEWUSER $NEWUSER
 USER 5001
 
-ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]
-CMD ["--wait"]
+ENTRYPOINT ${STARTUPDIR}/vnc_startup.sh --wait

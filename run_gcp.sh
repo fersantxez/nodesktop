@@ -10,15 +10,15 @@ set -e
 # Default values
 # =============================================================================
 
-export NAME=nodesktop-00
+#export NAME=nodesktop
 export MACHINE_TYPE=n1-standard-2
 export IMAGE=debian-9-stretch-v20190514
 export IMAGE_PROJECT=debian-cloud
 export BOOT_DISK_SIZE=100GB
-export NODESKTOP_IMAGE="fernandosanchez/nodesktop:0.3"
+export NODESKTOP_IMAGE="fernandosanchez/nodesktop:0.4"
 export VNC_COL_DEPTH=24
 export VNC_RESOLUTION=1280x1024
-export VNC_PW=nopassword
+#export VNC_PW=nopassword
 export HOME_MOUNT_DIR=/mnt/home
 export ROOT_MOUNT_DIR=/mnt/root
 export NOVNC_PORT=6901
@@ -206,6 +206,36 @@ echo "[ OK ]"
 
 echo -e "** Checking for firewall ports..."
 enable_firewall_for_tag ${NOVNC_TAG} ${NOVNC_PORT}
+
+# =============================================================================
+# FIXME: Usage
+# =============================================================================
+
+# =============================================================================
+# Get Name
+# =============================================================================
+
+#first argument is the name
+if [ $# -le 0 ]
+  then
+    read -p "** Enter a name for the instance: " NAME
+else
+  export NAME=$1
+fi
+
+# =============================================================================
+# Get Password
+# =============================================================================
+
+#second argument is the password
+if [ $# -le 1 ]
+  then
+    read -p "** Enter a password for the NoVNC session: " VNC_PW
+else
+  export VNC_PW=$2
+fi
+
+echo "*** Starting instance "$NAME" with password "$VNC_PW
 
 # =============================================================================
 # Launch instance with container

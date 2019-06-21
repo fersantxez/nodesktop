@@ -77,17 +77,28 @@ chmod 600 $PASSWD_PATH
 
 ## Generate Certificate
 echo -e "\n------------------ Generate Certificate ----------------------------"
-mkdir -p $HOME/.certs
-#openssl req -new -x509 -days 365 -nodes -out /etc/certs/self.pem -keyout /etc/certs/self.pem
-openssl req -nodes -newkey rsa:2048 -keyout $HOME/.certs/private.key -out $HOME/.certs/self.pem \
-   -subj "/C=US/ST=NY/L=New York/O=nodesktop OU=IT/CN=ssl.nodesktop.org"
-#If you have a self.pem at the top-level of you noVNC repo/installation then launch.sh will automatically 
-#add the --cert option to the websockify invocation. Or you can just launch websockify directly and pass the 
-#--cert option pointing to your SSL certificate file.
-#Once you've done that, websockify will automatically start answering 
-#https requests on the same port as normal http (and WebSocket connections).
-cp $HOME/.certs/self.pem $NO_VNC_HOME
+#TEST DEBUG
+export CERT=${NO_VNC_HOME}/self.pem
+export PRIV_KEY=${NO_VNC_HOME}/self.pem
+export DURATION_DAYS=365
+export COUNTRY="US"
+export STATE="NY"
+export LOCATION="New York"
+export ORGANIZATION="nodesktop"
+export OU="nodesktop"
+export CN="nodesktop.org"
 
+sudo chmod 777 ${NO_VNC_HOME} && \
+sudo rm -f $CERT && \
+sudo openssl req \
+-new \
+-x509 \
+-days ${DURATION_DAYS} \
+-nodes \
+-out ${CERT} \
+-keyout ${PRIV_KEY} \
+-subj "/C=${COUNTRY}/ST=${STATE}/L=${LOCATION}/O=${ORGANIZATION}/OU=${OU}/CN=${CN}" && \
+sudo chmod 0644 ${CERT}
 
 ## start vncserver and noVNC webclient
 echo -e "\n------------------ start noVNC  ----------------------------"
@@ -101,7 +112,6 @@ vncserver -kill $DISPLAY &> $STARTUPDIR/vnc_startup.log \
     || rm -rfv /tmp/.X*-lock /tmp/.X11-unix &> $STARTUPDIR/vnc_startup.log \
     || echo "no locks present"
 
-
 echo -e "start vncserver with param: VNC_COL_DEPTH=$VNC_COL_DEPTH, VNC_RESOLUTION=$VNC_RESOLUTION\n..."
 if [[ $DEBUG == true ]]; then echo "vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION"; fi
 vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION &> $STARTUPDIR/no_vnc_startup.log
@@ -113,7 +123,6 @@ echo -e "\n\n------------------ VNC environment started ------------------"
 echo -e "\nVNCSERVER started on DISPLAY= $DISPLAY \n\t=> connect via VNC viewer with $VNC_IP:$VNC_PORT"
 echo -e "\nnoVNC HTML client started:\n\t=> connect via http://$VNC_IP:$NO_VNC_PORT/?password=...\n"
 
-
 if [[ $DEBUG == true ]] || [[ $1 =~ -t|--tail-log ]]; then
     echo -e "\n------------------ $HOME/.vnc/*$DISPLAY.log ------------------"
     # if option `-t` or `--tail-log` block the execution and tail the VNC log
@@ -121,6 +130,7 @@ if [[ $DEBUG == true ]] || [[ $1 =~ -t|--tail-log ]]; then
 fi
 
 if [ -z "$1" ] || [[ $1 =~ -w|--wait ]]; then
+    echo "**DEBUG: startup.log is: \n" $(cat $STARTUPDIR/no_vnc_startup.log)
     wait $PID_SUB
 else
     # unknown option ==> call command

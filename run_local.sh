@@ -10,11 +10,11 @@ set -e
 # Default values
 # =============================================================================
 
-export NAME=nodesktop
+#export NAME=nodesktop
 export IMAGE_NAME=fernandosanchez/nodesktop
 export VNC_COL_DEPTH=24
 export VNC_RESOLUTION=1280x1024
-export VNC_PW=nopassword
+#export VNC_PW=nopassword
 export VNC_PORT=5901
 export NOVNC_PORT=6901
 export HOME_MOUNT_DIR=/mnt/home
@@ -73,6 +73,36 @@ ${NC}"
 # Check for our requisite binaries:
 echo "Checking for requisite binaries..."
 check_command docker "Please install Docker. Visit https://docs.docker.com/install/ for more information."
+
+# =============================================================================
+# FIXME: Usage
+# =============================================================================
+
+# =============================================================================
+# Get Name
+# =============================================================================
+
+#first argument is the name
+if [ $# -le 0 ]
+  then
+    read -p "** Enter a name for the instance: " NAME
+else
+  export NAME=$1
+fi
+
+# =============================================================================
+# Get Password
+# =============================================================================
+
+#second argument is the password
+if [ $# -le 1 ]
+  then
+    read -p "** Enter a password for the NoVNC session: " VNC_PW
+else
+  export VNC_PW=$2
+fi
+
+echo "*** Starting instance "$NAME" with password "$VNC_PW
 
 # =============================================================================
 # Run with selected arguments

@@ -15,7 +15,7 @@ export MACHINE_TYPE=n1-standard-2
 #first debian image e.g. debian-9-drawfork-v20181101
 export IMAGE_PROJECT=debian-cloud
 export IMAGE_STRING="debian-9"
-export IMAGE=${gcloud compute images list|grep ${IMAGE_STRING}|head -n 1|awk -s {'print $1'}} 
+export IMAGE=$(gcloud compute images list|grep ${IMAGE_STRING}|head -n 1|awk -s {'print $1'})
 export BOOT_DISK_SIZE=100GB
 export DOCKER_IMAGE="fernandosanchez/nodesktop:latest"
 export VNC_COL_DEPTH=24

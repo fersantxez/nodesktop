@@ -12,10 +12,12 @@ set -e
 
 #export NAME=nodesktop
 export MACHINE_TYPE=n1-standard-2
-export IMAGE=debian-9-stretch-v20190514
+#first debian image e.g. debian-9-drawfork-v20181101
 export IMAGE_PROJECT=debian-cloud
+export IMAGE_STRING="debian-9"
+export IMAGE=${gcloud compute images list|grep ${IMAGE_STRING}|head -n 1|awk -s {'print $1'}} 
 export BOOT_DISK_SIZE=100GB
-export NODESKTOP_IMAGE="fernandosanchez/nodesktop:0.4"
+export DOCKER_IMAGE="fernandosanchez/nodesktop:latest"
 export VNC_COL_DEPTH=24
 export VNC_RESOLUTION=1280x1024
 #export VNC_PW=nopassword
@@ -235,7 +237,7 @@ else
   export VNC_PW=$2
 fi
 
-echo "*** Starting instance "$NAME" with password "$VNC_PW
+echo -e "*** Starting instance "${BLUE}${NAME}${NC}" with password "${RED}${VNC_PW}${NC}
 
 # =============================================================================
 # Launch instance with container
@@ -255,7 +257,7 @@ gcloud beta compute instances \
 	--tags=${NOVNC_TAG} \
 	--metadata-from-file startup-script=startup.sh \
 	--metadata \
-image=${NODESKTOP_IMAGE},\
+image=${DOCKER_IMAGE},\
 name=${NAME},\
 vnc-col-depth=${VNC_COL_DEPTH},\
 vnc-resolution=${VNC_RESOLUTION},\

@@ -232,18 +232,22 @@ for PARAM in $REQUIRED_PARAMS; do
 done
 
 #NAME
-while [ $(echo ${NAME} | awk '{print length}') -ge 7 ]; do 
-	echo -e "** ERROR: NAME should be 6 characters long or less"
+while [ $(echo ${NAME} | awk '{print length}') -ge 10 ]; do 
+	echo -e "** ERROR: NAME should be 10 characters long or less"
 	read -p "** Enter a new value for NAME: " NAME
 done
 
-#SHARE_PATH
-echo -e "** DEBUG: share path first char is: "${SHARE_PATH:0:1}
-while [ ${SHARE_PATH:0:1} != "/" ]; do 
-	echo -e "** ERROR: SHARE_PATH must be a valid path in the remote server starting with /"
-	read -p "** Enter a new value for SHARE_PATH: " SHARE_PATH
+#HOME_MOUNT_DIR
+while [ ${HOME_MOUNT_DIR:0:1} != "/" ]; do 
+	echo -e "** ERROR: HOME_MOUNT_DIR must be a valid path in the desktop instance starting with / (e.g. /mnt/home)"
+	read -p "** Enter a new value for HOME_MOUNT_DIR: " HOME_MOUNT_DIR
 done
-echo -e "** DEBUG: share path first char is: "${SHARE_PATH:0:1}
+
+#ROOT_MOUNT_DIR
+while [ ${ROOT_MOUNT_DIR:0:1} != "/" ]; do 
+	echo -e "** ERROR: ROOT_MOUNT_DIR must be a valid path in the desktop instance with / (e.g. /mnt/root)"
+	read -p "** Enter a new value for ROOT_MOUNT_DIR: " ROOT_MOUNT_DIR
+done
 
 #TODO: check remaining parameteres. e.g. make sure remote server is valid and reachable
 

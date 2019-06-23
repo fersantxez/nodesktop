@@ -20,11 +20,11 @@ export IMAGE_PROJECT=debian-cloud
 export IMAGE_STRING="debian-9"
 export BOOT_DISK_SIZE=100GB
 export DOCKER_IMAGE="fernandosanchez/nodesktop:latest"
+export NOVNC_PORT=6901
 export VNC_COL_DEPTH=24
 export VNC_RESOLUTION=1280x1024
 export HOME_MOUNT_DIR=/mnt/home
 export ROOT_MOUNT_DIR=/mnt/root
-export NOVNC_PORT=6901
 #parameters that are fixed
 export NOVNC_TAG=novnc-server
 
@@ -157,12 +157,12 @@ case $i in
     shift # past argument=value
     ;;
     -w=*|--password=*)
-    HOST="${i#*=}"
+    PASSWORD="${i#*=}"
     #FIXME: ensure host is ip address or reachable hostname
     shift # past argument=value
     ;;
     -p=*|--port=*)
-    PORT="${i#*=}"
+    NOVNC_PORT="${i#*=}"
     shift # past argument=value
     ;;
     -m=*|--machine-type=*)
@@ -264,7 +264,7 @@ echo "HOME_MOUNT_DIR	= ${HOME_MOUNT_DIR}"
 echo "ROOT_MOUNT_DIR	= ${ROOT_MOUNT_DIR}"
 echo "NOVNC_PORT		= ${NOVNC_PORT}"
 
-echo -e "*** Starting instance "${BLUE}${NAME}${NC}" with password "${RED}${VNC_PW}${NC}
+echo -e "*** Starting instance "${BLUE}${NAME}${NC}" with password "${RED}${PASSWORD}${NC}
 
 if [[ -n $1 ]]; then
     echo "Last line of file specified as non-opt/last argument:"
@@ -384,7 +384,7 @@ image=${DOCKER_IMAGE},\
 name=${NAME},\
 vnc-col-depth=${VNC_COL_DEPTH},\
 vnc-resolution=${VNC_RESOLUTION},\
-vnc-pw=${VNC_PW},\
+vnc-pw=${PASSWORD},\
 novnc-port=${NOVNC_PORT}
 	> /dev/null 2>&1
 	if [ ! $? -eq 0 ]; then

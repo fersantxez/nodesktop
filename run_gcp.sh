@@ -10,22 +10,26 @@ set -e
 # Default values
 # =============================================================================
 
+#Parameters that do NOT have a default value and have to be entered in CLI necessarily
 #export NAME=nodesktop
+#export VNC_PW=nopassword
+## Parameters that have a default value
 export MACHINE_TYPE=n1-standard-2
 #first debian image e.g. debian-9-drawfork-v20181101
 export IMAGE_PROJECT=debian-cloud
 export IMAGE_STRING="debian-9"
-export IMAGE=$(gcloud compute images list|grep ${IMAGE_STRING}|head -n 1|awk -s {'print $1'})
 export BOOT_DISK_SIZE=100GB
 export DOCKER_IMAGE="fernandosanchez/nodesktop:latest"
 export VNC_COL_DEPTH=24
 export VNC_RESOLUTION=1280x1024
-#export VNC_PW=nopassword
 export HOME_MOUNT_DIR=/mnt/home
 export ROOT_MOUNT_DIR=/mnt/root
 export NOVNC_PORT=6901
+#parameters that are fixed
 export NOVNC_TAG=novnc-server
 
+#derived vars are exported after argument parsing
+#export IMAGE=$(gcloud compute images list|grep ${IMAGE_STRING}|head -n 1|awk -s {'print $1'})
 
 # =============================================================================
 # pretty colours
@@ -46,6 +50,22 @@ ${NC}"
 # =============================================================================
 # Functions
 # =============================================================================
+
+display_usage() { 
+    echo "usage: nodesktop -n name -w password [-p novnc_port] [-m machine_type] [-i image_string] [-s boot_disk_size] [-k docker_image] [-d color_depth] [-r resolution] [-H home_mount_dir][-R root_mount_dir] "
+    echo "  -n, --name 				NAME 			-name of this nodesktop instance"
+    echo "  -w, --password 			mypassword 		-Password to log into this server"
+    echo "  -p, --port 				6901 			-TCP port to listen on for noVNC connections"
+    echo "  -m, --machine_type 		n1-standard-2 	-GCE machine type"
+    echo "  -i, --image_string 		debian-9 		-String to find VM image to use in catalog"
+    echo "  -s, --boot_disk_size 	100GB 			-Boot disk size"
+    echo "  -k, --docker_image 		fernandosanchez/nodesktop:latest"
+    echo "  -d, --color_depth 		24				-Color depth for noVNC desktop"
+    echo "  -r, --resolution 		1280x1024		-Resolutionfor noVNC desktop"
+    echo "  -H, --home_mount_dir 	/mnt/home		-Mount point for the home directory in host"
+    echo "  -R, --root_mount_dir 	/mnt/root		-Mount point for the root directory in host"
+    exit 1
+	} 
 
 # Prefixes output and writes to STDERR:
 error() {
@@ -124,6 +144,135 @@ enable_firewall_for_tag() {
 		echo -e "[OPEN]"
 	fi
 }
+
+# =============================================================================
+# Argument parsing
+# =============================================================================
+
+for i in "$@"
+do
+case $i in
+    -n=*|--name=*)
+    NAME="${i#*=}"
+    shift # past argument=value
+    ;;
+    -w=*|--password=*)
+    HOST="${i#*=}"
+    #FIXME: ensure host is ip address or reachable hostname
+    shift # past argument=value
+    ;;
+    -p=*|--port=*)
+    PORT="${i#*=}"
+    shift # past argument=value
+    ;;
+    -m=*|--machine-type=*)
+    MACHINE_TYPE="${i#*=}"
+    #FIXME: ensure machine type is valid
+    shift # past argument=value
+    ;;
+    -i=*|--image_string=*)
+    IMAGE_STRING="${i#*=}"
+    shift # past argument=value
+    ;;
+    -s=*|--boot_disk_size=*)
+    BOOT_DISK_SIZE="${i#*=}"
+    shift # past argument=value
+    ;;
+    -k=*|--docker_image=*)
+    DOCKER_IMAGE="${i#*=}"
+    shift # past argument=value
+    ;;
+    -d=*|--color_depth=*)
+    VNC_COL_DEPTH="${i#*=}"
+    shift # past argument=value
+    ;;
+    -r=*|--resolution=*)
+    VNC_RESOLUTION="${i#*=}"
+    shift # past argument=value
+    ;;
+    -H=*|--home_mount_dir=*)
+    HOME_MOUNT_DIR="${i#*=}"
+    shift # past argument=value
+    ;;
+    -R=*|--root_mount_dir=*)
+    HOME_MOUNT_DIR="${i#*=}"
+    shift # past argument=value
+    ;;
+    *)
+    # unknown option
+    display_usage
+    ;;
+esac
+done
+
+
+# =============================================================================
+# Argument check and correction
+# =============================================================================
+
+#Ensure all parameters are defined or ask for them interactively
+# List of requisite parameters:
+REQUIRED_PARAMS="
+	NAME
+	PASSWORD
+"
+
+for PARAM in $REQUIRED_PARAMS; do
+	if [ -z "$PARAM" ]; then
+		# It's already defined:
+		printf '%-50s' " - $PARAM is "$(echo $PARAM)
+		echo "[ ON ]"
+	else
+		# It needs to be defined:
+		printf '%-50s' " + $PARAM"
+		echo "[ OFF ]"
+		#assing a value for each $PARAM
+		read -p "** Enter a value for ${PARAM}: " ${PARAM}
+	fi
+done
+
+#NAME
+while [ $(echo ${NAME} | awk '{print length}') -ge 7 ]; do 
+	echo -e "** ERROR: NAME should be 6 characters long or less"
+	read -p "** Enter a new value for NAME: " NAME
+done
+
+#SHARE_PATH
+echo -e "** DEBUG: share path first char is: "${SHARE_PATH:0:1}
+while [ ${SHARE_PATH:0:1} != "/" ]; do 
+	echo -e "** ERROR: SHARE_PATH must be a valid path in the remote server starting with /"
+	read -p "** Enter a new value for SHARE_PATH: " SHARE_PATH
+done
+echo -e "** DEBUG: share path first char is: "${SHARE_PATH:0:1}
+
+#TODO: check remaining parameteres. e.g. make sure remote server is valid and reachable
+
+#DEBUG
+echo "NAME        		= ${NAME}"
+echo "PASSWORD    		= ${PASSWORD}"
+echo "IMAGE_PROJECT		= ${IMAGE_PROJECT}"
+echo "IMAGE_STRING		= ${IMAGE_STRING}"
+echo "BOOT_DISK_SIZE	= ${BOOT_DISK_SIZE}"
+echo "DOCKER_IMAGE		= ${DOCKER_IMAGE}"
+echo "VNC_COL_DEPTH		= ${VNC_COL_DEPTH}"
+echo "VNC_RESOLUTION	= ${VNC_RESOLUTION}"
+echo "HOME_MOUNT_DIR	= ${HOME_MOUNT_DIR}"
+echo "ROOT_MOUNT_DIR	= ${ROOT_MOUNT_DIR}"
+echo "NOVNC_PORT		= ${NOVNC_PORT}"
+
+echo -e "*** Starting instance "${BLUE}${NAME}${NC}" with password "${RED}${VNC_PW}${NC}
+
+if [[ -n $1 ]]; then
+    echo "Last line of file specified as non-opt/last argument:"
+    tail -1 $1
+fi
+
+# =============================================================================
+# Derived vars
+# =============================================================================
+
+export IMAGE=$(gcloud compute images list|grep ${IMAGE_STRING}|head -n 1|awk -s {'print $1'})
+
 
 # =============================================================================
 # Base sanity checking
@@ -208,36 +357,6 @@ echo "[ OK ]"
 
 echo -e "** Checking for firewall ports..."
 enable_firewall_for_tag ${NOVNC_TAG} ${NOVNC_PORT}
-
-# =============================================================================
-# FIXME: Usage
-# =============================================================================
-
-# =============================================================================
-# Get Name
-# =============================================================================
-
-#first argument is the name
-if [ $# -le 0 ]
-  then
-    read -p "** Enter a name for the instance: " NAME
-else
-  export NAME=$1
-fi
-
-# =============================================================================
-# Get Password
-# =============================================================================
-
-#second argument is the password
-if [ $# -le 1 ]
-  then
-    read -p "** Enter a password for the NoVNC session: " VNC_PW
-else
-  export VNC_PW=$2
-fi
-
-echo -e "*** Starting instance "${BLUE}${NAME}${NC}" with password "${RED}${VNC_PW}${NC}
 
 # =============================================================================
 # Launch instance with container

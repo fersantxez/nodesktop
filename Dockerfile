@@ -11,6 +11,8 @@ ENV DISPLAY=:1 \
     NO_VNC_PORT=6901
 EXPOSE $NO_VNC_PORT
 
+ENV DEBUG=true
+
 ### Environment config
 ENV HOME=/headless \
     TERM=xterm \
@@ -83,5 +85,7 @@ ENV NEWUSER=default
 RUN groupadd -g 5001 $NEWUSER \
 && useradd -s /bin/bash -m -u 5001 -g $NEWUSER $NEWUSER
 USER 5001
+#add NEWUSER to sudoers
+RUN usermod -aG sudo $NEWUSER
 
 ENTRYPOINT ${STARTUPDIR}/vnc_startup.sh --wait

@@ -1,7 +1,7 @@
 #!/bin/bash
 ### every exit != 0 fails the script
-set -e
-
+#set -e
+DEBUG=true
 ## print out help
 help (){
 echo "

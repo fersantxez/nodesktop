@@ -1,8 +1,7 @@
 #!/bin/bash
 ### every exit != 0 fails the script
 set -e 
-#DEBUG=true
-echo "**DEBUG: starting vnc_startup.sh with DEBUG set to:"$DEBUG
+
 ## print out help
 help (){
 echo "
@@ -58,6 +57,8 @@ $STARTUPDIR/chrome-init.sh
 VNC_IP=$(hostname -i)
 
 ## change vnc password
+#DEBUG=true
+echo "**DEBUG: starting vnc_startup.sh with DEBUG set to:"$DEBUG
 echo -e "\n------------------ change VNC password  ------------------"
 # first entry is control, second is view (if only one is valid for both)
 mkdir -p "$HOME/.vnc"

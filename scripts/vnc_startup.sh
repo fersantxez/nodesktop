@@ -1,7 +1,7 @@
 #!/bin/bash
 ### every exit != 0 fails the script
-set -e
-DEBUG=true
+set -e 
+#DEBUG=true
 ## print out help
 help (){
 echo "
@@ -88,7 +88,9 @@ export ORGANIZATION="nodesktop"
 export OU="nodesktop"
 export CN="nodesktop.org"
 
+if [[ $DEBUG == true ]]; then
 echo -e "** DEBUG: my user id (who is sudoing is) "$(whoami)
+fi
 
 sudo chmod 777 ${NO_VNC_HOME} && \
 sudo rm -f $CERT && \

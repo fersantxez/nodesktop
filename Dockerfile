@@ -11,7 +11,9 @@ ENV DISPLAY=:1 \
     NO_VNC_PORT=6901
 EXPOSE $NO_VNC_PORT
 
-ENV DEBUG=true
+#allow to enable or disable debug by running with env var DEBUG=true
+#default no debug
+ENV DEBUG="false"
 
 ### Environment config
 ENV HOME=/headless \
@@ -87,4 +89,4 @@ RUN groupadd -g 5001 $NEWUSER \
 && usermod -aG sudo $NEWUSER
 USER 5001
 
-ENTRYPOINT ${STARTUPDIR}/vnc_startup.sh --wait
+ENTRYPOINT ${STARTUPDIR}/vnc_startup.sh -t --wait

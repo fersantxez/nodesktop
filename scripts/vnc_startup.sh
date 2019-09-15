@@ -88,6 +88,8 @@ export ORGANIZATION="nodesktop"
 export OU="nodesktop"
 export CN="nodesktop.org"
 
+echo -e "** DEBUG: my user id (who is sudoing is) "$(whoami)
+
 sudo chmod 777 ${NO_VNC_HOME} && \
 sudo rm -f $CERT && \
 sudo openssl req \

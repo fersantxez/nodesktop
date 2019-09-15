@@ -13,7 +13,7 @@ EXPOSE $NO_VNC_PORT
 
 #allow to enable or disable debug by running with env var DEBUG=true
 #default no debug
-ENV DEBUG="false"
+ENV DEBUG=false
 
 ### Environment config
 ENV HOME=/headless \

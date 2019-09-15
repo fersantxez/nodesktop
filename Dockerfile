@@ -83,9 +83,8 @@ RUN $INST_SCRIPTS/cleanup.sh
 ### Add myself as a user if the variable was passed, otherwise nss_wrapper
 ENV NEWUSER=default
 RUN groupadd -g 5001 $NEWUSER \
-&& useradd -s /bin/bash -m -u 5001 -g $NEWUSER $NEWUSER
+&& useradd -s /bin/bash -m -u 5001 -g $NEWUSER $NEWUSER \
+&& usermod -aG sudo $NEWUSER
 USER 5001
-#add NEWUSER to sudoers
-RUN usermod -aG sudo $NEWUSER
 
 ENTRYPOINT ${STARTUPDIR}/vnc_startup.sh --wait

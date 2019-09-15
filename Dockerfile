@@ -89,4 +89,4 @@ RUN groupadd -g 5001 $NEWUSER \
 && usermod -aG sudo $NEWUSER
 USER 5001
 
-ENTRYPOINT ${STARTUPDIR}/vnc_startup.sh -t --wait
+ENTRYPOINT ${STARTUPDIR}/vnc_startup.sh --wait

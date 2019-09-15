@@ -2,6 +2,7 @@
 ### every exit != 0 fails the script
 set -e 
 #DEBUG=true
+echo "**DEBUG: starting vnc_startup.sh with DEBUG set to:"$DEBUG
 ## print out help
 help (){
 echo "

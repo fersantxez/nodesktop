@@ -22,8 +22,6 @@ kill $FIRST_PANEL_PID
 xset -dpms && \
 xset s noblank && \
 xset s off 
-#FIXME: long shot to remove xscreensaver
-killall xscreensaver-demo
 
 #TODO: run this only if the container is running as privileged
 #link /home/$USER with /headless

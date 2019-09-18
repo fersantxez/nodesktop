@@ -1,6 +1,7 @@
 #!/bin/bash
 ### every exit != 0 fails the script
-set -e
+### This may cause errors to be hard to find. Running with DEBUG=true shows verbose logs.
+set -e 
 
 ## print out help
 help (){
@@ -57,6 +58,7 @@ $STARTUPDIR/chrome-init.sh
 VNC_IP=$(hostname -i)
 
 ## change vnc password
+echo -e "**DEBUG: starting vnc_startup.sh with DEBUG set to:"$DEBUG
 echo -e "\n------------------ change VNC password  ------------------"
 # first entry is control, second is view (if only one is valid for both)
 mkdir -p "$HOME/.vnc"
@@ -87,6 +89,10 @@ export LOCATION="New York"
 export ORGANIZATION="nodesktop"
 export OU="nodesktop"
 export CN="nodesktop.org"
+
+if [[ $DEBUG == true ]]; then
+echo -e "** DEBUG: my user id (who is sudoing is) "$(whoami)
+fi
 
 sudo chmod 777 ${NO_VNC_HOME} && \
 sudo rm -f $CERT && \
@@ -130,7 +136,7 @@ if [[ $DEBUG == true ]] || [[ $1 =~ -t|--tail-log ]]; then
 fi
 
 if [ -z "$1" ] || [[ $1 =~ -w|--wait ]]; then
-    echo "**DEBUG: startup.log is: \n" $(cat $STARTUPDIR/no_vnc_startup.log)
+    echo "**DEBUG: startup.log current content before WAIT is: \n" $(cat $STARTUPDIR/no_vnc_startup.log)
     wait $PID_SUB
 else
     # unknown option ==> call command

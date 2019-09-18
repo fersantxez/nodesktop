@@ -11,6 +11,10 @@ ENV DISPLAY=:1 \
     NO_VNC_PORT=6901
 EXPOSE $NO_VNC_PORT
 
+#allow to enable or disable debug by running with env var DEBUG=true
+#default no debug
+ENV DEBUG=false
+
 ### Environment config
 ENV HOME=/headless \
     TERM=xterm \
@@ -81,7 +85,8 @@ RUN $INST_SCRIPTS/cleanup.sh
 ### Add myself as a user if the variable was passed, otherwise nss_wrapper
 ENV NEWUSER=default
 RUN groupadd -g 5001 $NEWUSER \
-&& useradd -s /bin/bash -m -u 5001 -g $NEWUSER $NEWUSER
+&& useradd -s /bin/bash -m -u 5001 -g $NEWUSER $NEWUSER \
+&& usermod -aG sudo $NEWUSER
 USER 5001
 
 ENTRYPOINT ${STARTUPDIR}/vnc_startup.sh --wait

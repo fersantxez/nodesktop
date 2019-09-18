@@ -10,20 +10,26 @@ set -e
 # Default values
 # =============================================================================
 
+#Parameters that do NOT have a default value and have to be entered in CLI necessarily
 #export NAME=nodesktop
+#export VNC_PW=nopassword
+## Parameters that have a default value
 export MACHINE_TYPE=n1-standard-2
-export IMAGE=debian-9-stretch-v20190514
+#first debian image e.g. debian-9-drawfork-v20181101
 export IMAGE_PROJECT=debian-cloud
+export IMAGE_STRING="debian-9"
 export BOOT_DISK_SIZE=100GB
-export NODESKTOP_IMAGE="fernandosanchez/nodesktop:0.4"
+export DOCKER_IMAGE="fernandosanchez/nodesktop:latest"
+export NOVNC_PORT=6901
 export VNC_COL_DEPTH=24
 export VNC_RESOLUTION=1280x1024
-#export VNC_PW=nopassword
 export HOME_MOUNT_DIR=/mnt/home
 export ROOT_MOUNT_DIR=/mnt/root
-export NOVNC_PORT=6901
+#parameters that are fixed
 export NOVNC_TAG=novnc-server
 
+#derived vars are exported after argument parsing
+#export IMAGE=$(gcloud compute images list|grep ${IMAGE_STRING}|head -n 1|awk -s {'print $1'})
 
 # =============================================================================
 # pretty colours
@@ -45,9 +51,53 @@ ${NC}"
 # Functions
 # =============================================================================
 
+print_usage() { 
+    cat <<EOM
+
+    Usage:
+
+    $(basename $0) -n name -w password [-p novnc_port] [-m machine_type] [-i image_string] [-s boot_disk_size] [-k docker_image] [-d color_depth] [-r resolution] [-H home_mount_dir][-R root_mount_dir] "
+
+        [Parameter]					[Example]				[Description]
+		-n,--name 					NAME 				-name of this nodesktop instance"
+		-w,--password 				mypassword 			-Password to log into this server"
+		-p,--port 					6901 				-TCP port to listen on for noVNC connections"
+		-m,--machine_type 			n1-standard-2 		-GCE machine type"
+		-i,--image_string 			debian-9 			-String to find VM image to use in catalog"
+		-s, --boot_disk_size 		100GB 			-Boot disk size"
+		-k, --docker_image 			fernandosanchez/nodesktop:latest"
+		-d, --color_depth 			24				-Color depth for noVNC desktop"
+		-r, --resolution 			1280x1024		-Resolutionfor noVNC desktop"
+		-H, --home_mount_dir 		/mnt/home		-Mount point for the home directory in host"
+		-R, --root_mount_dir 		/mnt/root		-Mount point for the root directory in host"
+EOM
+exit 1
+}
+
 # Prefixes output and writes to STDERR:
 error() {
 	echo -e "\n\n${RED}nodesktop error${NC}: $@\n" >&2
+	print_usage
+	exit 1 #Exit on error
+}
+
+# Display a formatted message to shell:
+message() {
+	echo -e "\n** $@" >&2
+}
+
+# Display a formatted WARNING message to shell:
+warning() {
+	echo -e "\n\n${RED}nodesktop warning${NC}: $@\n" >&2
+}
+
+# Ask for user input and return the validated response:
+input() {
+	#redirect echo to >&2 so that it doesnt return this
+	echo -e "\n${BLUE}** ${@}${NC}" >&2
+	read -p "" user_input
+	#return string through echo
+	echo $user_input
 }
 
 # Checks for command presence in $PATH, errors:
@@ -98,11 +148,11 @@ enable_firewall_for_tag() {
 	TESTTAG=$1
 	TESTPORT=$2
 
-	printf '%-50s' " - $TESTTAG..."
+	printf '%-50s' " - $TESTPORT..."
 	
 	if [[ ! $(gcloud compute firewall-rules list --format=json|grep $TESTTAG) ]];then
-		echo -e "[CLOSED]"
-		printf "Opening firewall port for "$TESTTAG" ..."
+		# We have no rule for this tag:
+		echo -e "${RED}[ CLOSED ]${NC}"
 
 		gcloud compute firewall-rules create  \
 			$TESTTAG \
@@ -116,10 +166,26 @@ enable_firewall_for_tag() {
 			> /dev/null 2>&1
 		if [ ! $? -eq 0 ]; then
 			error "Error opening port "$TESTPORT" for tag "$TESTTAG". Please check your privileges."
-			exit 1
 		fi
 	else
-		echo -e "[OPEN]"
+		#We have a rule for this tag but it may be for a different port. Always update rule with TESTPORT
+		#Get all ports included in the rule
+		PORTS=$(gcloud compute firewall-rules describe $TESTTAG --format=flattened|grep ports|awk '{print $2}')
+		#Add all existing ports with the required tcp: prefix
+		for i in ${PORTS}; do
+			export PORTS_LIST="tcp:"${i}","${PORTS_LIST}
+		done
+		#Add the new port
+		export PORTS_LIST=${PORTS_LIST}"tcp:"${TESTPORT}
+		#Update the rule with the new list of ports including existing and new
+		gcloud compute firewall-rules update \
+			$TESTTAG \
+			--priority=1000 \
+			--rules=${PORTS_LIST} \
+			--source-ranges=0.0.0.0/0 \
+			--target-tags=$TESTTAG \
+			> /dev/null 2>&1
+		echo -e "${BLUE}[ OPEN ]${NC}"
 	fi
 }
 
@@ -127,8 +193,8 @@ enable_firewall_for_tag() {
 # Base sanity checking
 # =============================================================================
 
-# Check for our requisite binaries:
-echo -e "** Checking for requisite binaries..."
+# Check for our required binaries:
+echo -e "** Checking for required binaries..."
 check_command gcloud "** Please install the Google Cloud SDK from: https://cloud.google.com/sdk/downloads"
 
 # This executes all the gcloud commands in parallel and then assigns them to separate variables:
@@ -159,7 +225,7 @@ echo "[ OK ]"
 # Initialization and idempotent test/setting
 # =============================================================================
 
-# List of requisite APIs:
+# List of required APIs:
 REQUIRED_APIS="
 	compute
 	dns
@@ -200,42 +266,150 @@ else
 fi
 echo "[ OK ]"
 
+
+# =============================================================================
+# Argument parsing
+# =============================================================================
+
+for i in "$@"
+do
+case $i in
+    -n=*|--name=*)
+    NAME="${i#*=}"
+    shift # past argument=value
+    ;;
+    -w=*|--password=*)
+    PASSWORD="${i#*=}"
+    #FIXME: ensure host is ip address or reachable hostname
+    shift # past argument=value
+    ;;
+    -p=*|--port=*)
+    NOVNC_PORT="${i#*=}"
+    shift # past argument=value
+    ;;
+    -m=*|--machine-type=*)
+    MACHINE_TYPE="${i#*=}"
+    #FIXME: ensure machine type is valid
+    shift # past argument=value
+    ;;
+    -i=*|--image_string=*)
+    IMAGE_STRING="${i#*=}"
+    shift # past argument=value
+    ;;
+    -s=*|--boot_disk_size=*)
+    BOOT_DISK_SIZE="${i#*=}"
+    shift # past argument=value
+    ;;
+    -k=*|--docker_image=*)
+    DOCKER_IMAGE="${i#*=}"
+    shift # past argument=value
+    ;;
+    -d=*|--color_depth=*)
+    VNC_COL_DEPTH="${i#*=}"
+    shift # past argument=value
+    ;;
+    -r=*|--resolution=*)
+    VNC_RESOLUTION="${i#*=}"
+    shift # past argument=value
+    ;;
+    -H=*|--home_mount_dir=*)
+    HOME_MOUNT_DIR="${i#*=}"
+    shift # past argument=value
+    ;;
+    -R=*|--root_mount_dir=*)
+    HOME_MOUNT_DIR="${i#*=}"
+    shift # past argument=value
+    ;;
+    -h=*|--help=*)
+	print_usage
+	shift
+    ;;
+    *)
+    # unknown option
+    warning "UNKNOWN OPTION: "$i
+    print_usage
+    ;;
+esac
+done
+
+# =============================================================================
+# Argument validation and correction
+# =============================================================================
+
+#Ensure all parameters are defined or ask for them interactively
+# List of required parameters:
+REQUIRED_PARAMS="
+	NAME
+	PASSWORD
+"
+
+for PARAM in $REQUIRED_PARAMS; do
+	if [ -z "$PARAM" ]; then
+		# It's already defined:
+		printf '%-50s' " - $PARAM is "$(echo $PARAM)
+		echo "[ ON ]"
+	else
+		# It needs to be defined:
+		printf '%-50s' " + $PARAM"
+		echo "[ OFF ]"
+		#assing a value for each $PARAM
+		read -p "** Enter a value for ${PARAM}: " ${PARAM}
+	fi
+done
+
+#NAME - FIXME: no need for this to be 10chars or less anymore?
+#while [ $(echo ${NAME} | awk '{print length}') -ge 10 ]; do 
+#	echo -e "** ERROR: NAME should be 10 characters long or less"
+#	read -p "** Enter a new value for NAME: " NAME
+#done
+
+#HOME_MOUNT_DIR
+while [ ${HOME_MOUNT_DIR:0:1} != "/" ]; do 
+	echo -e "** ERROR: HOME_MOUNT_DIR must be a valid path in the desktop instance starting with / (e.g. /mnt/home)"
+	read -p "** Enter a new value for HOME_MOUNT_DIR: " HOME_MOUNT_DIR
+done
+
+#ROOT_MOUNT_DIR
+while [ ${ROOT_MOUNT_DIR:0:1} != "/" ]; do 
+	echo -e "** ERROR: ROOT_MOUNT_DIR must be a valid path in the desktop instance with / (e.g. /mnt/root)"
+	read -p "** Enter a new value for ROOT_MOUNT_DIR: " ROOT_MOUNT_DIR
+done
+
+#TODO: check remaining parameteres. e.g. make sure remote server is valid and reachable
+
+#DEBUG
+echo "NAME        		= ${NAME}"
+echo "PASSWORD    		= ${PASSWORD}"
+echo "IMAGE_PROJECT		= ${IMAGE_PROJECT}"
+echo "IMAGE_STRING		= ${IMAGE_STRING}"
+echo "BOOT_DISK_SIZE		= ${BOOT_DISK_SIZE}"
+echo "DOCKER_IMAGE		= ${DOCKER_IMAGE}"
+echo "VNC_COL_DEPTH		= ${VNC_COL_DEPTH}"
+echo "VNC_RESOLUTION		= ${VNC_RESOLUTION}"
+echo "HOME_MOUNT_DIR		= ${HOME_MOUNT_DIR}"
+echo "ROOT_MOUNT_DIR		= ${ROOT_MOUNT_DIR}"
+echo "NOVNC_PORT		= ${NOVNC_PORT}"
+
+echo -e "*** Starting instance "${BLUE}${NAME}${NC}" with password "${RED}${PASSWORD}${NC}
+
+if [[ -n $1 ]]; then
+    echo "Last line of file specified as non-opt/last argument:"
+    tail -1 $1
+fi
+
+# =============================================================================
+# Derived vars
+# =============================================================================
+
+export IMAGE=$(gcloud compute images list|grep ${IMAGE_STRING}|head -n 1|awk -s {'print $1'})
+
+
 # =============================================================================
 # Open firewall ports
 # =============================================================================
 
 echo -e "** Checking for firewall ports..."
 enable_firewall_for_tag ${NOVNC_TAG} ${NOVNC_PORT}
-
-# =============================================================================
-# FIXME: Usage
-# =============================================================================
-
-# =============================================================================
-# Get Name
-# =============================================================================
-
-#first argument is the name
-if [ $# -le 0 ]
-  then
-    read -p "** Enter a name for the instance: " NAME
-else
-  export NAME=$1
-fi
-
-# =============================================================================
-# Get Password
-# =============================================================================
-
-#second argument is the password
-if [ $# -le 1 ]
-  then
-    read -p "** Enter a password for the NoVNC session: " VNC_PW
-else
-  export VNC_PW=$2
-fi
-
-echo "*** Starting instance "$NAME" with password "$VNC_PW
 
 # =============================================================================
 # Launch instance with container
@@ -255,11 +429,11 @@ gcloud beta compute instances \
 	--tags=${NOVNC_TAG} \
 	--metadata-from-file startup-script=startup.sh \
 	--metadata \
-image=${NODESKTOP_IMAGE},\
+image=${DOCKER_IMAGE},\
 name=${NAME},\
 vnc-col-depth=${VNC_COL_DEPTH},\
 vnc-resolution=${VNC_RESOLUTION},\
-vnc-pw=${VNC_PW},\
+vnc-pw=${PASSWORD},\
 novnc-port=${NOVNC_PORT}
 	> /dev/null 2>&1
 	if [ ! $? -eq 0 ]; then

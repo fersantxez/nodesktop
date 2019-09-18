@@ -10,11 +10,9 @@ set -e
 # Default values
 # =============================================================================
 
-#export NAME=nodesktop
-export IMAGE_NAME=fernandosanchez/nodesktop
+export DOCKER_IMAGE=fernandosanchez/nodesktop
 export VNC_COL_DEPTH=24
 export VNC_RESOLUTION=1280x1024
-#export VNC_PW=nopassword
 export VNC_PORT=5901
 export NOVNC_PORT=6901
 export HOME_MOUNT_DIR=/mnt/home
@@ -109,7 +107,7 @@ echo "*** Starting instance "$NAME" with password "$VNC_PW
 # =============================================================================
 declare -a VARS=( \
 "NAME" \
-"IMAGE_NAME" \
+"DOCKER_IMAGE" \
 "VNC_COL_DEPTH" \
 "VNC_RESOLUTION" \
 "VNC_PW" \
@@ -144,6 +142,6 @@ docker run -d \
 -e VNC_COL_DEPTH=${VNC_COL_DEPTH} \
 -e VNC_RESOLUTION=${VNC_RESOLUTION} \
 -e VNC_PW=${VNC_PW} \
-${IMAGE_NAME}
+${DOCKER_IMAGE}
 
 

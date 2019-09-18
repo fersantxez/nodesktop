@@ -6,11 +6,12 @@ echo "Install Tor"
 
 sudo apt-get install -y tor
 
-TOR_VERSION=8.5.1
+TOR_VERSION=8.5.5
+TOR_URI=https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_en-US.tar.xz
 
 sudo mkdir -p /opt/tor
 cd /opt/tor
-sudo wget https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_en-US.tar.xz && \
+sudo wget ${TOR_URI} && \
 sudo tar xf tor-browser-linux64-${TOR_VERSION}_en-US.tar.xz && \
 sudo rm -f tor-browser-linux64-${TOR_VERSION}_en-US.tar.xz && \
 sudo mv tor-browser_en-US/* /opt/tor && \

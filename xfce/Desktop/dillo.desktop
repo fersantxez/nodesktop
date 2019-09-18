@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Dillo
+Comment=Lightweight browser
+Exec=dillo %F
+Icon=dillo
+Path=
+Terminal=false
+StartupNotify=false

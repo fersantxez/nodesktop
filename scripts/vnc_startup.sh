@@ -135,11 +135,6 @@ if [[ $DEBUG == true ]] || [[ $1 =~ -t|--tail-log ]]; then
     tail -f $STARTUPDIR/*.log $HOME/.vnc/*$DISPLAY.log
 fi
 
-#FER: hack to remove blank screen/screensaver
-echo -e "**DEBUG: about to disable screensaver/blank screen"
-sleep 1; xset s off
-sleep 1; xset s noblank
-echo -e "**DEBUG: disabled screensaver/blank screen"
 
 if [ -z "$1" ] || [[ $1 =~ -w|--wait ]]; then
     echo "**DEBUG: startup.log current content before WAIT is: \n" $(cat $STARTUPDIR/no_vnc_startup.log)

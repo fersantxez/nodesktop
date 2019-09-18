@@ -21,9 +21,7 @@ kill $FIRST_PANEL_PID
 ### disable screensaver and power management
 xset -dpms && \
 xset s noblank && \
-xset s off 
-xscreensaver && \
-xscreensaver-demo
+xset s off
 
 #TODO: run this only if the container is running as privileged
 #link /home/$USER with /headless

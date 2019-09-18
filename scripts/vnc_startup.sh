@@ -135,7 +135,6 @@ if [[ $DEBUG == true ]] || [[ $1 =~ -t|--tail-log ]]; then
     tail -f $STARTUPDIR/*.log $HOME/.vnc/*$DISPLAY.log
 fi
 
-
 if [ -z "$1" ] || [[ $1 =~ -w|--wait ]]; then
     echo "**DEBUG: startup.log current content before WAIT is: \n" $(cat $STARTUPDIR/no_vnc_startup.log)
     wait $PID_SUB

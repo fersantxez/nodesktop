@@ -55,8 +55,8 @@ RUN $INST_SCRIPTS/custom_fonts.sh
 ### Customize Desktop
 RUN $INST_SCRIPTS/customize.sh
 
-### Install chrome browser
-RUN $INST_SCRIPTS/chrome.sh
+### Install chromium browser
+RUN $INST_SCRIPTS/chromium.sh
 
 ### Install Google Drive client
 RUN $INST_SCRIPTS/google-drive-ocamlfuse.sh

@@ -60,6 +60,7 @@ RUN $INST_SCRIPTS/chromium.sh
 
 ### Install Google Drive client
 RUN $INST_SCRIPTS/google-drive-ocamlfuse.sh
+RUN $INST_SCRIPTS/google-drive-sync.sh
 
 ### Install Sublime Text
 RUN $INST_SCRIPTS/sublime.sh

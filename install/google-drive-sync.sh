@@ -19,6 +19,4 @@ curl -O $DOWNLOAD_URI
 sudo dpkg -i ./drive-sync* && \
 sudo rm -f ./drive-sync*
 
-#add required "en_GB" locale
-sudo sed -i -e 's/# en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/' /etc/locale.gen && \
-sudo locale-gen
+#requires en.GB locale but that's generated in tool.sh

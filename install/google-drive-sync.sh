@@ -16,10 +16,9 @@ apt-get install -y \
 DOWNLOAD_URI=https://storage.googleapis.com/nodesktop/Software/System/drive-sync_3.47.7484.7992_amd64.deb
 
 curl -O $DOWNLOAD_URI
-sudo dpkg -i ./drive-sync* 
-&& \
+sudo dpkg -i ./drive-sync* && \
 sudo rm -f ./drive-sync*
 
 #add required "en_GB" locale
 sudo sed -i -e 's/# en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/' /etc/locale.gen && \
-    locale-gen
+sudo locale-gen

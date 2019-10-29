@@ -2,11 +2,14 @@
 ### every exit != 0 fails the script
 set -e
 
+#link home directory and /headless for preferences of xscreensaver and others
+ln -s /headless /home/$(whoami)
+
 echo "Install some common tools for further installation"
 apt-get update 
 apt-get install -y vim wget curl net-tools locales bzip2 git sudo gnupg-agent openssh-client openssh-server \
     iputils-* transmission htop locales software-properties-common dirmngr python-numpy xscreensaver arandr \
-    gigolo gvfs-fuse gvfs-backends openssl filezilla dillo zip unzip
+    gigolo gvfs-fuse gvfs-backends openssl filezilla zip unzip
 apt-get clean -y
 
 ### Install rar, unrar
@@ -17,10 +20,6 @@ wget \
 dpkg -i \
 	./rar* \
 	./unrar*
-
-#rm -f \
-#	./rar* \
-#	./unrar*
 
 ### Hide userland threads for HTop
 echo "hide_userland_threads=1" >> /headless/.htoprc

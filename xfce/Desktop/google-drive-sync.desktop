@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Google Drive
-Comment=Backup and Sync Desktop Client
-Exec=/opt/google/drive/drive-launcher.sh
-Icon=drive-sync
-Type=Application
-Categories=GNOME;GTK;Network;FileTransfer;
-

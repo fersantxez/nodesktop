@@ -10,9 +10,9 @@ echo -e "\n------------------ startup of Xfce4 window manager ------------------
 if [[ $DEBUG == true ]]; then
  echo -e "start XFCE4\n..."
 fi
-/usr/bin/startxfce4 --replace > $HOME/wm.log &
+/usr/bin/startxfce4 --replace > $STARTUPDIR/wm.log
 sleep 1
-cat $HOME/wm.log
+cat $STARTUPDIR//wm.log
 
 ### hack to kill redundant panel
 export FIRST_PANEL_PID=$(ps aux|grep xfce4-panel| head -n1| awk {'print $2'})

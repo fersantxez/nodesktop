@@ -24,6 +24,7 @@ OPTIONS:
 Fore more information see: https://github.com/fernandosanchez/nodesktop
 "
 }
+
 if [[ $1 =~ -h|--help ]]; then
     help
     exit 0
@@ -50,9 +51,6 @@ cleanup () {
     exit 0
 }
 trap cleanup SIGINT SIGTERM
-
-## write correct window size to chrome properties
-$STARTUPDIR/chrome-init.sh
 
 ## resolve_vnc_connection
 VNC_IP=$(hostname -i)
@@ -113,7 +111,7 @@ $NO_VNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT &> 
 PID_SUB=$!
 
 echo -e "\n------------------ start VNC server ------------------------"
-echo "remove old vnc locks to be a reattachable container"
+echo "remove old vnc locks to be a reattachable container killing vncserver for DISPLAY $DISPLAY"
 vncserver -kill $DISPLAY &> $STARTUPDIR/vnc_startup.log \
     || rm -rfv /tmp/.X*-lock /tmp/.X11-unix &> $STARTUPDIR/vnc_startup.log \
     || echo "no locks present"

@@ -121,7 +121,7 @@ if [[ $DEBUG == true ]]; then echo "vncserver $DISPLAY -depth $VNC_COL_DEPTH -ge
 vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION &> $STARTUPDIR/vnc_startup.log
 
 echo -e "start window manager\n..."
-$HOME/wm_startup.sh &> $STARTUPDIR/wm_startup.log
+$HOME/wm_startup.sh > $STARTUPDIR/wm_startup.log 2>&1 &
 
 ## log connect options
 echo -e "\n\n------------------ VNC environment started ------------------"

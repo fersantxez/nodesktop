@@ -10,7 +10,7 @@ echo -e "\n------------------ startup of Xfce4 window manager ------------------
 if [[ $DEBUG == true ]]; then
  echo -e "start XFCE4\n..."
 fi
-/usr/bin/startxfce4 --replace > $STARTUPDIR/wm.log &
+/usr/bin/startxfce4 --replace > $STARTUPDIR/wm.log 2>&1 &
 sleep 1
 cat $STARTUPDIR//wm.log
 

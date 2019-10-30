@@ -105,6 +105,12 @@ sudo openssl req \
 -subj "/C=${COUNTRY}/ST=${STATE}/L=${LOCATION}/O=${ORGANIZATION}/OU=${OU}/CN=${CN}" && \
 sudo chmod 0644 ${CERT}
 
+if [[ $DEBUG == true ]]; then
+echo -e "** DEBUG: NO_VNC_HOME is ${NO_VNC_HOME}. Contents: \n" $(ls -la $NO_VNC_HOME)
+fi
+
+sudo ln -s ${CERT} /headless/self.pem #FIXME:non-root looks for cert in /headless/self.pem instead of ${NO_VNC_HOME}/self.pem
+
 ## start vncserver and noVNC webclient
 echo -e "\n------------------ start noVNC  ----------------------------"
 if [[ $DEBUG == true ]]; then echo "$NO_VNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT"; fi

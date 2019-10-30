@@ -75,37 +75,6 @@ fi
 echo "$VNC_PW" | vncpasswd -f >> $PASSWD_PATH
 chmod 600 $PASSWD_PATH
 
-## Generate Certificate
-echo -e "\n------------------ Generate Certificate ----------------------------"
-#TEST DEBUG
-export CERT=${NO_VNC_HOME}/self.pem
-export PRIV_KEY=${NO_VNC_HOME}/self.pem
-export DURATION_DAYS=365
-export COUNTRY="US"
-export STATE="NY"
-export LOCATION="New York"
-export ORGANIZATION="nodesktop"
-export OU="nodesktop"
-export CN="nodesktop.org"
-
-if [[ $DEBUG == true ]]; then
-echo -e "** DEBUG: my user id (who is sudoing is): "$(whoami)
-echo -e  "** DEBUG: writing cert to: ${CERT}"
-fi
-
-#FIXME: these sudo fail
-chmod 777 ${NO_VNC_HOME} && \
-rm -f $CERT && \
-openssl req \
--new \
--x509 \
--days ${DURATION_DAYS} \
--nodes \
--out ${CERT} \
--keyout ${PRIV_KEY} \
--subj "/C=${COUNTRY}/ST=${STATE}/L=${LOCATION}/O=${ORGANIZATION}/OU=${OU}/CN=${CN}" && \
-chmod 0644 ${CERT}
-
 if [[ $DEBUG == true ]]; then
 echo -e "** DEBUG: NO_VNC_HOME is ${NO_VNC_HOME}. Contents: \n" $(ls -la $NO_VNC_HOME)
 fi

@@ -89,7 +89,8 @@ export OU="nodesktop"
 export CN="nodesktop.org"
 
 if [[ $DEBUG == true ]]; then
-echo -e "** DEBUG: my user id (who is sudoing is) "$(whoami)
+echo -e "** DEBUG: my user id (who is sudoing is): "$(whoami)
+echo -e  "** DEBUG: writing cert to: ${CERT}"
 fi
 
 sudo chmod 777 ${NO_VNC_HOME} && \
@@ -122,6 +123,7 @@ vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION &> $STARTUPDI
 
 echo -e "start window manager\n..."
 $HOME/wm_startup.sh > $STARTUPDIR/wm_startup.log 2>&1 &
+#FIXME: this never returns and the code below is not executed
 
 ## log connect options
 echo -e "\n\n------------------ VNC environment started ------------------"

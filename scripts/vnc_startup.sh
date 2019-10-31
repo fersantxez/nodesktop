@@ -25,6 +25,9 @@ Fore more information see: https://github.com/fernandosanchez/nodesktop
 "
 }
 
+echo -e "**DEBUG: START**** vnc_startup.sh with DEBUG set to:"$DEBUG
+
+
 if [[ $1 =~ -h|--help ]]; then
     help
     exit 0
@@ -58,7 +61,6 @@ trap cleanup SIGINT SIGTERM
 VNC_IP=$(hostname -i)
 
 ## change vnc password
-echo -e "**DEBUG: starting vnc_startup.sh with DEBUG set to:"$DEBUG
 echo -e "\n------------------ change VNC password  ------------------"
 # first entry is control, second is view (if only one is valid for both)
 mkdir -p "$HOME/.vnc"
@@ -83,8 +85,8 @@ fi
 
 #create HOME dir and give permissions (for xscreensaver and general app prefs)
 echo -e "** DEBUG: NEWUSER is : "$NEWUSER
-sudo mkdir -p /home/$NEWUSER
-sudo chown $NEWUSER:$NEWUSER /home/$NEWUSER
+mkdir -p /home/$NEWUSER 2>&1 #was sudo
+chown $NEWUSER /home/$NEWUSER 2>&1 #was sudo
 #sudo cp -R $HOME /home/$NEWUSER #FIXME: uberhack --this is just wrong
 export HOME=/home/$NEWUSER
 

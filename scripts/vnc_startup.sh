@@ -32,6 +32,8 @@ fi
 
 # should also source $STARTUPDIR/generate_container_user.sh
 source $HOME/.bashrc
+#FIXME
+source $STARTUPDIR/generate_container_user.sh
 
 # add `--skip` to startup args, to skip the VNC startup procedure
 if [[ $1 =~ -s|--skip ]]; then
@@ -81,7 +83,7 @@ fi
 
 #create HOME dir and give permissions (for xscreensaver and general app prefs)
 echo -e "** DEBUG: NEWUSER is : "$NEWUSER
-mkdir -p /home/$NEWUSER
+sudo mkdir -p /home/$NEWUSER
 sudo chown $NEWUSER:$NEWUSER /home/$NEWUSER
 #sudo cp -R $HOME /home/$NEWUSER #FIXME: uberhack --this is just wrong
 export HOME=/home/$NEWUSER

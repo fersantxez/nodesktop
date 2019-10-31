@@ -15,7 +15,6 @@ export CN="nodesktop.org"
 
 if [[ $DEBUG == true ]]; then
 echo -e  "** DEBUG: writing cert to: ${CERT}"
-echo -e "** DEBUG: my user id (who is sudoing is): "$(whoami)
 fi
 
 #Remove sudo lecture - otherwise it annoys on non-interactive

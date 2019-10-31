@@ -80,6 +80,9 @@ RUN $INST_SCRIPTS/tor.sh
 ### re-fix user permissions
 RUN $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR $HOME
 
+### Generate certificate for TLS
+RUN $INST_SCRIPTS/generate_certificate.sh
+
 ### Clean up all packages
 RUN $INST_SCRIPTS/cleanup.sh
 

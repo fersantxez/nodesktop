@@ -76,8 +76,15 @@ echo "$VNC_PW" | vncpasswd -f >> $PASSWD_PATH
 chmod 600 $PASSWD_PATH
 
 if [[ $DEBUG == true ]]; then
-echo -e "** DEBUG: NO_VNC_HOME is ${NO_VNC_HOME}. Contents: \n" $(ls -la $NO_VNC_HOME)
+echo -e "** DEBUG: NO_VNC_HOME is ${NO_VNC_HOME}. Looking for self.pem: \n" $(ls -la $NO_VNC_HOME/self.pem)
 fi
+
+#create HOME dir and give permissions (for xscreensaver and general app prefs)
+echo -e "** DEBUG: NEWUSER is : "$NEWUSER
+mkdir -p /home/$NEWUSER
+sudo chown $NEWUSER:$NEWUSER /home/$NEWUSER
+#sudo cp -R $HOME /home/$NEWUSER #FIXME: uberhack --this is just wrong
+export HOME=/home/$NEWUSER
 
 ## start vncserver and noVNC webclient
 echo -e "\n------------------ start noVNC  ----------------------------"

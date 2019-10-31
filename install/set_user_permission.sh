@@ -31,6 +31,9 @@ echo -e "** DEBUG: my user id (who is sudoing is): "$(whoami)
 echo -e  "** DEBUG: writing cert to: ${CERT}"
 fi
 
+#Remove sudo lecture - otherwise it annoys on non-interactive
+echo 'Defaults lecture="never"' >> /etc/sudoers
+
 #FIXME: these sudo fail
 chmod 777 ${NO_VNC_HOME} && \
 rm -f $CERT && \

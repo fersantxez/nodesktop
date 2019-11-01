@@ -13,14 +13,8 @@ do
     chgrp -R 0 "$var" && chmod -R $verbose a+rw "$var" && find "$var" -type d -exec chmod $verbose a+x {} +
 done
 
+#Consider this for install/cleanup.sh as root (this is executed as the user)
 #make the default user a sudoer
-printf 'default ALL=(ALL:ALL) NOPASSWD: ALL\n' | tee -a /etc/sudoers >/dev/null
-echo -e "**DEBUG: content of /etc/sudoers is:\n"
-cat /etc/sudoers
-
-#create HOME dir and give permissions (for xscreensaver and general app prefs)
-NEWUSER=default
-mkdir -p /home/$NEWUSER 2>&1
-#chown $NEWUSER /home/$NEWUSER 2>&1
-chmod 777 /home/$NEWUSER 2>&1
-export HOME=/home/$NEWUSER
+#printf 'default ALL=(ALL:ALL) NOPASSWD: ALL\n' | tee -a /etc/sudoers >/dev/null
+#echo -e "**DEBUG: content of /etc/sudoers is:\n"
+#cat /etc/sudoers

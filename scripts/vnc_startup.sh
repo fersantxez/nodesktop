@@ -25,7 +25,7 @@ Fore more information see: https://github.com/fernandosanchez/nodesktop
 "
 }
 
-echo -e "**DEBUG: START**** vnc_startup.sh with DEBUG set to:"$DEBUG
+echo -e "**DEBUG: ****START**** vnc_startup.sh with DEBUG set to:"$DEBUG
 
 
 if [[ $1 =~ -h|--help ]]; then
@@ -82,13 +82,6 @@ chmod 600 $PASSWD_PATH
 if [[ $DEBUG == true ]]; then
 echo -e "** DEBUG: NO_VNC_HOME is ${NO_VNC_HOME}. Looking for self.pem: \n" $(ls -la $NO_VNC_HOME/self.pem)
 fi
-
-#create HOME dir and give permissions (for xscreensaver and general app prefs)
-echo -e "** DEBUG: NEWUSER is : "$NEWUSER
-mkdir -p /home/$NEWUSER 2>&1 #was sudo
-chown $NEWUSER /home/$NEWUSER 2>&1 #was sudo
-#sudo cp -R $HOME /home/$NEWUSER #FIXME: uberhack --this is just wrong
-export HOME=/home/$NEWUSER
 
 ## start vncserver and noVNC webclient
 echo -e "\n------------------ start noVNC  ----------------------------"

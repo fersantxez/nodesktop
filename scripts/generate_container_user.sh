@@ -27,4 +27,7 @@ if [ x"$USER_ID" != x"0" ]; then
     fi
     echo "nss_wrapper location: $LD_PRELOAD"
     export LD_PRELOAD
+
+    #make the default user a sudoer
+    echo "default ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 fi

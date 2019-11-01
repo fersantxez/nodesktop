@@ -28,11 +28,4 @@ if [ x"$USER_ID" != x"0" ]; then
     echo "nss_wrapper location: $LD_PRELOAD"
     export LD_PRELOAD
 
-    #create HOME dir and give permissions (for xscreensaver and general app prefs)
-    NEWUSER=default
-    mkdir -p /home/$NEWUSER 2>&1
-    chown $NEWUSER /home/$NEWUSER 2>&1
-    #sudo cp -R $HOME /home/$NEWUSER #FIXME: uberhack --this is just wrong
-    export HOME=/home/$NEWUSER
-
 fi

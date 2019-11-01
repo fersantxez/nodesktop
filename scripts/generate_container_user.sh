@@ -3,7 +3,7 @@
 # Set current user in nss_wrapper
 USER_ID=$(id -u)
 GROUP_ID=$(id -g)
-echo "USER_ID: $USER_ID, GROUP_ID: $GROUP_ID"
+echo "generate_container_user: my USER_ID: $USER_ID, my GROUP_ID: $GROUP_ID"
 
 if [ x"$USER_ID" != x"0" ]; then
 
@@ -29,5 +29,15 @@ if [ x"$USER_ID" != x"0" ]; then
     export LD_PRELOAD
 
     #make the default user a sudoer
-    echo "default ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+    sudo echo "default ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+    sudo echo "${USER_ID} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+    #create HOME dir and give permissions (for xscreensaver and general app prefs)
+    NEWUSER=$(whoami)
+    echo -e "** DEBUG: USER is : "$NEWUSER
+    mkdir -p /home/$NEWUSER 2>&1
+    chown $NEWUSER /home/$NEWUSER 2>&1
+    #sudo cp -R $HOME /home/$NEWUSER #FIXME: uberhack --this is just wrong
+    export HOME=/home/$NEWUSER
+
 fi

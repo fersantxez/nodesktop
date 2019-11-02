@@ -82,8 +82,10 @@ RUN $INST_SCRIPTS/libnss_wrapper.sh
 
 ### Add myself as a user if the variable was passed, otherwise nss_wrapper
 ENV NEWUSER=default
-ENV USERID=1000     #First user ID in host OS. Debian, Ubuntu is 1000.
-ENV GROUPID=1000    #Modify for other host OS
+#First user ID in host OS. Debian, Ubuntu is 1000.
+ENV USERID=1000     
+#Modify for other host OS
+ENV GROUPID=1000    
 RUN groupadd -g $GROUPID $NEWUSER \
 && useradd -s /bin/bash -m -u $USERID -g $NEWUSER $NEWUSER \
 && usermod -aG sudo $NEWUSER \

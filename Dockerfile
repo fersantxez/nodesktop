@@ -40,11 +40,6 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 RUN $INST_SCRIPTS/tigervnc.sh
 RUN $INST_SCRIPTS/no_vnc.sh
 
-### configure startup
-RUN $INST_SCRIPTS/libnss_wrapper.sh
-ADD ./scripts $STARTUPDIR
-RUN $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR $HOME
-
 ### Install xfce UI
 RUN $INST_SCRIPTS/xfce_ui.sh
 ADD ./xfce/ $HOME/
@@ -77,20 +72,26 @@ RUN $INST_SCRIPTS/bash_it.sh
 ### Install Tor
 RUN $INST_SCRIPTS/tor.sh
 
-### re-fix user permissions
-RUN $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR $HOME
-
 ### Generate certificate for TLS
 RUN $INST_SCRIPTS/generate_certificate.sh
 
-### Clean up all packages
-RUN $INST_SCRIPTS/cleanup.sh
+### configure startup
+ADD ./scripts $STARTUPDIR
+RUN $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR $HOME
+RUN $INST_SCRIPTS/libnss_wrapper.sh
 
 ### Add myself as a user if the variable was passed, otherwise nss_wrapper
 ENV NEWUSER=default
-RUN groupadd -g 5001 $NEWUSER \
-&& useradd -s /bin/bash -m -u 5001 -g $NEWUSER $NEWUSER \
-&& usermod -aG sudo $NEWUSER
-USER 5001
+ENV USERID=1000     #First user ID in host OS. Debian, Ubuntu is 1000.
+ENV GROUPID=1000    #Modify for other host OS
+RUN groupadd -g $GROUPID $NEWUSER \
+&& useradd -s /bin/bash -m -u $USERID -g $NEWUSER $NEWUSER \
+&& usermod -aG sudo $NEWUSER \
+&& printf "$NEWUSER ALL=(ALL:ALL) NOPASSWD: ALL\n" | tee -a /etc/sudoers >/dev/null
+USER $USERID
+RUN $INST_SCRIPTS/set_home_dir.sh
+
+### Clean up all packages
+RUN $INST_SCRIPTS/cleanup.sh
 
 ENTRYPOINT ${STARTUPDIR}/vnc_startup.sh --wait

@@ -1,6 +1,6 @@
 # Nodesktop: A Remote Desktop based on Debian
 
-FROM debian:stretch-slim
+FROM debian:bullseye-slim
 
 MAINTAINER Fernando Sanchez <fernandosanchezmunoz@gmail.com>
 

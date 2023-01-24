@@ -5,7 +5,7 @@ set -e
 echo "Install some common tools for further installation"
 apt-get update 
 apt-get install -y vim wget curl net-tools locales bzip2 git sudo gnupg-agent openssh-client openssh-server \
-    iputils-* transmission htop locales software-properties-common dirmngr python-numpy xscreensaver arandr \
+    iputils-* transmission htop locales software-properties-common dirmngr python3-numpy xscreensaver arandr \
     gigolo gvfs-fuse gvfs-backends openssl filezilla zip unzip
 apt-get clean -y
 
@@ -18,9 +18,8 @@ dpkg -i \
 	./rar* \
 	./unrar*
 
-### Gotop
-git clone --depth 1 https://github.com/cjbassi/gotop /tmp/gotop
-bash /tmp/gotop/scripts/download.sh
-sudo mv -f /headless/gotop /usr/bin/gotop
-rm -rf /tmp/gotop
-
+### Bashtop
+wget https://github.com/aristocratos/btop/releases/download/v1.2.13/btop-x86_64-linux-musl.tbz
+tar -xjf btop-x86_64-linux-musl.tbz
+mv btop/bin/btop /usr/btop
+rm -Rf btop*

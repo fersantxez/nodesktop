@@ -81,6 +81,7 @@ chmod 600 $PASSWD_PATH
 
 if [[ $DEBUG == true ]]; then
 echo -e "** DEBUG: NO_VNC_HOME is ${NO_VNC_HOME}. Looking for self.pem: \n" $(ls -la $NO_VNC_HOME/self.pem)
+echo -e "** DEBUG: STARTUPDIR is ${STARTUPDIR}: \n" $(ls -la $STARTUPDIR)
 fi
 
 ## start vncserver and noVNC webclient

@@ -1,4 +1,6 @@
 # Nodesktop: A Remote Desktop based on Debian
+# Largely inspired by:
+# https://github.com/ConSol/docker-headless-vnc-container/tree/v2.0.1
 
 FROM debian:bullseye-slim
 
@@ -37,7 +39,7 @@ RUN $INST_SCRIPTS/tools.sh
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
 ### Install xvnc-server & noVNC - HTML5 based VNC viewer
-RUN $INST_SCRIPTS/tigervnc.sh
+#xvnce moved to tools
 RUN $INST_SCRIPTS/no_vnc.sh
 
 ### Install xfce UI
@@ -50,18 +52,14 @@ RUN $INST_SCRIPTS/custom_fonts.sh
 ### Customize Desktop
 RUN $INST_SCRIPTS/customize.sh
 
-### Install chromium browser
-RUN $INST_SCRIPTS/chromium.sh
-
 ### Install Google Drive client
 RUN $INST_SCRIPTS/google-drive-ocamlfuse.sh
-#RUN $INST_SCRIPTS/google-drive-sync.sh
 
 ### Install Sublime Text
 RUN $INST_SCRIPTS/sublime.sh
 
-### Install Google Cloud SDK
-RUN $INST_SCRIPTS/gcloud.sh
+### Install Soulseek
+RUN $INST_SCRIPTS/soulseek.sh
 
 ### Install Evince document viewer
 RUN $INST_SCRIPTS/evince.sh

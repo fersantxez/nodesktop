@@ -1,3 +1,12 @@
+#!/usr/bin/env bash
+### every exit != 0 fails the script
+set -e
+
+echo "Install Filezilla FTP/SFTP Client"
+
+apt-get install -y tigervnc-standalone-server
+
+cat <<EOF >> /headless/Desktop/filezilla.desktop 
 [Desktop Entry]
 Name=FileZilla
 GenericName=FTP client
@@ -12,3 +21,4 @@ Icon=filezilla
 Type=Application
 Categories=Network;FileTransfer;
 Version=1.0
+EOF

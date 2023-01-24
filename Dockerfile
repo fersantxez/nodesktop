@@ -39,7 +39,7 @@ RUN $INST_SCRIPTS/tools.sh
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
 ### Install xvnc-server & noVNC - HTML5 based VNC viewer
-#xvnce moved to tools
+RUN $INST_SCRIPTS/tigervnc.sh
 RUN $INST_SCRIPTS/no_vnc.sh
 
 ### Install xfce UI
@@ -54,6 +54,12 @@ RUN $INST_SCRIPTS/customize.sh
 
 ### Install Google Drive client
 RUN $INST_SCRIPTS/google-drive-ocamlfuse.sh
+
+### Install Filezilla
+RUN $INST_SCRIPTS/filezilla.sh
+
+### Install Firefox
+RUN $INST_SCRIPTS/firefox.sh
 
 ### Install Sublime Text
 RUN $INST_SCRIPTS/sublime.sh

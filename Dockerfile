@@ -76,6 +76,9 @@ RUN $INST_SCRIPTS/evince.sh
 ### Install Bash-it
 RUN $INST_SCRIPTS/bash_it.sh
 
+### Install Btop
+RUN $INST_SCRIPTS/btop.sh
+
 ### Install Tor
 RUN $INST_SCRIPTS/tor.sh
 

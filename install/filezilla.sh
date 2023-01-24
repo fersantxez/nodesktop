@@ -4,7 +4,7 @@ set -e
 
 echo "Install Filezilla FTP/SFTP Client"
 
-apt-get install -y tigervnc-standalone-server
+apt-get install -y filezilla
 
 cat <<EOF >> /headless/Desktop/filezilla.desktop 
 [Desktop Entry]

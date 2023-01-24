@@ -1,3 +1,12 @@
+#!/usr/bin/env bash
+### every exit != 0 fails the script
+set -e
+
+echo "Install Transmission BitTorrent client"
+
+apt-get install -y transmission-gtk
+
+cat <<EOF >> /headless/Desktop/transmission-gtk.desktop 
 [Desktop Entry]
 Name=Transmission
 Name[an]=Transmission
@@ -276,3 +285,5 @@ Exec=transmission-gtk --paused
 [Desktop Action Minimize]
 Name=Start Transmission Minimized
 Exec=transmission-gtk --minimized
+
+EOF

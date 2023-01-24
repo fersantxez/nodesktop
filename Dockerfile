@@ -61,6 +61,9 @@ RUN $INST_SCRIPTS/filezilla.sh
 ### Install Firefox
 RUN $INST_SCRIPTS/firefox.sh
 
+### Install Transmission
+RUN $INST_SCRIPTS/transmission.sh
+
 ### Install Sublime Text
 RUN $INST_SCRIPTS/sublime.sh
 

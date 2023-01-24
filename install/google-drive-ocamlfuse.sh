@@ -8,16 +8,17 @@ echo "Install Google Drive through Ocamlfuse"
 add-apt-repository ppa:alessandro-strada/ppa
 
 #Correct downloaded deb list so that it points to xenial
-tee /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-bionic.list <<-EOF
-deb http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu xenial main
-deb-src http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu xenial main
+ls /etc/apt/sources.list.d/
+tee /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-focal.list <<-EOF
+deb http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu focal main
+deb-src http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu focal main
 EOF
 #remove latest release downloaded
-rm /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-focal.list 
+rm /etc/apt/sources.list.d/alessandro-strada-ubuntu-ppa-lunar.list 
 
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AD5F235DF639B041
 apt-get update
-apt-get install google-drive-ocamlfuse
+apt-get install -y google-drive-ocamlfuse
 
 #Set up variable and directory for mounting Google Drive from script/desktop link
 export GDRIVE_MOUNT_DIR=/headless/GoogleDrive

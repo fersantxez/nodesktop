@@ -11,23 +11,20 @@ mv -f /etc/xdg/xfce4/panel/default.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml
 rm -f $HOME/.config/xfce4/panel/default.xml 
 
 ### Install GTK theme
-echo "Install Gnome Arc Theme"
+echo "Install Gnome Arc-Dark Theme"
 #https://github.com/horst3180/arc-theme
-apt-get install -y gtk2-engines-murrine
-wget https://download.opensuse.org/repositories/home:/Horst3180/Debian_8.0/all/arc-theme_1488477732.766ae1a-0_all.deb
-dpkg -i arc-theme_1488477732.766ae1a-0_all.deb && \
-rm -f arc-theme_1488477732.766ae1a-0_all.deb
+apt-get install -y gtk2-engines-murrine gtk2-engines-pixbuf gnome-themes-extra arc-theme
 
 ### Install base icons
 apt-get install -y gnome-icon-theme
 
 ### Install Moka Icons
 echo "Install Faba Icons"
-wget http://ftp.br.debian.org/debian/pool/main/f/faba-icon-theme/faba-icon-theme_4.1.2-1_all.deb && \
+wget http://ftp.br.debian.org/debian/pool/main/f/faba-icon-theme/faba-icon-theme_4.3-1_all.deb && \
 dpkg -i $HOME/faba-icon-theme_4.1.2-1_all.deb && \
 rm -f $HOME/faba-icon-theme_4.1.2-1_all.deb && \
 echo "Install Moka Icons"
-wget http://ftp.br.debian.org/debian/pool/main/m/moka-icon-theme/moka-icon-theme_5.3.5-1_all.deb && \
+wget http://ftp.br.debian.org/debian/pool/main/m/moka-icon-theme/moka-icon-theme_5.5.0-2_all.deb && \
 dpkg -i $HOME/moka-icon-theme_5.3.5-1_all.deb && \
 rm -f $HOME/moka-icon-theme_5.3.5-1_all.deb
 

@@ -20,13 +20,15 @@ apt-get install -y gnome-icon-theme
 
 ### Install Moka Icons
 echo "Install Faba Icons"
-wget http://ftp.br.debian.org/debian/pool/main/f/faba-icon-theme/faba-icon-theme_4.3-1_all.deb && \
-dpkg -i $HOME/faba-icon-theme_4.3.1-1_all.deb && \
-rm -f $HOME/faba-icon-theme_4.3.1-1_all.deb && \
+export FABA_VERSION=4.3-1_all
+wget http://ftp.br.debian.org/debian/pool/main/f/faba-icon-theme/faba-icon-theme_${FABA_VERSION}.deb && \
+dpkg -i $HOME/faba-icon-theme_${FABA_VERSION}.deb && \
+rm -f $HOME/faba-icon-theme_${FABA_VERSION}.deb && \
 echo "Install Moka Icons"
-wget http://ftp.br.debian.org/debian/pool/main/m/moka-icon-theme/moka-icon-theme_5.5.0-2_all.deb && \
-dpkg -i $HOME/moka-icon-theme_5.5.0-2_all.deb && \
-rm -f $HOME/moka-icon-theme_5.5.0-2_all.deb
+export MOKA_VERSION=5.5.0-2_all
+wget http://ftp.br.debian.org/debian/pool/main/m/moka-icon-theme/moka-icon-theme_${MOKA_VERSION}.deb && \
+dpkg -i $HOME/moka-icon-theme_${MOKA_VERSION}.deb && \
+rm -f $HOME/moka-icon-theme_${MOKA_VERSION}.deb
 
 ### Install Dank Neon for VIM
 

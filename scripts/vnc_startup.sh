@@ -100,9 +100,14 @@ echo -e "start vncserver with param: VNC_COL_DEPTH=$VNC_COL_DEPTH, VNC_RESOLUTIO
 
 if [[ $DEBUG == true ]]; then echo "vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION"; fi
 vnc_cmd="vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION PasswordFile=$HOME/.vnc/passwd"
+
 if [[ ${VNC_PASSWORDLESS:-} == "true" ]]; then
   vnc_cmd="${vnc_cmd} -SecurityTypes None"
 fi
+
+if [[ $DEBUG == true ]]; then echo "$vnc_cmd"; fi
+$vnc_cmd > $STARTUPDIR/no_vnc_startup.log 2>&1
+
 echo -e "start window manager\n..."
 $HOME/wm_startup.sh > $STARTUPDIR/wm_startup.log 2>&1 &
 
@@ -112,9 +117,11 @@ echo -e "\nVNCSERVER started on DISPLAY= $DISPLAY \n\t=> connect via VNC viewer 
 echo -e "\nnoVNC HTML client started:\n\t=> connect via http://$VNC_IP:$NO_VNC_PORT/?password=...\n"
 
 if [[ $DEBUG == true ]]; then
-    echo -e "\n------------------ /home/default/$HOME/.vnc/$DISPLAY.log ------------------"
     # if option `-t` or `--tail-log` block the execution and tail the VNC log
-    tail -f $STARTUPDIR/*.log /home/default/$HOME/.vnc/$DISPLAY.log
+    echo -e "\n------------------ All logs in $STARTUPDIR ------------------"
+    tail -f $STARTUPDIR/*.log 
+    echo -e "\n------------------ /home/default/$HOME/.vnc/$DISPLAY.log ------------------"
+    tail -f /home/default/$HOME/.vnc/$DISPLAY.log
 fi
 
 if [ -z "$1" ] || [[ $1 =~ -w|--wait ]]; then

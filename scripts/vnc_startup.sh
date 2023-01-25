@@ -112,9 +112,9 @@ echo -e "\nVNCSERVER started on DISPLAY= $DISPLAY \n\t=> connect via VNC viewer 
 echo -e "\nnoVNC HTML client started:\n\t=> connect via http://$VNC_IP:$NO_VNC_PORT/?password=...\n"
 
 if [[ $DEBUG == true ]]; then
-    echo -e "\n------------------ $HOME/.vnc/*$DISPLAY.log ------------------"
+    echo -e "\n------------------ /home/default/$HOME/.vnc/$DISPLAY.log ------------------"
     # if option `-t` or `--tail-log` block the execution and tail the VNC log
-    tail -f $STARTUPDIR/*.log $HOME/.vnc/*$DISPLAY.log
+    tail -f $STARTUPDIR/*.log /home/default/$HOME/.vnc/$DISPLAY.log
 fi
 
 if [ -z "$1" ] || [[ $1 =~ -w|--wait ]]; then

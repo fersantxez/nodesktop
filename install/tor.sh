@@ -18,9 +18,7 @@ sudo mv tor-browser/* /opt/tor && \
 sudo rm -Rf tor-browser && \
 sudo chmod a+x -R /opt/tor/ && \
 sudo chown 1000:1000 -R /opt/tor && \
-sudo chown 1000:1000 /headless/Desktop/tor
-
-#overwrite desktop launcher
+mkdir -f /headless/Desktop
 
 cat <<EOF >> /headless/Desktop/tor.desktop 
 [Desktop Entry] 
@@ -34,3 +32,5 @@ X-TorBrowser-ExecShell=./Browser/start-tor-browser --detach
 Icon=tor-browser
 StartupWMClass=Tor Browser
 EOF
+sudo chown 1000:1000 /headless/Desktop/
+sudo chown 1000:1000 /headless/Desktop/tor.desktop

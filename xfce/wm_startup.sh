@@ -20,7 +20,7 @@ export FIRST_PANEL_PID=$(ps aux|grep xfce4-panel| head -n1| awk {'print $2'})
 [[ $DEBUG == true ]] && echo -e "Killing Panel with ID: $FIRST_PANEL_PID ...\n"
 kill $FIRST_PANEL_PID
 
-### disable screensaver and power management
+### disable power management
 [[ $DEBUG == true ]] && echo -e "Disable Xsec, DPMS\n..."
 xhost + && \
 xset -dpms

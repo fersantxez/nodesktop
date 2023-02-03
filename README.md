@@ -2,7 +2,7 @@
 
 A Web-based ephemeral desktop environment running on a docker container and including a few handy things:
 
-* [**Google Chrome**](https://www.google.com/chrome/)
+* [**Firefox**](https://www.mozilla.org/)
 * [**Google Drive access**](https://astrada.github.io/google-drive-ocamlfuse/)
 * [**Sublime Text**](https://www.sublimetext.com/)
 * [**Evince**](https://wiki.gnome.org/Apps/Evince)

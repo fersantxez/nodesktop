@@ -23,9 +23,7 @@ kill $FIRST_PANEL_PID
 ### disable screensaver and power management
 [[ $DEBUG == true ]] && echo -e "Disable Xsec, DPMS\n..."
 xhost + && \
-xset -dpms && \
-xset s noblank && \
-xset s off
+xset -dpms
 
 
 

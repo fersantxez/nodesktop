@@ -18,5 +18,5 @@ sudo mv tor-browser/* /opt/tor && \
 sudo rm -Rf tor-browser && \
 sudo chmod a+x -R /opt/tor/ && \
 sudo chown 1000:1000 -R /opt/tor && \
-sudo mv /opt/tor/start-tor-browser.desktop /headless/Desktop/tor && \
+sudo mv /opt/tor/start-tor-browser.desktop /headless/Desktop/tor.desktop && \
 sudo chown 1000:1000 /headless/Desktop/tor

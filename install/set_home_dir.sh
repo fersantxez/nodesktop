@@ -11,3 +11,5 @@ fi
 
 ln -s /headless /home/${USER}
 chown ${USER}:${USER} /home/${USER}
+
+export SHELL=/usr/bin/bash

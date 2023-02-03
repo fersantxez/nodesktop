@@ -41,7 +41,8 @@ function instFF() {
 
 instFF "$VERSION" '/usr/lib/firefox'
 
-
+mkdir -p /headless/Desktop
+sudo chown 1000:1000 /headless/Desktop/
 cat <<EOF >> /headless/Desktop/firefox.desktop 
 [Desktop Entry]
 Name=Firefox ESR
@@ -58,3 +59,4 @@ MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/vn
 StartupWMClass=Firefox-esr
 StartupNotify=true
 EOF
+sudo chown 1000:1000 /headless/Desktop/firefox.desktop

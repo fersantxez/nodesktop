@@ -17,20 +17,5 @@ sudo rm -f tor-browser-linux64-${TOR_VERSION}_ALL.tar.xz && \
 sudo mv tor-browser/* /opt/tor && \
 sudo rm -Rf tor-browser && \
 sudo chmod a+x -R /opt/tor/ && \
-sudo chown 1000:1000 -R /opt/tor && \
-mkdir -p /headless/Desktop
+sudo chown 1000:1000 -R /opt/tor
 
-cat <<EOF >> /headless/Desktop/tor.desktop 
-[Desktop Entry] 
-Type=Application
-Name=Tor Browser Setup
-GenericName=Web Browser
-Comment=Tor Browser is +1 for privacy and −1 for mass surveillance
-Categories=Network;WebBrowser;Security;
-Exec=sh -c /opt/tor/Browser/start-tor-browser --detach
-X-TorBrowser-ExecShell=./Browser/start-tor-browser --detach
-Icon=tor-browser
-StartupWMClass=Tor Browser
-EOF
-sudo chown 1000:1000 /headless/Desktop/
-sudo chown 1000:1000 /headless/Desktop/tor.desktop

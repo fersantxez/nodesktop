@@ -17,9 +17,9 @@ set -e
 export MACHINE_TYPE=n1-standard-2
 #first debian image e.g. debian-9-drawfork-v20181101
 export IMAGE_PROJECT=debian-cloud
-export IMAGE_STRING="debian-9"
+export IMAGE_STRING="debian-10-buster-v20221206"
 export BOOT_DISK_SIZE=100GB
-export DOCKER_IMAGE="fernandosanchez/nodesktop:latest"
+export DOCKER_IMAGE="fernandosanchez/nodesktop:bullseye"
 export NOVNC_PORT=6901
 export VNC_COL_DEPTH=24
 export VNC_RESOLUTION=1280x1024

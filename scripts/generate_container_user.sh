@@ -4,7 +4,7 @@
 USER_ID=$(id -u)
 GROUP_ID=$(id -g)
 
-echo "generate_container_user: my USER_ID: $USER_ID, my GROUP_ID: $GROUP_ID"
+echo "my USER_ID: $USER_ID, my GROUP_ID: $GROUP_ID"
 
 if [ x"$USER_ID" != x"0" ]; then
 
@@ -14,7 +14,7 @@ if [ x"$USER_ID" != x"0" ]; then
     cat /etc/passwd > $NSS_WRAPPER_PASSWD
 
     #not needed with the useradd in Dockerfile
-    echo "default:x:${USER_ID}:${GROUP_ID}:Default Application User:${HOME}:/bin/bash" >> $NSS_WRAPPER_PASSWD
+    #echo "default:x:${USER_ID}:${GROUP_ID}:Default Application User:${HOME}:/bin/bash" >> $NSS_WRAPPER_PASSWD
 
     export NSS_WRAPPER_PASSWD
     export NSS_WRAPPER_GROUP
@@ -29,7 +29,7 @@ if [ x"$USER_ID" != x"0" ]; then
         echo "no libnss_wrapper.so installed!"
         exit 1
     fi
-    echo "nss_wrapper location: $LD_PRELOAD"
+    #DEBUG: echo "nss_wrapper location: $LD_PRELOAD"
     export LD_PRELOAD
 
 fi

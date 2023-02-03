@@ -8,12 +8,13 @@ wget --no-check-certificate https://www.slsknet.org/SoulseekQt/Linux/SoulseekQt-
 tar xvfz SoulseekQt-2018-1-30-64bit-appimage.tgz 
 mv SoulseekQt-2018-1-30-64bit.AppImage /usr/bin/soulseek
 chmod +x /usr/bin/soulseek
+rm -Rf SoulseekQt-2018-1-30-64bit-appimage.tgz
 
 cat <<EOF >> /headless/Desktop/soulseek.desktop 
 [Desktop Entry]
 Name=SoulseekQt
-Exec=SoulseekQt
-Icon=Soulseek_remake
+Exec=/usr/bin/soulseek
+Icon=xonotic
 Type=Application
 Terminal=false
 Comment=C++/QT3 SoulseekQt client

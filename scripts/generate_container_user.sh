@@ -4,7 +4,7 @@
 USER_ID=$(id -u)
 GROUP_ID=$(id -g)
 
-echo "my USER_ID: $USER_ID, my GROUP_ID: $GROUP_ID"
+[[ $DEBUG == true ]] && echo "my USER_ID: $USER_ID, my GROUP_ID: $GROUP_ID"
 
 if [ x"$USER_ID" != x"0" ]; then
 

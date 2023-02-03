@@ -18,7 +18,7 @@ sudo mv tor-browser/* /opt/tor && \
 sudo rm -Rf tor-browser && \
 sudo chmod a+x -R /opt/tor/ && \
 sudo chown 1000:1000 -R /opt/tor && \
-mkdir -f /headless/Desktop
+mkdir -p /headless/Desktop
 
 cat <<EOF >> /headless/Desktop/tor.desktop 
 [Desktop Entry] 

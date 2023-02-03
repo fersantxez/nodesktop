@@ -13,7 +13,7 @@ cat <<EOF >> /headless/Desktop/btop.desktop
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=/usr/bin/btop
+Name=btop
 Comment=Display information about the running system
 Exec=btop
 Icon=utilities-system-monitor

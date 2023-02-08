@@ -13,10 +13,10 @@ rm -f $HOME/.config/xfce4/panel/default.xml
 ### Install GTK theme
 echo "Install Gnome Arc Theme"
 #https://github.com/horst3180/arc-theme
-apt-get install -y gtk2-engines-murrine
-wget https://download.opensuse.org/repositories/home:/Horst3180/Debian_8.0/all/arc-theme_1488477732.766ae1a-0_all.deb
-dpkg -i arc-theme_1488477732.766ae1a-0_all.deb && \
-rm -f arc-theme_1488477732.766ae1a-0_all.deb
+apt-get install -y gtk2-engines-murrine gtk2-engines-pixbuf arc-theme
+#wget https://download.opensuse.org/repositories/home:/Horst3180/Debian_8.0/all/arc-theme_1488477732.766ae1a-0_all.deb
+#dpkg -i arc-theme_1488477732.766ae1a-0_all.deb && \
+#rm -f arc-theme_1488477732.766ae1a-0_all.deb
 
 ### Install base icons
 apt-get install -y gnome-icon-theme

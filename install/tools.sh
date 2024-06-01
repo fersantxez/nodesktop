@@ -12,9 +12,8 @@ apt-get install -y vim wget curl net-tools locales bzip2 git sudo gnupg-agent op
 
 ### Install rar, unrar
 wget \
-	http://ftp.us.debian.org/debian/pool/non-free/r/rar/rar_6.23-1~deb12u1_i386.deb \
-	http://ftp.us.debian.org/debian/pool/non-free/u/unrar-nonfree/unrar_6.2.6-1+deb12u1_i386.deb
-
+	http://ftp.us.debian.org/debian/pool/non-free/r/rar/rar_6.23-1~deb12u1_amd64.deb \
+    http://ftp.us.debian.org/debian/pool/non-free/u/unrar-nonfree/unrar_6.2.6-1+deb12u1_amd64.deb
 dpkg -i \
 	./rar* \
 	./unrar*

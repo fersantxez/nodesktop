@@ -8,12 +8,12 @@ apt-get install -y vim wget curl net-tools locales bzip2 git sudo gnupg-agent op
     iputils-* htop locales software-properties-common dirmngr python3-numpy xscreensaver arandr \
     gigolo \
     gvfs-fuse gvfs-backends openssl \
-    zip unzip
+    zip unzip \
 
 ### Install rar, unrar
 wget \
-	http://ftp.us.debian.org/debian/pool/non-free/r/rar/rar_5.4.0%2Bdfsg.1-0.1_amd64.deb \
-	http://ftp.us.debian.org/debian/pool/non-free/u/unrar-nonfree/unrar_5.3.2-1+deb9u1_amd64.deb
+	http://ftp.us.debian.org/debian/pool/non-free/r/rar/rar_6.23-1~deb12u1_i386.deb \
+	http://ftp.us.debian.org/debian/pool/non-free/u/unrar-nonfree/unrar_6.2.6-1+deb12u1_i386.deb
 
 dpkg -i \
 	./rar* \

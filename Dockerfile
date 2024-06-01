@@ -2,7 +2,7 @@
 # Largely inspired by:
 # https://github.com/ConSol/docker-headless-vnc-container/tree/v2.0.1
 
-FROM debian:bullseye-slim
+FROM debian:bookworm-slim
 
 MAINTAINER Fernando Sanchez <fernandosanchezmunoz@gmail.com>
 

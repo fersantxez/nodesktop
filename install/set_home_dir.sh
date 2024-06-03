@@ -15,4 +15,5 @@ chown ${USER}:${USER} /home/${USER}
 export SHELL=/usr/bin/bash
 
 #mark all desktop shortcuts as executable
+chmod a+x /home/${USER}/Desktop/*.desktop
 gio set /home/${USER}/Desktop/*.desktop "metadata::trusted" yes

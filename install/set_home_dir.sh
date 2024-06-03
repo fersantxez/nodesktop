@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 # Customize / fix home directory including permissions
 
 USER=$1
@@ -16,4 +18,6 @@ export SHELL=/usr/bin/bash
 
 #mark all desktop shortcuts as executable
 sudo chmod a+x /headless/Desktop/*.desktop
-sudo gio set /headless/Desktop/*.desktop "metadata::trusted" yes
+for file in /headless/Desktop/*.desktop; do
+  gio set $file metadata::trusted yes
+done

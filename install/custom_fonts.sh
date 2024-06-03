@@ -14,8 +14,7 @@ RBT_URL=https://pixeldrain.com/u/bUh9w3zx
 wget ${RBT_URL} -O RBT.zip && \
 unzip RBT.zip && \
 mv *.ttf /usr/local/share/fonts && \
-rmdir __MACOSX && \
-rm -f ./RBT.zip
+rm -Rf ./__MACOSX ./RBT.zip && \
 
 #echo "Installing Google fonts"
 #https://gist.github.com/keeferrourke/d29bf364bd292c78cf774a5c37a791db

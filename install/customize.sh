@@ -31,7 +31,6 @@ dpkg -i $HOME/moka-icon-theme_${MOKA_VERSION}.deb && \
 rm -f $HOME/moka-icon-theme_${MOKA_VERSION}.deb
 
 ### Install Dank Neon for VIM
-
 export VIM_COLOR_URI=https://raw.githubusercontent.com/DankNeon/vim/master/colors/dank-neon.vim
 export VIMRC=/headless/.vimrc
 mkdir -p /headless/.vim/colors/

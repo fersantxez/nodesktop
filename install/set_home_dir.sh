@@ -13,3 +13,6 @@ ln -s /headless /home/${USER}
 chown ${USER}:${USER} /home/${USER}
 
 export SHELL=/usr/bin/bash
+
+#mark all desktop shortcuts as executable
+gio set /home/${USER}/Desktop/*.desktop "metadata::trusted" yes

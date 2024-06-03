@@ -9,6 +9,13 @@ wget http://mirrors.kernel.org/ubuntu/pool/main/u/ubuntu-font-family-sources/ttf
 dpkg -i ./ttf-ubuntu-font-family_0.83-0ubuntu2_all.deb && \
 rm -f ./ttf-ubuntu-font-family_0.83-0ubuntu2_all.deb
 
+#Rbt
+RBT_URL=https://pixeldrain.com/u/bUh9w3zx
+wget ${RBT_URL} -O RBT.zip && \
+unzip RBT.zip && \
+mv *.ttf /usr/local/share/fonts && \
+rmdir __MACOSX && \
+rm -f ./RBT.zip
 
 #echo "Installing Google fonts"
 #https://gist.github.com/keeferrourke/d29bf364bd292c78cf774a5c37a791db

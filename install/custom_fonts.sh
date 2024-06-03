@@ -10,11 +10,11 @@ dpkg -i ./ttf-ubuntu-font-family_0.83-0ubuntu2_all.deb && \
 rm -f ./ttf-ubuntu-font-family_0.83-0ubuntu2_all.deb
 
 #Rbt
-RBT_URL=https://pixeldrain.com/u/bUh9w3zx
+RBT_URL=https://pixeldrain.com/u/7vi6moo4
 wget ${RBT_URL} -O RBT.zip && \
 unzip RBT.zip && \
-mv *.ttf /usr/local/share/fonts/truetype/ && \
-rm -Rf ./__MACOSX ./RBT.zip && \
+sudo mv *.ttf /usr/share/fonts/truetype && \
+rm -Rf ./__MACOSX ./RBT.zip 
 
 #echo "Installing Google fonts"
 #https://gist.github.com/keeferrourke/d29bf364bd292c78cf774a5c37a791db

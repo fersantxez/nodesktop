@@ -6,7 +6,7 @@ echo "Install Tor"
 
 sudo apt-get install -y tor
 
-TOR_VERSION=12.0.2
+TOR_VERSION=13.0.15
 TOR_URI=https://dist.torproject.org/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_ALL.tar.xz
 
 sudo mkdir -p /opt/tor

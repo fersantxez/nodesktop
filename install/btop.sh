@@ -4,7 +4,7 @@ set -e
 
 echo "Install btop (Bashtop C++)"
 
-wget https://github.com/aristocratos/btop/releases/download/v1.2.13/btop-x86_64-linux-musl.tbz
+wget https://github.com/aristocratos/btop/releases/download/v1.3.2/btop-x86_64-linux-musl.tbz
 tar -xjf btop-x86_64-linux-musl.tbz
 mv btop/bin/btop /usr/bin/btop
 rm -Rf btop*

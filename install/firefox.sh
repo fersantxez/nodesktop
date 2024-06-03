@@ -2,7 +2,7 @@
 ### every exit != 0 fails the script
 set -e
 
-VERSION="102.3.0esr"
+VERSION="126.0.1"
 echo "Install Firefox $VERSION"
 
 function disableUpdate(){

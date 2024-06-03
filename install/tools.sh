@@ -9,7 +9,8 @@ apt-get install -y vim wget curl net-tools locales bzip2 git sudo gnupg-agent op
     gigolo \
     gvfs-fuse gvfs-backends openssl \
     zip unzip \
-    python3-launchpadlib
+    python3-launchpadlib \
+    padevchooser
 
 ### Install rar, unrar
 wget \

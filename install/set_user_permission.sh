@@ -11,8 +11,10 @@ do
     find "$var"/ -name '*.sh' -exec chmod $verbose a+x {} +
     find "$var"/ -name '*.desktop' -exec chmod $verbose a+x {} +
     chgrp -R 0 "$var" && chmod -R $verbose a+rw "$var" && find "$var" -type d -exec chmod $verbose a+x {} +
-    find "$var"/ -name '*.desktop' -exec /usr/bin/gio set "$var" "metadata::trusted" yes
 done
+
+#make desktop icons trusted
+find /headless/Desktop/ -name '*.desktop' -exec /usr/bin/gio set "$var" "metadata::trusted" yes
 
 USER=$1
 #allow user to sudo

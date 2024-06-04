@@ -18,8 +18,9 @@ export SHELL=/usr/bin/bash
 
 #mark all desktop shortcuts as executable
 for file in /headless/Desktop/*.desktop; do
-  chmod 777 $file
-  chown ${USER}:${USER} $file
-  ls -la
-  /usr/bin/gio set $file "metadata::trusted" yes
+  ls -la $file
+  sudo chmod 777 $file
+  sudo chown ${USER}:${USER} $file
+  ls -la $file
+  ##/usr/bin/gio set $file "metadata::trusted" yes
 done

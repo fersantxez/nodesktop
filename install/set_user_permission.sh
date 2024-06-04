@@ -15,7 +15,3 @@ done
 
 #make desktop icons trusted
 #find "/headless/Desktop/" -name '*.desktop' -exec /usr/bin/gio set {} "metadata::trusted" yes +
-
-#allow user to sudo
-USER=$1
-sudo adduser ${USER} sudo

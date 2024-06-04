@@ -14,7 +14,7 @@ do
 done
 
 #make desktop icons trusted
-find "/headless/Desktop/" -name '*.desktop' -exec /usr/bin/gio set + "metadata::trusted" yes
+find "/headless/Desktop/" -name '*.desktop' -exec /usr/bin/gio set {} "metadata::trusted" yes \;
 
 
 USER=$1

@@ -22,3 +22,30 @@ echo '{
         "theme": "Adaptive.sublime-theme"
 }
 ' > /headless/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
+
+cat <<EOF >> /headless/Desktop/sublime.desktop 
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Sublime Text
+Comment=Sophisticated text editor for code, markup and prose
+Exec=/opt/sublime_text/sublime_text %F
+Terminal=false
+MimeType=text/plain;
+Icon=sublime-text
+Categories=TextEditor;Development;
+StartupNotify=true
+Actions=Window;Document;
+
+[Desktop Action Window]
+Name=New Window
+Exec=/opt/sublime_text/sublime_text -n
+OnlyShowIn=Unity;
+
+[Desktop Action Window]
+Name=New File
+Exec=/opt/sublime_text/sublime_text --command new_file
+OnlyShowIn=Unity;
+EOF
+
+

@@ -22,5 +22,6 @@ for file in /headless/Desktop/*.desktop; do
   sudo chmod 777 $file
   sudo chown ${USER}:${USER} $file
   ls -la $file
+  echo "USER is $USER"
   ##/usr/bin/gio set $file "metadata::trusted" yes
 done

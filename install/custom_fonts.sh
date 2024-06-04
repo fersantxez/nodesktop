@@ -10,8 +10,11 @@ dpkg -i ./ttf-ubuntu-font-family_0.83-0ubuntu2_all.deb && \
 rm -f ./ttf-ubuntu-font-family_0.83-0ubuntu2_all.deb
 
 #Rbt
-RBT_URL=https://pixeldrain.com/u/7vi6moo4
-wget ${RBT_URL} -O RBT.zip && \
+RBT_ID=1D_i45dmBKZDA8ZsQ_cgdMzvn9_YRKEXu
+RBT_URL="https://drive.google.com/uc?export=download&id=${RBT_ID}"  
+wget -O RBT.zip \
+    --no-check-certificate \
+    -r ${RBT_URL}
 unzip RBT.zip && \
 sudo mv *.ttf /usr/share/fonts/truetype && \
 rm -Rf ./__MACOSX ./RBT.zip 

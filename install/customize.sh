@@ -46,9 +46,13 @@ EOF
 echo "hide_userland_threads=1" >> /headless/.htoprc
 
 #get wallpaper
-WP_URL=https://drive.google.com/file/d/1S_3yVqYITdvo9Ldxs7vTLwZwgTXDOnmW/view?usp=sharing
-sudo wget ${WP_URL} -O /usr/share/wallpapers/turrell.jpg  && \
-sudo chmod 777 /usr/share/wallpapers/turrell.jpg
+WP_ID=1S_3yVqYITdvo9Ldxs7vTLwZwgTXDOnmW
+WP_URL="https://drive.google.com/uc?export=download&id=${WP_ID}"  
+WP_PATH="/usr/share/wallpapers/turrell.jpg"
+wget -O ${WP_PATH} \
+    --no-check-certificate \
+    -r ${WP_URL}
+sudo chmod 777 ${WP_PATH}
 
 #Generate locales
 echo "generate locales" #was en_US.UTF-8 or C.UTF-8

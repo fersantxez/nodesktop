@@ -20,5 +20,6 @@ export SHELL=/usr/bin/bash
 for file in /headless/Desktop/*.desktop; do
   sudo chmod 755 $file
   sudo chown ${USER}:${USER} $file
+  ls -la
   /usr/bin/gio set $file "metadata::trusted" yes
 done

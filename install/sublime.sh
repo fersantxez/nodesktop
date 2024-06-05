@@ -24,7 +24,7 @@ echo '{
 ' > /headless/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
 
 #Desktop icon
-cat <<EOF >> /headless/Desktop/sublime.desktop 
+cat <<EOF > /headless/Desktop/sublime.desktop 
 [Desktop Entry]
 Version=1.0
 Type=Application

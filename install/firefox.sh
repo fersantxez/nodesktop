@@ -42,7 +42,7 @@ function instFF() {
 instFF "$VERSION" '/usr/lib/firefox'
 
 #Desktop launcher
-cat <<EOF >> /headless/Desktop/firefox.desktop
+cat <<EOF > /headless/Desktop/firefox.desktop
 [Desktop Entry]
 Name=Firefox ESR
 Comment=Browse the World Wide Web

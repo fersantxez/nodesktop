@@ -20,7 +20,7 @@ sudo chmod a+x -R /opt/tor/ && \
 sudo chown 1000:1000 -R /opt/tor
 
 #Desktop icon
-cat <<EOF >> /headless/Desktop/tor.desktop 
+cat <<EOF > /headless/Desktop/tor.desktop 
 [Desktop Entry] 
 Type=Application
 Name=Tor Browser

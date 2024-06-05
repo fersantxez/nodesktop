@@ -7,7 +7,7 @@ echo "Install Transmission BitTorrent client"
 apt-get install -y transmission-gtk
 
 #Desktop icon
-cat <<EOF >> /headless/Desktop/transmission-gtk.desktop 
+cat <<EOF > /headless/Desktop/transmission-gtk.desktop 
 [Desktop Entry]
 Name=Transmission
 Name[an]=Transmission

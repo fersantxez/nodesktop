@@ -10,7 +10,7 @@ mv btop/bin/btop /usr/bin/btop
 rm -Rf btop*
 
 #Desktop icon
-cat <<EOF >> /headless/Desktop/btop.desktop 
+cat <<EOF > /headless/Desktop/btop.desktop 
 [Desktop Entry]
 Version=1.0
 Type=Application

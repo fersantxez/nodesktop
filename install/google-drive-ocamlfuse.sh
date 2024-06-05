@@ -26,7 +26,7 @@ mkdir -p $GDRIVE_MOUNT_DIR
 chmod 777 $GDRIVE_MOUNT_DIR
 
 #Desktop icon
-cat <<EOF >> /headless/Desktop/gdrive.desktop
+cat <<EOF > /headless/Desktop/gdrive.desktop
 [Desktop Entry]
 Version=1.0
 Type=Application

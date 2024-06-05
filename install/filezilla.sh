@@ -7,7 +7,7 @@ echo "Install Filezilla FTP/SFTP Client"
 apt-get install -y filezilla
 
 #Desktop icon
-cat <<EOF >> /headless/Desktop/filezilla.desktop 
+cat <<EOF > /headless/Desktop/filezilla.desktop 
 [Desktop Entry]
 Name=FileZilla
 GenericName=FTP client

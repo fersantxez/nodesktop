@@ -11,7 +11,7 @@ chmod +x /usr/bin/soulseek
 rm -Rf SoulseekQt-2018-1-30-64bit-appimage.tgz
 
 #Desktop icon
-cat <<EOF >> /headless/Desktop/soulseek.desktop 
+cat <<EOF > /headless/Desktop/soulseek.desktop 
 [Desktop Entry]
 Name=SoulseekQt
 Exec=/usr/bin/soulseek

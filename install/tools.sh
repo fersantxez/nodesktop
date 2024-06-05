@@ -20,6 +20,9 @@ dpkg -i \
 	./rar* \
 	./unrar*
 
+#ensure desktop dir exists before installers so that launchers can be added
+mkdir -p /headless/Desktop/
+chmod 777 /headless/Desktop
 
 #Desktop Icons for select tools
 cat <<EOF >> /headless/Desktop/arandr.desktop 

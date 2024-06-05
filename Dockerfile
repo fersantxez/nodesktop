@@ -53,34 +53,34 @@ RUN $INST_SCRIPTS/custom_fonts.sh
 RUN $INST_SCRIPTS/customize.sh
 
 ### Install Google Drive client
-RUN $INST_SCRIPTS/google-drive-ocamlfuse.sh
+#RUN $INST_SCRIPTS/google-drive-ocamlfuse.sh
 
 ### Install Filezilla
-RUN $INST_SCRIPTS/filezilla.sh
+#RUN $INST_SCRIPTS/filezilla.sh
 
 ### Install Firefox
-RUN $INST_SCRIPTS/firefox.sh
+#RUN $INST_SCRIPTS/firefox.sh
 
 ### Install Transmission
-RUN $INST_SCRIPTS/transmission.sh
+#RUN $INST_SCRIPTS/transmission.sh
 
 ### Install Sublime Text
-RUN $INST_SCRIPTS/sublime.sh
+#RUN $INST_SCRIPTS/sublime.sh
 
 ### Install Soulseek
-RUN $INST_SCRIPTS/soulseek.sh
+#RUN $INST_SCRIPTS/soulseek.sh
 
 ### Install Evince document viewer
-RUN $INST_SCRIPTS/evince.sh
+#RUN $INST_SCRIPTS/evince.sh
 
 ### Install Bash-it
-RUN $INST_SCRIPTS/bash_it.sh
+#RUN $INST_SCRIPTS/bash_it.sh
 
 ### Install Btop
-RUN $INST_SCRIPTS/btop.sh
+#RUN $INST_SCRIPTS/btop.sh
 
 ### Install Tor
-RUN $INST_SCRIPTS/tor.sh
+#RUN $INST_SCRIPTS/tor.sh
 
 ### Generate certificate for TLS
 RUN $INST_SCRIPTS/generate_certificate.sh

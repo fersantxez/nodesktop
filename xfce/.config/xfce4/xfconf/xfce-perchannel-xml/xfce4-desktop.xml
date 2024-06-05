@@ -8,11 +8,11 @@
         <property name="color1" type="empty"/>
         <property name="color2" type="empty"/>
         <property name="color-style" type="empty"/>
-        <property name="image-path" type="string" value="/usr/share/wallpapers/turrell.jpg"/>
-        <property name="image-show" type="bool" value="true"/>
-        <property name="last-image" type="/usr/share/wallpapers/turrell.jpg"/>
-        <property name="last-single-image" type="/usr/share/wallpapers/turrell.jpg"/>
-        <property name="image-style" type="int" value="5"/>
+        <property name="image-path" type="empty"/>
+        <property name="image-show" type="empty"/>
+        <property name="last-image" type="empty"/>
+        <property name="last-single-image" type="empty"/>
+        <property name="image-style" type="empty"/>
         <property name="workspace0" type="empty">
           <property name="color-style" type="int" value="1"/>
           <property name="color1" type="array">

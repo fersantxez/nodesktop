@@ -10,6 +10,7 @@ apt-get install -y vim wget curl net-tools locales bzip2 git sudo gnupg-agent op
     gvfs-fuse gvfs-backends openssl \
     zip unzip \
     python3-launchpadlib \
+    dbus-x11 \
     #padevchooser <-- Fix with pipewire?
 
 ### Install rar, unrar

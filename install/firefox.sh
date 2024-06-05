@@ -26,7 +26,7 @@ EOF
 #Executable and trusted
 chmod 755 $f
 dbus-launch gio set $f "metadata::trusted" true
-gio set -t string $f metadata::xfce-exe-checksum "$(sha256sum $f | awk '{print $1}')"
+dbus-launch gio set -t string $f "metadata::xfce-exe-checksum" "$(sha256sum $f | awk '{print $1}')"
 
 function disableUpdate(){
     ff_def="$1/browser/defaults/profile"

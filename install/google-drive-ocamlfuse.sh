@@ -24,3 +24,16 @@ apt-get install -y google-drive-ocamlfuse
 export GDRIVE_MOUNT_DIR=/headless/GoogleDrive
 mkdir -p $GDRIVE_MOUNT_DIR
 chmod 777 $GDRIVE_MOUNT_DIR
+
+cat <<EOF >> /headless/Desktop/gdrive.desktop
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Mount Google Drive
+Comment=Mount your Google Drive
+Exec="/headless/mount-google-drive.sh"
+Icon=drive-removable-media
+Path=
+Terminal=false
+StartupNotify=false
+EOF

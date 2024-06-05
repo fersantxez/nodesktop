@@ -25,6 +25,7 @@ export GDRIVE_MOUNT_DIR=/headless/GoogleDrive
 mkdir -p $GDRIVE_MOUNT_DIR
 chmod 777 $GDRIVE_MOUNT_DIR
 
+#Desktop icon
 cat <<EOF >> /headless/Desktop/gdrive.desktop
 [Desktop Entry]
 Version=1.0
@@ -37,3 +38,6 @@ Path=
 Terminal=false
 StartupNotify=false
 EOF
+#Executable and trusted
+chmod 755 /headless/Desktop/gdrive.desktop
+gio set /headless/Desktop/gdrive.desktop "metadata::trusted" yes

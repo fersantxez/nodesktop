@@ -19,7 +19,7 @@ sudo rm -Rf tor-browser && \
 sudo chmod a+x -R /opt/tor/ && \
 sudo chown 1000:1000 -R /opt/tor
 
-
+#Desktop icon
 cat <<EOF >> /headless/Desktop/tor.desktop 
 [Desktop Entry] 
 Type=Application
@@ -32,4 +32,6 @@ X-TorBrowser-ExecShell=./Browser/start-tor-browser --detach
 Icon=tor-browser
 StartupWMClass=Tor Browser
 EOF
-
+#Executable and trusted
+chmod 755 /headless/Desktop/tor.desktop
+gio set /headless/Desktop/tor.desktop "metadata::trusted" yes

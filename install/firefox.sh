@@ -41,6 +41,7 @@ function instFF() {
 
 instFF "$VERSION" '/usr/lib/firefox'
 
+#Desktop launcher
 cat <<EOF >> /headless/Desktop/firefox.desktop
 [Desktop Entry]
 Name=Firefox ESR
@@ -57,6 +58,6 @@ MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/vn
 StartupWMClass=Firefox-esr
 StartupNotify=true
 EOF
-
+#Executable and trusted
 chmod 755 /headless/Desktop/firefox.desktop
 gio set /headless/Desktop/firefox.desktop "metadata::trusted" yes

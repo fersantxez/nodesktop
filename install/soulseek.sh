@@ -10,6 +10,7 @@ mv SoulseekQt-2018-1-30-64bit.AppImage /usr/bin/soulseek
 chmod +x /usr/bin/soulseek
 rm -Rf SoulseekQt-2018-1-30-64bit-appimage.tgz
 
+#Desktop icon
 cat <<EOF >> /headless/Desktop/soulseek.desktop 
 [Desktop Entry]
 Name=SoulseekQt
@@ -21,3 +22,6 @@ Comment=C++/QT3 SoulseekQt client
 Categories=Qt;Network;
 Name[en_US]=SoulseekQt
 EOF
+#Executable and trusted
+chmod 755 /headless/Desktop/soulseek.desktop
+gio set /headless/Desktop/soulseek.desktop "metadata::trusted" yes

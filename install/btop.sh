@@ -9,6 +9,7 @@ tar -xjf btop-x86_64-linux-musl.tbz
 mv btop/bin/btop /usr/bin/btop
 rm -Rf btop*
 
+#Desktop icon
 cat <<EOF >> /headless/Desktop/btop.desktop 
 [Desktop Entry]
 Version=1.0
@@ -21,3 +22,6 @@ Path=
 Terminal=true
 StartupNotify=false
 EOF
+#Executable and trusted
+chmod 755 /headless/Desktop/btop.desktop
+gio set /headless/Desktop/btop.desktop "metadata::trusted" yes

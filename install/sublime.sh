@@ -23,6 +23,7 @@ echo '{
 }
 ' > /headless/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
 
+#Desktop icon
 cat <<EOF >> /headless/Desktop/sublime.desktop 
 [Desktop Entry]
 Version=1.0
@@ -47,5 +48,7 @@ Name=New File
 Exec=/opt/sublime_text/sublime_text --command new_file
 OnlyShowIn=Unity;
 EOF
-
+#Executable and trusted
+chmod 755 /headless/Desktop/sublime.desktop
+gio set /headless/Desktop/sublime.desktop "metadata::trusted" yes
 

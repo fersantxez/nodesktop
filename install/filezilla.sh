@@ -6,6 +6,7 @@ echo "Install Filezilla FTP/SFTP Client"
 
 apt-get install -y filezilla
 
+#Desktop icon
 cat <<EOF >> /headless/Desktop/filezilla.desktop 
 [Desktop Entry]
 Name=FileZilla
@@ -22,3 +23,6 @@ Type=Application
 Categories=Network;FileTransfer;
 Version=1.0
 EOF
+#Executable and trusted
+chmod 755 /headless/Desktop/filezilla.desktop
+gio set /headless/Desktop/filezilla.desktop "metadata::trusted" yes

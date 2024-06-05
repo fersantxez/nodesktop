@@ -9,7 +9,7 @@ apt-get install -y vim wget curl net-tools locales bzip2 git sudo gnupg-agent op
     gigolo \
     gvfs-fuse gvfs-backends openssl \
     zip unzip \
-    python3-launchpadlib
+    python3-launchpadlib \
     #padevchooser <-- Fix with pipewire?
 
 ### Install rar, unrar
@@ -39,7 +39,7 @@ StartupNotify=false
 EOF
 #Executable and trusted
 chmod a+x /headless/Desktop/arandr.desktop
-gio set /headless/Desktop/arandr.desktop "metadata::trusted" yes
+dbus-x11 gio set /headless/Desktop/arandr.desktop "metadata::trusted" true
 
 cat <<EOF >> /headless/Desktop/gigolo.desktop 
 [Desktop Entry]

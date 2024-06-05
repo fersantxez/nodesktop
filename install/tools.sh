@@ -10,7 +10,7 @@ apt-get install -y vim wget curl net-tools locales bzip2 git sudo gnupg-agent op
     gvfs-fuse gvfs-backends openssl \
     zip unzip \
     python3-launchpadlib \
-    dbus-x11 \
+    dbus-x11
     #padevchooser <-- Fix with pipewire?
 
 ### Install rar, unrar
@@ -40,7 +40,7 @@ StartupNotify=false
 EOF
 #Executable and trusted
 chmod a+x /headless/Desktop/arandr.desktop
-dbus-x11 gio set /headless/Desktop/arandr.desktop "metadata::trusted" true
+dbus-launch gio set /headless/Desktop/arandr.desktop "metadata::trusted" true
 
 cat <<EOF >> /headless/Desktop/gigolo.desktop 
 [Desktop Entry]
@@ -56,4 +56,4 @@ StartupNotify=false
 EOF
 #Executable and trusted
 chmod a+x /headless/Desktop/gigolo.desktop
-gio set /headless/Desktop/gigolo.desktop "metadata::trusted" yes
+dbus-launch gio set /headless/Desktop/gigolo.desktop "metadata::trusted" true

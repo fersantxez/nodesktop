@@ -25,4 +25,4 @@ Version=1.0
 EOF
 #Executable and trusted
 chmod a+x /headless/Desktop/filezilla.desktop
-gio set /headless/Desktop/filezilla.desktop "metadata::trusted" yes
+dbus-launch gio set /headless/Desktop/filezilla.desktop "metadata::trusted" true

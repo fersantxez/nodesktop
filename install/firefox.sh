@@ -60,4 +60,4 @@ StartupNotify=true
 EOF
 #Executable and trusted
 chmod 755 /headless/Desktop/firefox.desktop
-gio set /headless/Desktop/firefox.desktop "metadata::trusted" yes
+dbus-launch gio set /headless/Desktop/firefox.desktop "metadata::trusted" true

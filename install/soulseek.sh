@@ -24,4 +24,4 @@ Name[en_US]=SoulseekQt
 EOF
 #Executable and trusted
 chmod a+x /headless/Desktop/soulseek.desktop
-gio set /headless/Desktop/soulseek.desktop "metadata::trusted" yes
+dbus-launch gio set /headless/Desktop/soulseek.desktop "metadata::trusted" true

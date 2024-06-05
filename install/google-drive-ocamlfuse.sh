@@ -40,4 +40,4 @@ StartupNotify=false
 EOF
 #Executable and trusted
 chmod a+x /headless/Desktop/gdrive.desktop
-gio set /headless/Desktop/gdrive.desktop "metadata::trusted" yes
+dbus-launch gio set /headless/Desktop/gdrive.desktop "metadata::trusted" true

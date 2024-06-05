@@ -290,4 +290,4 @@ Exec=transmission-gtk --minimized
 EOF
 #Executable and trusted
 chmod a+x /headless/Desktop/transmission-gtk.desktop
-gio set /headless/Desktop/transmission-gtk.desktop "metadata::trusted" yes
+dbus-launch gio set /headless/Desktop/transmission-gtk.desktop "metadata::trusted" true

@@ -34,4 +34,4 @@ StartupWMClass=Tor Browser
 EOF
 #Executable and trusted
 chmod a+x /headless/Desktop/tor.desktop
-gio set /headless/Desktop/tor.desktop "metadata::trusted" yes
+dbus-launch gio set /headless/Desktop/tor.desktop "metadata::trusted" true

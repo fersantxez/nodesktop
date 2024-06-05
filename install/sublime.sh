@@ -50,5 +50,5 @@ OnlyShowIn=Unity;
 EOF
 #Executable and trusted
 chmod a+x /headless/Desktop/sublime.desktop
-gio set /headless/Desktop/sublime.desktop "metadata::trusted" yes
+dbus-launch gio set /headless/Desktop/sublime.desktop "metadata::trusted" true
 

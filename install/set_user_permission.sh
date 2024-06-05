@@ -12,6 +12,3 @@ do
     find "$var"/ -name '*.desktop' -exec chmod $verbose a+x {} +
     chgrp -R 0 "$var" && chmod -R $verbose a+rw "$var" && find "$var" -type d -exec chmod $verbose a+x {} +
 done
-
-#make desktop icons trusted
-#find "/headless/Desktop/" -name '*.desktop' -exec /usr/bin/gio set {} "metadata::trusted" yes +

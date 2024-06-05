@@ -24,4 +24,4 @@ StartupNotify=false
 EOF
 #Executable and trusted
 chmod a+x /headless/Desktop/btop.desktop
-gio set /headless/Desktop/btop.desktop "metadata::trusted" yes
+dbus-launch gio set /headless/Desktop/btop.desktop "metadata::trusted" true

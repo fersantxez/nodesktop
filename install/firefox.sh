@@ -5,6 +5,27 @@ set -e
 VERSION="126.0.1"
 echo "Install Firefox $VERSION"
 
+#Desktop launcher
+cat <<EOF > /headless/Desktop/firefox.desktop
+[Desktop Entry]
+Name=Firefox ESR
+Comment=Browse the World Wide Web
+GenericName=Web Browser
+X-GNOME-FullName=Firefox ESR Web Browser
+Exec=/usr/bin/firefox %u
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=firefox
+Categories=Network;WebBrowser;
+MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/vnd.mozilla.xul+xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;
+StartupWMClass=Firefox-esr
+StartupNotify=true
+EOF
+#Executable and trusted
+chmod 755 /headless/Desktop/firefox.desktop
+dbus-launch gio set /headless/Desktop/firefox.desktop "metadata::trusted" true
+
 function disableUpdate(){
     ff_def="$1/browser/defaults/profile"
     mkdir -p $ff_def
@@ -40,24 +61,3 @@ function instFF() {
 }
 
 instFF "$VERSION" '/usr/lib/firefox'
-
-#Desktop launcher
-cat <<EOF > /headless/Desktop/firefox.desktop
-[Desktop Entry]
-Name=Firefox ESR
-Comment=Browse the World Wide Web
-GenericName=Web Browser
-X-GNOME-FullName=Firefox ESR Web Browser
-Exec=/usr/bin/firefox %u
-Terminal=false
-X-MultipleArgs=false
-Type=Application
-Icon=firefox
-Categories=Network;WebBrowser;
-MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/vnd.mozilla.xul+xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;
-StartupWMClass=Firefox-esr
-StartupNotify=true
-EOF
-#Executable and trusted
-chmod 755 /headless/Desktop/firefox.desktop
-dbus-launch gio set /headless/Desktop/firefox.desktop "metadata::trusted" true

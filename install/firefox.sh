@@ -57,3 +57,6 @@ MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/vn
 StartupWMClass=Firefox-esr
 StartupNotify=true
 EOF
+
+chmod 755 /headless/Desktop/firefox.desktop
+gio set /headless/Desktop/firefox.desktop "metadata::trusted" yes

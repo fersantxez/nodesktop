@@ -24,5 +24,5 @@ Categories=Network;FileTransfer;
 Version=1.0
 EOF
 #Executable and trusted
-chmod a+x /headless/Desktop/filezilla.desktop
+chmod 755 /headless/Desktop/filezilla.desktop
 dbus-launch gio set /headless/Desktop/filezilla.desktop "metadata::trusted" true

@@ -39,7 +39,7 @@ Terminal=false
 StartupNotify=false
 EOF
 #Executable and trusted
-chmod a+x /headless/Desktop/arandr.desktop
+chmod 755 /headless/Desktop/arandr.desktop
 dbus-launch gio set /headless/Desktop/arandr.desktop "metadata::trusted" true
 
 cat <<EOF >> /headless/Desktop/gigolo.desktop 
@@ -55,5 +55,5 @@ Terminal=false
 StartupNotify=false
 EOF
 #Executable and trusted
-chmod a+x /headless/Desktop/gigolo.desktop
+chmod 755 /headless/Desktop/gigolo.desktop
 dbus-launch gio set /headless/Desktop/gigolo.desktop "metadata::trusted" true

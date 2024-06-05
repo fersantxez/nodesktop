@@ -49,6 +49,6 @@ Exec=/opt/sublime_text/sublime_text --command new_file
 OnlyShowIn=Unity;
 EOF
 #Executable and trusted
-chmod a+x /headless/Desktop/sublime.desktop
+chmod 755 /headless/Desktop/sublime.desktop
 dbus-launch gio set /headless/Desktop/sublime.desktop "metadata::trusted" true
 

@@ -23,5 +23,5 @@ Categories=Qt;Network;
 Name[en_US]=SoulseekQt
 EOF
 #Executable and trusted
-chmod a+x /headless/Desktop/soulseek.desktop
+chmod 755 /headless/Desktop/soulseek.desktop
 dbus-launch gio set /headless/Desktop/soulseek.desktop "metadata::trusted" true

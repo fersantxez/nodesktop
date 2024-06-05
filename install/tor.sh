@@ -33,5 +33,5 @@ Icon=tor-browser
 StartupWMClass=Tor Browser
 EOF
 #Executable and trusted
-chmod 755 /headless/Desktop/tor.desktop
+chmod a+x /headless/Desktop/tor.desktop
 gio set /headless/Desktop/tor.desktop "metadata::trusted" yes

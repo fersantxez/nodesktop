@@ -19,3 +19,37 @@ wget \
 dpkg -i \
 	./rar* \
 	./unrar*
+
+
+#Desktop Icons for select tools
+cat <<EOF >> /headless/Desktop/arandr.desktop 
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Change Resolution
+Comment=Change screen size with arandr
+Exec=arandr
+Icon=view-fullscreen-symbolic
+Path=
+Terminal=false
+StartupNotify=false
+EOF
+#Executable and trusted
+chmod a+x /headless/Desktop/arandr.desktop
+gio set /headless/Desktop/arandr.desktop "metadata::trusted" yes
+
+cat <<EOF >> /headless/Desktop/gigolo.desktop 
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Mount Remote Filesystems
+Comment=Mount Remote Filesystems with Gigolo
+Exec=gigolo
+Icon=network-workgroup
+Path=
+Terminal=false
+StartupNotify=false
+EOF
+#Executable and trusted
+chmod a+x /headless/Desktop/gigolo.desktop
+gio set /headless/Desktop/gigolo.desktop "metadata::trusted" yes

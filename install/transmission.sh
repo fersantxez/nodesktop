@@ -7,6 +7,7 @@ echo "Install Transmission BitTorrent client"
 apt-get install -y transmission-gtk
 
 #Desktop icon
+
 cat <<EOF > /headless/Desktop/transmission-gtk.desktop 
 [Desktop Entry]
 Name=Transmission
@@ -288,5 +289,5 @@ Name=Start Transmission Minimized
 Exec=transmission-gtk --minimized
 EOF
 #Executable and trusted
-chmod 755 /headless/Desktop/transmission-gtk.desktop
+chmod a+x /headless/Desktop/transmission-gtk.desktop
 gio set /headless/Desktop/transmission-gtk.desktop "metadata::trusted" yes

@@ -23,5 +23,5 @@ Terminal=true
 StartupNotify=false
 EOF
 #Executable and trusted
-chmod 755 /headless/Desktop/btop.desktop
+chmod a+x /headless/Desktop/btop.desktop
 gio set /headless/Desktop/btop.desktop "metadata::trusted" yes

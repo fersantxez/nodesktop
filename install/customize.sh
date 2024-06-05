@@ -63,3 +63,7 @@ sed -i -e 's/# en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/' /etc/locale.gen && \
 export LANGUAGE=en_US:en
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
+
+#ensure desktop dir exists before installers
+mkdir -p /headless/Desktop/
+chmod 777 /headless/Desktop

@@ -6,7 +6,8 @@ VERSION="126.0.1"
 echo "Install Firefox $VERSION"
 
 #Desktop launcher
-cat <<EOF > /headless/Desktop/firefox.desktop
+f=/headless/Desktop/firefox.desktop
+cat <<EOF > $f
 [Desktop Entry]
 Name=Firefox ESR
 Comment=Browse the World Wide Web
@@ -23,8 +24,9 @@ StartupWMClass=Firefox-esr
 StartupNotify=true
 EOF
 #Executable and trusted
-chmod 755 /headless/Desktop/firefox.desktop
-dbus-launch gio set /headless/Desktop/firefox.desktop "metadata::trusted" true
+chmod 755 $f
+dbus-launch gio set $f "metadata::trusted" true
+gio set -t string $f metadata::xfce-exe-checksum "$(sha256sum $f | awk '{print $1}')"
 
 function disableUpdate(){
     ff_def="$1/browser/defaults/profile"

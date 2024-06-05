@@ -12,7 +12,7 @@ sudo mv /var/lib/dpkg/statoverride /var/lib/dpkg/statoverride.bak && \
 sudo mv ./statoverride /var/lib/dpkg/statoverride
 
 #clean up home directory
-sudo rm /headless/*rar*
+#sudo rm /headless/*rar*
 #sudo rm /headless/wm_startup.sh #this breaks startup
 sudo rm -Rf /headless/install
 sudo rm -f /headless/core #FIXME -- where is this core coming from?

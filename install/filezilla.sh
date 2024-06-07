@@ -7,7 +7,8 @@ echo "Install Filezilla FTP/SFTP Client"
 apt-get install -y filezilla
 
 #Desktop icon
-cat <<EOF > /headless/Desktop/filezilla.desktop 
+f=/headless/Desktop/filezilla.desktop 
+cat <<EOF > $f
 [Desktop Entry]
 Name=FileZilla
 GenericName=FTP client
@@ -24,5 +25,6 @@ Categories=Network;FileTransfer;
 Version=1.0
 EOF
 #Executable and trusted
-chmod 755 /headless/Desktop/filezilla.desktop
-dbus-launch gio set /headless/Desktop/filezilla.desktop "metadata::trusted" true
+chmod 755 $f
+dbus-launch gio set $f "metadata::trusted" true
+dbus-launch gio set -t string $f "metadata::xfce-exe-checksum" "$(sha256sum $f | awk '{print $1}')"

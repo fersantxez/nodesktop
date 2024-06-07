@@ -26,7 +26,8 @@ mkdir -p /headless/Desktop/
 chmod 777 /headless/Desktop
 
 #Desktop Icons for select tools
-cat <<EOF >> /headless/Desktop/arandr.desktop 
+f=/headless/Desktop/arandr.desktop
+cat <<EOF >> $f 
 [Desktop Entry]
 Version=1.0
 Type=Application
@@ -39,10 +40,12 @@ Terminal=false
 StartupNotify=false
 EOF
 #Executable and trusted
-chmod 755 /headless/Desktop/arandr.desktop
-dbus-launch gio set /headless/Desktop/arandr.desktop "metadata::trusted" true
+chmod 755 $f
+dbus-launch gio set $f "metadata::trusted" true
+dbus-launch gio set -t string $f "metadata::xfce-exe-checksum" "$(sha256sum $f | awk '{print $1}')"
 
-cat <<EOF >> /headless/Desktop/gigolo.desktop 
+f=/headless/Desktop/gigolo.desktop 
+cat <<EOF >> $f
 [Desktop Entry]
 Version=1.0
 Type=Application
@@ -55,5 +58,6 @@ Terminal=false
 StartupNotify=false
 EOF
 #Executable and trusted
-chmod 755 /headless/Desktop/gigolo.desktop
-dbus-launch gio set /headless/Desktop/gigolo.desktop "metadata::trusted" true
+chmod 755 $f
+dbus-launch gio set $f "metadata::trusted" true
+dbus-launch gio set -t string $f "metadata::xfce-exe-checksum" "$(sha256sum $f | awk '{print $1}')"

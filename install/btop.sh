@@ -10,7 +10,8 @@ mv btop/bin/btop /usr/bin/btop
 rm -Rf btop*
 
 #Desktop icon
-cat <<EOF > /headless/Desktop/btop.desktop 
+f=/headless/Desktop/btop.desktop 
+cat <<EOF > $f
 [Desktop Entry]
 Version=1.0
 Type=Application
@@ -23,6 +24,6 @@ Terminal=true
 StartupNotify=false
 EOF
 #Executable and trusted
-chmod 755 /headless/Desktop/btop.desktop
-chown $1:$1 /headless/Desktop/btop.desktop
-dbus-launch gio set /headless/Desktop/btop.desktop "metadata::trusted" true
+chmod 755 $f
+dbus-launch gio set $f "metadata::trusted" true
+dbus-launch gio set -t string $f "metadata::xfce-exe-checksum" "$(sha256sum $f | awk '{print $1}')"

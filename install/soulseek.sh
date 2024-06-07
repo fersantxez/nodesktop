@@ -11,7 +11,8 @@ chmod +x /usr/bin/soulseek
 rm -Rf SoulseekQt-2018-1-30-64bit-appimage.tgz
 
 #Desktop icon
-cat <<EOF > /headless/Desktop/soulseek.desktop 
+f=/headless/Desktop/soulseek.desktop 
+cat <<EOF > $f
 [Desktop Entry]
 Name=SoulseekQt
 Exec=/usr/bin/soulseek
@@ -23,5 +24,6 @@ Categories=Qt;Network;
 Name[en_US]=SoulseekQt
 EOF
 #Executable and trusted
-chmod 755 /headless/Desktop/soulseek.desktop
-dbus-launch gio set /headless/Desktop/soulseek.desktop "metadata::trusted" true
+chmod 755 $f
+dbus-launch gio set $f "metadata::trusted" true
+dbus-launch gio set -t string $f "metadata::xfce-exe-checksum" "$(sha256sum $f | awk '{print $1}')"

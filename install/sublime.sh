@@ -24,7 +24,8 @@ echo '{
 ' > /headless/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
 
 #Desktop icon
-cat <<EOF > /headless/Desktop/sublime.desktop 
+f=/headless/Desktop/sublime.desktop 
+cat <<EOF > $f
 [Desktop Entry]
 Version=1.0
 Type=Application
@@ -49,6 +50,7 @@ Exec=/opt/sublime_text/sublime_text --command new_file
 OnlyShowIn=Unity;
 EOF
 #Executable and trusted
-chmod 755 /headless/Desktop/sublime.desktop
-dbus-launch gio set /headless/Desktop/sublime.desktop "metadata::trusted" true
+chmod 755 $f
+dbus-launch gio set $f "metadata::trusted" true
+dbus-launch gio set -t string $f "metadata::xfce-exe-checksum" "$(sha256sum $f | awk '{print $1}')"
 

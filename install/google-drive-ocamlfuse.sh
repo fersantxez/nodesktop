@@ -26,7 +26,8 @@ mkdir -p $GDRIVE_MOUNT_DIR
 chmod 777 $GDRIVE_MOUNT_DIR
 
 #Desktop icon
-cat <<EOF > /headless/Desktop/gdrive.desktop
+f=/headless/Desktop/gdrive.desktop
+cat <<EOF > $f
 [Desktop Entry]
 Version=1.0
 Type=Application
@@ -39,5 +40,6 @@ Terminal=false
 StartupNotify=false
 EOF
 #Executable and trusted
-chmod 755 /headless/Desktop/gdrive.desktop
-dbus-launch gio set /headless/Desktop/gdrive.desktop "metadata::trusted" true
+chmod 755 $f
+dbus-launch gio set $f "metadata::trusted" true
+dbus-launch gio set -t string $f "metadata::xfce-exe-checksum" "$(sha256sum $f | awk '{print $1}')"

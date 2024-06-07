@@ -20,7 +20,8 @@ sudo chmod a+x -R /opt/tor/ && \
 sudo chown 1000:1000 -R /opt/tor
 
 #Desktop icon
-cat <<EOF > /headless/Desktop/tor.desktop 
+f=/headless/Desktop/tor.desktop
+cat <<EOF > $f
 [Desktop Entry] 
 Type=Application
 Name=Tor Browser
@@ -33,5 +34,6 @@ Icon=tor-browser
 StartupWMClass=Tor Browser
 EOF
 #Executable and trusted
-chmod a+x /headless/Desktop/tor.desktop
-dbus-launch gio set /headless/Desktop/tor.desktop "metadata::trusted" true
+chmod 755 $f
+dbus-launch gio set $f "metadata::trusted" true
+dbus-launch gio set -t string $f "metadata::xfce-exe-checksum" "$(sha256sum $f | awk '{print $1}')"

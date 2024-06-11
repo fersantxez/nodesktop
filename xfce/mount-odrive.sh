@@ -12,7 +12,7 @@ REMOTE_PATH="Google Drive/"
 nohup ${odrive-agent} > /dev/null 2>&1 &
 
 if [ ! -f ${KEY_PATH} ]; then
-    xterm -e "echo -e 'Odrive first launch - initializing \n
+    xfce4-terminal -e "echo -e 'Odrive first launch - initializing \n
     Please enter your Auth Key. If you do not have one, press Enter and go to
     https://www.odrive.com/account/authcodes to get one:' && \
     read -p 'Enter Auth Key to continue or press Enter to exit: ' authkey;  \

@@ -4,7 +4,7 @@ odrive=/headless/.odrive-agent/bin/odrive
 odriveagent=/headless/.odrive-agent/bin/odriveagent
 KEY_PATH=/headless/.odrive-agent/.ak
 MOUNT_PATH=/headless/odrive-mount/google-drive/
-REMOTE_PATH='Google\ Drive/'
+REMOTE_PATH='Google Drive/'
 
 #Run agent in the background
 pidof odriveagent > /dev/null
@@ -19,7 +19,7 @@ if [ ! -f ${KEY_PATH} ]; then
     read -p "Enter Auth Key to continue: " authkey
     echo ${authkey} > ${KEY_PATH}
 else
-    read -p 'Odrive key found, assuming previous init. Press Enter to Exit';
+    echo "Odrive key found, assuming previous init"
     authkey=$(<${KEY_PATH})
 fi
 

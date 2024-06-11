@@ -9,8 +9,14 @@ MOUNT_PATH=/headless/odrive-mount/google-drive/
 REMOTE_PATH="Google Drive/"
 
 #Run agent in the background
-nohup ${odrive-agent} > /dev/null 2>&1 &
+ps -eaf | grep odriveagent
+if [ $? -eq 1 ]; then
+    nohup ${odrive-agent} > /dev/null 2>&1 &
+else
+    echo "Odrive agent already running"
+fi
 
+#Check for existing key or ask for one
 if [ ! -f ${KEY_PATH} ]; then
     xfce4-terminal -e "echo -e 'Odrive first launch - initializing \n
     Please enter your Auth Key. If you do not have one, press Enter and go to

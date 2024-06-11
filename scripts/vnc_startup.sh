@@ -1,7 +1,4 @@
 #!/bin/bash
-### every exit != 0 fails the script
-### This may cause errors to be hard to find. Running with DEBUG=true shows verbose logs.
-set -e 
 
 ## print out help
 help (){
@@ -25,7 +22,7 @@ Fore more information see: https://github.com/fernandosanchez/nodesktop
 "
 }
 
-echo -e "**DEBUG: ****START**** vnc_startup.sh with DEBUG set to:"$DEBUG
+echo -e "***START**** vnc_startup.sh with DEBUG set to:"$DEBUG
 
 
 if [[ $1 =~ -h|--help ]]; then
@@ -35,8 +32,10 @@ fi
 
 # should also source $STARTUPDIR/generate_container_user.sh
 source $HOME/.bashrc
-#FIXME
-source $STARTUPDIR/generate_container_user.sh
+#FIXME - hack
+if [[ -f $STARTUPDIR"/generate_container_user.sh" ]]; then
+    source $STARTUPDIR/generate_container_user.sh
+fi
 
 # add `--skip` to startup args, to skip the VNC startup procedure
 if [[ $1 =~ -s|--skip ]]; then
@@ -45,10 +44,14 @@ if [[ $1 =~ -s|--skip ]]; then
     echo "Executing command: '${@:2}'"
     exec "${@:2}"
 fi
+
 if [[ $1 =~ -d|--debug ]]; then
     echo -e "\n\n------------------ DEBUG VNC STARTUP -----------------"
     export DEBUG=true
 fi
+
+# DEBUG = echo/log commands as executed, otherwise every exit != 0 fails the script
+[[ $DEBUG == true ]] && set -x || set -e 
 
 ## correct forwarding of shutdown signal
 cleanup () {
@@ -62,6 +65,7 @@ VNC_IP=$(hostname -i)
 
 ## change vnc password
 echo -e "\n------------------ change VNC password  ------------------"
+
 # first entry is control, second is view (if only one is valid for both)
 mkdir -p "$HOME/.vnc"
 PASSWD_PATH="$HOME/.vnc/passwd"
@@ -72,45 +76,69 @@ if [[ -f $PASSWD_PATH ]]; then
 fi
 
 if [[ $VNC_VIEW_ONLY == "true" ]]; then
-    echo "start VNC server in VIEW ONLY mode!"
+    echo "start VNC server in VIEW ONLY mode"
     #create random pw to prevent access
     echo $(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 20) | vncpasswd -f > $PASSWD_PATH
 fi
+
 echo "$VNC_PW" | vncpasswd -f >> $PASSWD_PATH
 chmod 600 $PASSWD_PATH
 
-if [[ $DEBUG == true ]]; then
-echo -e "** DEBUG: NO_VNC_HOME is ${NO_VNC_HOME}. Looking for self.pem: \n" $(ls -la $NO_VNC_HOME/self.pem)
-fi
+[[ $DEBUG == true ]] && echo -e "** DEBUG: NO_VNC_HOME is ${NO_VNC_HOME}. Looking for self.pem: \n" $(ls -la $NO_VNC_HOME/self.pem)
+[[ $DEBUG == true ]] && echo -e "** DEBUG: STARTUPDIR is ${STARTUPDIR}: \n" $(ls -la $STARTUPDIR)
 
 ## start vncserver and noVNC webclient
 echo -e "\n------------------ start noVNC  ----------------------------"
-if [[ $DEBUG == true ]]; then echo "$NO_VNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT"; fi
-$NO_VNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT &> $STARTUPDIR/no_vnc_startup.log &
+[[ $DEBUG == true ]] && echo "$NO_VNC_HOME/utils/novnc_proxy --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT"
+$NO_VNC_HOME/utils/novnc_proxy --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT > $STARTUPDIR/no_vnc_startup.log 2>&1 &
 PID_SUB=$!
 
 echo -e "\n------------------ start VNC server ------------------------"
+
+#kill existing VNC server
 echo "remove old vnc locks to be a reattachable container killing vncserver for DISPLAY $DISPLAY"
 vncserver -kill $DISPLAY &> $STARTUPDIR/vnc_startup.log \
     || rm -rfv /tmp/.X*-lock /tmp/.X11-unix &> $STARTUPDIR/vnc_startup.log \
     || echo "no locks present"
 
 echo -e "start vncserver with param: VNC_COL_DEPTH=$VNC_COL_DEPTH, VNC_RESOLUTION=$VNC_RESOLUTION\n..."
-if [[ $DEBUG == true ]]; then echo "vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION"; fi
-vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION &> $STARTUPDIR/vnc_startup.log
 
+# parse start command
+[[ $DEBUG == true ]] && echo "vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION PasswordFile=$HOME/.vnc/passwd"
+    vnc_cmd="vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION PasswordFile=$HOME/.vnc/passwd"
+if [[ -f $HOME/.vnc/passwd ]]; then 
+    vnc_cmd="vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION PasswordFile=$HOME/.vnc/passwd"
+    echo -e "***DEBUG: $HOME/.vnc/passwd found "
+else
+    echo -e "**ERROR: NO PASSWORD FILE $HOME/.vnc/passwd !!!"
+fi
+
+# parse no password option
+#if [[ ${VNC_PASSWORDLESS:-} == "true" ]]; then
+#  vnc_cmd="${vnc_cmd} -SecurityTypes None"
+#fi
+
+# start using command
+# ****FIXME***** - this exits
+# vnc command fails?
+if [[ $DEBUG == true ]]; then echo "**DEBUG: vnc_cmd: "$vnc_cmd; fi
+$vnc_cmd > $STARTUPDIR/no_vnc_startup.log 2>&1
+
+# start WM using auxiliar script
 echo -e "start window manager\n..."
-$HOME/wm_startup.sh > $STARTUPDIR/wm_startup.log 2>&1 &
+$HOME/wm_startup.sh > $STARTUPDIR/wm_startup.log
 
-## log connect options
+# log connect options
 echo -e "\n\n------------------ VNC environment started ------------------"
 echo -e "\nVNCSERVER started on DISPLAY= $DISPLAY \n\t=> connect via VNC viewer with $VNC_IP:$VNC_PORT"
 echo -e "\nnoVNC HTML client started:\n\t=> connect via http://$VNC_IP:$NO_VNC_PORT/?password=...\n"
 
 if [[ $DEBUG == true ]]; then
-    echo -e "\n------------------ $HOME/.vnc/*$DISPLAY.log ------------------"
     # if option `-t` or `--tail-log` block the execution and tail the VNC log
-    tail -f $STARTUPDIR/*.log $HOME/.vnc/*$DISPLAY.log
+    echo -e "\n------------------ All logs in $STARTUPDIR ------------------"
+    tail -f $STARTUPDIR/*.log 
+    echo -e "\n------------------ /home/default/$HOME/.vnc/$DISPLAY.log ------------------"
+    tail -f /home/default/$HOME/.vnc/$DISPLAY.log
 fi
 
 if [ -z "$1" ] || [[ $1 =~ -w|--wait ]]; then

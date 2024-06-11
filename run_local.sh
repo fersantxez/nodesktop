@@ -10,7 +10,7 @@ set -e
 # Default values
 # =============================================================================
 
-export DOCKER_IMAGE=fernandosanchez/nodesktop
+export DOCKER_IMAGE=fernandosanchez/nodesktop:bullseye
 export VNC_COL_DEPTH=24
 export VNC_RESOLUTION=1280x1024
 export VNC_PORT=5901

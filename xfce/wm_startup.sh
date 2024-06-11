@@ -7,27 +7,29 @@ set -x #show every command as executed in log
 
 echo -e "\n------------------ startup of Xfce4 window manager ------------------"
 
-if [[ $DEBUG == true ]]; then
- echo -e "start XFCE4\n..."
-fi
-/usr/bin/startxfce4 --replace > $STARTUPDIR/wm.log 2>&1 &
+### start WM
+[[ $DEBUG == true ]] && echo -e "start XFCE4\n..."
+
+#/usr/bin/startxfce4 --replace > $HOME/wm.log 2>&1 &
+xfce4-session --display=$VNC_IP:1 > $HOME/wm.log 2>&1 &  #FER
 sleep 1
-cat $STARTUPDIR/wm.log
+cat $HOME/wm.log
 
 ### hack to kill redundant panel
 export FIRST_PANEL_PID=$(ps aux|grep xfce4-panel| head -n1| awk {'print $2'})
-if [[ $DEBUG == true ]]; then
- echo -e "Killing Panel $FIRST_PANEL_PID ...\n"
-fi
+[[ $DEBUG == true ]] && echo -e "Killing Panel with ID: $FIRST_PANEL_PID ...\n"
 kill $FIRST_PANEL_PID
 
-### disable screensaver and power management
-if [[ $DEBUG == true ]]; then
- echo -e "Disable Xsec, DPMS, launch Xscreensaver\n..."
-fi
+### hack to kill vnc_config that makes notification area lose selection
+export TIGERVNCCONFIG_PID=$(ps aux|grep tigervncconfig| head -n1| awk {'print $2'})
+[[ $DEBUG == true ]] && echo -e "Killing TigerVNCconfig with ID: $TIGERVNCCONFIG_PID ...\n"
+kill $TIGERVNCCONFIG_PID
+
+### disable power management
+[[ $DEBUG == true ]] && echo -e "Disable Xsec, DPMS\n..."
 xhost + && \
-xset -dpms && \
-xset s noblank && \
-xset s off && \
-xscreensaver 
+xset -dpms
+
+
+
 

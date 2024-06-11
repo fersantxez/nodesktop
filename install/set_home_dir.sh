@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
+set -x
 
 # Customize / fix home directory including permissions
-
 USER=$1
 
 #link /home/$USER with /headless
@@ -11,3 +11,5 @@ fi
 
 ln -s /headless /home/${USER}
 chown ${USER}:${USER} /home/${USER}
+
+export SHELL=/usr/bin/bash

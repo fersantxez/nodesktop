@@ -6,8 +6,8 @@ echo "Install Tor"
 
 sudo apt-get install -y tor
 
-TOR_VERSION=12.0.2
-TOR_URI=https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_ALL.tar.xz
+TOR_VERSION=13.0.15
+TOR_URI=https://dist.torproject.org/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_ALL.tar.xz
 
 sudo mkdir -p /opt/tor
 cd /opt/tor
@@ -18,3 +18,22 @@ sudo mv tor-browser/* /opt/tor && \
 sudo rm -Rf tor-browser && \
 sudo chmod a+x -R /opt/tor/ && \
 sudo chown 1000:1000 -R /opt/tor
+
+#Desktop icon
+f=/headless/Desktop/tor.desktop 
+cat <<EOF > $f
+[Desktop Entry] 
+Type=Application
+Name=Tor Browser
+GenericName=Web Browser
+Comment=Tor Browser is +1 for privacy and −1 for mass surveillance
+Categories=Network;WebBrowser;Security;
+Exec=sh -c /opt/tor/Browser/start-tor-browser --detach
+X-TorBrowser-ExecShell=./Browser/start-tor-browser --detach
+Icon=tor-browser
+StartupWMClass=Tor Browser
+EOF
+#Executable and trusted
+chmod 755 $f
+dbus-launch gio set $f "metadata::trusted" true
+dbus-launch gio set -t string $f "metadata::xfce-exe-checksum" "$(sha256sum $f | awk '{print $1}')"

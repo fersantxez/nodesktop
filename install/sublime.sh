@@ -22,3 +22,35 @@ echo '{
         "theme": "Adaptive.sublime-theme"
 }
 ' > /headless/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
+
+#Desktop icon
+f=/headless/Desktop/sublime.desktop
+cat <<EOF > $f
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Sublime Text
+Comment=Sophisticated text editor for code, markup and prose
+Exec=/opt/sublime_text/sublime_text %F
+Terminal=false
+MimeType=text/plain;
+Icon=sublime-text
+Categories=TextEditor;Development;
+StartupNotify=true
+Actions=Window;Document;
+
+[Desktop Action Window]
+Name=New Window
+Exec=/opt/sublime_text/sublime_text -n
+OnlyShowIn=Unity;
+
+[Desktop Action Window]
+Name=New File
+Exec=/opt/sublime_text/sublime_text --command new_file
+OnlyShowIn=Unity;
+EOF
+#Executable and trusted
+chmod 755 $f
+dbus-launch gio set $f "metadata::trusted" true
+dbus-launch gio set -t string $f "metadata::xfce-exe-checksum" "$(sha256sum $f | awk '{print $1}')"
+

@@ -80,7 +80,7 @@ RUN $INST_SCRIPTS/firefox.sh
 #RUN $INST_SCRIPTS/tor.sh
 
 ### Install ODrive
-RUN $INST_SCRIPTS/odrive.sh
+#RUN $INST_SCRIPTS/odrive.sh
 
 ### Generate certificate for TLS
 RUN $INST_SCRIPTS/generate_certificate.sh

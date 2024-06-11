@@ -19,8 +19,8 @@ if [ ! -f ${KEY_PATH} ]; then
     exit"
 else
     read -p 'Odrive key found, assuming previous init. Press Enter to Exit';
+    authkey=$(<${KEY_PATH})
 fi
-
 
 #Write auth key to file or exit if none
 if [ -z "${authkey}" ] then

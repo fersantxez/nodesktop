@@ -20,7 +20,7 @@ cat <<EOF > $f
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=odrive
+Name=Odrive
 Comment=Mount and Manage Cloud Storage Drives
 Exec="/headless/mount-odrive.sh"
 Icon=downloads

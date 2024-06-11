@@ -52,9 +52,6 @@ RUN $INST_SCRIPTS/custom_fonts.sh
 ### Customize Desktop
 RUN $INST_SCRIPTS/customize.sh
 
-### Install Google Drive client
-RUN $INST_SCRIPTS/google-drive-ocamlfuse.sh
-
 ### Install Filezilla
 RUN $INST_SCRIPTS/filezilla.sh
 
@@ -81,6 +78,9 @@ RUN $INST_SCRIPTS/btop.sh
 
 ### Install Tor
 RUN $INST_SCRIPTS/tor.sh
+
+### Install ODrive
+RUN $INST_SCRIPTS/odrive.sh
 
 ### Generate certificate for TLS
 RUN $INST_SCRIPTS/generate_certificate.sh

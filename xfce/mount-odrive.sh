@@ -3,8 +3,13 @@
 set -e
 
 odrive=/headless/.odrive-agent/bin/odrive
+odrive-agent=/headless/.odrive-agent/bin/odriveagent
 KEY_PATH=/headless/.odrive-agent/.ak
-MOUNT_PATH=/headless/odrive-mount/
+MOUNT_PATH=/headless/odrive-mount/google-drive/
+REMOTE_PATH="Google Drive/"
+
+#Run agent in the background
+nohup ${odrive-agent} > /dev/null 2>&1 &
 
 if [ ! -f ${KEY_PATH} ]; then
     xterm -e "echo -e 'Odrive first launch - initializing \n
@@ -24,7 +29,8 @@ else
     #Initialize with auth key
     echo $authkey > ${KEY_PATH}
     ${odrive} authenticate ${authkey}
-    ${odrive} mount ${MOUNT_PATH}
+    mkdir -p ${MOUNT_PATH}
+    ${odrive} mount ${MOUNT_PATH} ${REMOTE_PATH}
     read -p 'Odrive successfully mounted on ${MOUNT_PATH}. Press Enter to continue';
 fi
 

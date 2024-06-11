@@ -14,9 +14,6 @@ curl -L "https://dl.odrive.com/odrivecli-lnx-64" | tar -xvzf- -C "$od/" && \
 ln -s "$od"/odriveagent /usr/bin/odriveagent && \
 ln -s "$od"/odrive /usr/bin/odrive
 
-#Run agent in the background
-nohup "/headless/.odrive-agent/bin/odriveagent" > /dev/null 2>&1 &
-
 #Desktop icon
 f=/headless/Desktop/odrive.desktop 
 cat <<EOF > $f

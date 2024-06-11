@@ -15,12 +15,12 @@ ln -s "$od"/odriveagent /usr/bin/odriveagent && \
 ln -s "$od"/odrive /usr/bin/odrive
 
 #Desktop icon
-f=/headless/Desktop/odrive.desktop 
+f=/headless/Desktop/Odrive.desktop 
 cat <<EOF > $f
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=odrive
+Name=Odrive
 Comment=Mount and Manage Cloud Storage Drives
 Exec="/headless/mount-odrive.sh"
 Icon=downloads

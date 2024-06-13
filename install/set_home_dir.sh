@@ -9,6 +9,7 @@ if [[ $DEBUG == true ]]; then
  echo -e "Link /headless with /home/${USER}\n..."
 fi
 
+rm -Rf /home/${USER}
 ln -s /headless /home/${USER}
 chown ${USER}:${USER} /home/${USER}
 

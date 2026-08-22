@@ -46,8 +46,8 @@ Terms of Use on a new profile; Nodesktop does not accept legal terms for users.
 Docker Desktop or Colima is required. Build and start the complete image:
 
 ```bash
-docker build --target full --tag nodesktop:3.0.0-full .
-./run_local.sh
+docker build --target production --tag nodesktop:local .
+NODEDESKTOP_IMAGE=nodesktop:local ./run_local.sh
 ```
 
 The launcher asks for a password of at least 12 characters without displaying
@@ -65,6 +65,12 @@ NODEDESKTOP_PASSWORD_FILE=/secure/path/password ./run_local.sh my-desktop
 
 Optional settings are `NODEDESKTOP_IMAGE`, `NODEDESKTOP_PORT`,
 `NODEDESKTOP_RESOLUTION`, and `NODEDESKTOP_UI_SCALE` (`100` or `125`).
+
+The local launcher is intentionally isolated: it creates named Docker volumes
+for the password and desktop profile, publishes only loopback, and does not
+mount the host home or root filesystem. The default local account is
+`nodesktop`; the password is selected interactively or read from
+`NODEDESKTOP_PASSWORD_FILE`.
 
 ## Runtime security
 
@@ -88,13 +94,44 @@ docker compose up --build --detach
 The `.secrets` directory is ignored by Git. `compose.yaml` uses the same
 hardened runtime defaults as the launcher.
 
+To use a registry image instead of building locally, set `NODEDESKTOP_IMAGE`
+in the Compose environment and keep the password in the secret file. Never
+put credentials directly in `compose.yaml`, a shell command, or a committed
+environment file.
+
+## TrueNAS and other container platforms
+
+Nodesktop can be installed as a custom TrueNAS application or equivalent
+container workload. Keep the application configuration generic and provide
+storage mappings through the platform UI or manifest:
+
+- `VNC_RESOLUTION`: `<width>x<height>` (for example, `1680x1050`)
+- `NODESKTOP_UI_SCALE`: `100` or `125`
+- `VNC_USER`: the desktop account exposed by the platform
+- `VNC_PASSWORD_FILE`: a read-only secret-file path
+- `HOME`: the writable profile mount used by the desktop account
+
+Map only the directories the operator intends to expose, such as a media
+directory to `/mnt/Media` or a downloads directory to `/mnt/Downloads`.
+Prefer an unprivileged container, read-only root, dropped capabilities, and
+platform-managed secrets. The legacy `VNC_PW` environment variable is retained
+only for migration of older manifests; secret files are the recommended mode.
+Likewise, host `/etc/passwd`, `/etc/group`, `/etc/shadow`, broad privileges, and
+host-root mounts are compatibility features for legacy deployments and should
+not be enabled for a new installation.
+
+The application should expose the HTTPS/KasmVNC port only through the
+platform's authenticated portal or a private network. Do not commit a real
+hostname, username, password, dataset path, or personal mount layout to a
+manifest or this repository.
+
 ## Images and validation
 
 Build the smaller core or complete image independently:
 
 ```bash
-docker build --target core --tag nodesktop:3.0.0-core .
-docker build --target full --tag nodesktop:3.0.0-full .
+docker build --target core --tag nodesktop:local-core .
+docker build --target full --tag nodesktop:local-full .
 ```
 
 After starting a container, run `./tests/static.sh`,
@@ -103,11 +140,22 @@ After starting a container, run `./tests/static.sh`,
 installed versions, process health, visual defaults, tool launchers, and runtime
 security settings.
 
+For a complete local verification, run the checks in this order:
+
+```bash
+./tests/static.sh
+./tests/smoke.sh <container-name>
+./tests/functional.sh <container-name>
+./tests/performance.sh <container-name>
+```
+
 The legacy Google Cloud launcher is retained for reference but is not a
 supported Nodesktop 3 deployment path; it does not implement this local
 hardening model.
 
 Published releases use an immutable version-and-distribution tag such as
-`fernandosanchez/nodesktop:3.0.0-trixie`. The shorter `3.0.0`, `trixie`, and
-`latest` tags are convenience aliases; production deployments must use the
-immutable tag or its registry digest.
+`<registry>/<namespace>/nodesktop:3.0.0-trixie`. The shorter version,
+distribution, and `latest` tags are convenience aliases; production
+deployments should use the immutable tag or its registry digest. The registry
+namespace is deployment-specific and is deliberately not hard-coded in this
+repository's documentation.

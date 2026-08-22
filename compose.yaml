@@ -1,6 +1,6 @@
 services:
   desktop:
-    image: nodesktop:3.0.0-full
+    image: ${NODEDESKTOP_IMAGE:-nodesktop:local}
     build:
       context: .
       target: full

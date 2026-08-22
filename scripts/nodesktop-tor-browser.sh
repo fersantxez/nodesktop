@@ -3,7 +3,10 @@ set -Eeuo pipefail
 
 official_launcher="${HOME}/Applications/tor-browser/start-tor-browser.desktop"
 if [[ -x "${official_launcher}" ]]; then
-  exec "${official_launcher}" --detach
+  # Tor Browser's self-contained launcher resolves ./Browser/execdesktop
+  # relative to its installation root, not to the caller's working directory.
+  cd "$(dirname "${official_launcher}")"
+  exec "./$(basename "${official_launcher}")" --detach
 fi
 
 tor_data_dir="${HOME}/.local/share/tor"

@@ -71,4 +71,23 @@ launch_check '/opt/firefox/firefox' firefox --new-instance about:blank
 # disposable test leaves no surviving parent or crash-reporter process.
 docker exec "${container}" pkill -KILL -x firefox-bin >/dev/null 2>&1 || true
 
-printf 'PASS: clean startup, Bash-it/Zork, fonts, rclone, 7zip, and every GUI launcher.\n'
+if docker exec "${container}" test -x \
+  /home/nodesktop/Applications/tor-browser/start-tor-browser.desktop; then
+  docker exec -d -u nodesktop -e DISPLAY=:1 "${container}" \
+    /usr/local/bin/nodesktop-tor-browser
+  tor_browser_started=false
+  for _ in {1..60}; do
+    if docker exec "${container}" pgrep -f \
+      '/home/nodesktop/Applications/tor-browser/Browser/firefox.real' >/dev/null; then
+      tor_browser_started=true
+      break
+    fi
+    sleep 0.5
+  done
+  [[ "${tor_browser_started}" == true ]] \
+    || fail "official Tor Browser did not launch"
+  docker exec "${container}" pkill -KILL -f \
+    '/home/nodesktop/Applications/tor-browser/Browser/firefox.real' >/dev/null 2>&1 || true
+fi
+
+printf 'PASS: clean startup, Bash-it/Zork, fonts, rclone, 7zip, and every GUI launcher including Tor Browser when installed.\n'

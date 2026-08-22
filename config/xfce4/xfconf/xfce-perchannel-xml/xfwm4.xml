@@ -18,7 +18,8 @@
     <property name="theme" type="string" value="Nodesktop-Orchis-Green-Dark-Compact"/>
     <property name="tile_on_move" type="bool" value="true"/>
     <property name="title_alignment" type="string" value="center"/>
-    <property name="title_font" type="string" value="Newsreader SemiBold 11"/>
+    <!-- Keep window/task titles crisp and neutral; Newsreader remains reserved for editorial branding. -->
+    <property name="title_font" type="string" value="Inter Variable 10"/>
     <property name="use_compositing" type="bool" value="false"/>
     <property name="workspace_count" type="int" value="4"/>
     <property name="wrap_cycle" type="bool" value="true"/>

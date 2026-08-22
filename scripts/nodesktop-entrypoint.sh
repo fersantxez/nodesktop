@@ -13,13 +13,14 @@ fi
 /usr/local/bin/migrate-style.py --home "${HOME}" --scale "${ui_scale}"
 
 password_file="${VNC_PASSWORD_FILE:-/run/secrets/vnc_password}"
-if [[ ! -f "${password_file}" || ! -r "${password_file}" ]]; then
-  printf 'A readable VNC password file is required at %s.\n' "${password_file}" >&2
-  exit 64
+vnc_password="${VNC_PW:-}"
+if [[ -z "${vnc_password}" ]]; then
+  if [[ ! -f "${password_file}" || ! -r "${password_file}" ]]; then
+    printf 'A readable VNC password file is required at %s.\n' "${password_file}" >&2
+    exit 64
+  fi
+  IFS= read -r vnc_password < "${password_file}" || true
 fi
-
-vnc_password=""
-IFS= read -r vnc_password < "${password_file}" || true
 if (( ${#vnc_password} < 12 )); then
   printf 'The VNC password must contain at least 12 characters.\n' >&2
   exit 64

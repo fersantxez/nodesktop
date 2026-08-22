@@ -30,6 +30,33 @@ if [[ ! "${VNC_RESOLUTION}" =~ ^[0-9]+x[0-9]+$ ]]; then
   exit 64
 fi
 
+# XFCE stores the horizontal panel center in pixels. Derive it from the
+# requested framebuffer so the compact launcher/status rail stays centered
+# across local and HQ resolutions instead of drifting to the left edge.
+panel_width="${VNC_RESOLUTION%x*}"
+panel_center=$((panel_width / 2))
+panel_xml="${HOME}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
+if [[ -f "${panel_xml}" ]]; then
+  PANEL_CENTER="${panel_center}" python3 - "${panel_xml}" <<'PY'
+import os
+import re
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+center = os.environ["PANEL_CENTER"]
+updated, count = re.subn(
+    r'(value="p=12;x=)[0-9]+(;y=0"/>)',
+    rf'\g<1>{center}\g<2>',
+    text,
+    count=1,
+)
+if count:
+    path.write_text(updated, encoding="utf-8")
+PY
+fi
+
 install -d -m 0700 "${HOME}/.vnc" "${XDG_RUNTIME_DIR}"
 chmod 0700 "${XDG_RUNTIME_DIR}"
 install -d -m 1777 /tmp/.X11-unix /tmp/.ICE-unix

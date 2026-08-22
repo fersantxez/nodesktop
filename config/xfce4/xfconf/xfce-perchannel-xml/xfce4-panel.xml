@@ -19,7 +19,7 @@
     </property>
     <property name="panel-2" type="empty">
       <!-- Compact launcher/status rail centered along the bottom edge. -->
-      <property name="position" type="string" value="p=12;x=39;y=0"/>
+      <property name="position" type="string" value="p=12;x=720;y=0"/>
       <property name="position-locked" type="bool" value="true"/>
       <property name="length-adjust" type="bool" value="true"/>
       <property name="length" type="uint" value="22"/>

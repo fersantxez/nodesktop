@@ -87,6 +87,31 @@ install -d -m 0700 "${HOME}/.vnc" "${XDG_RUNTIME_DIR}"
 chmod 0700 "${XDG_RUNTIME_DIR}"
 install -d -m 1777 /tmp/.X11-unix /tmp/.ICE-unix
 
+# Legacy TrueNAS manifests bind-mount the host account database.  That changes
+# the container's supplementary groups, so the packaged snake-oil key may no
+# longer be readable through the ssl-cert group.  Keep the historical mounts
+# working by creating a per-user certificate and overriding only the KasmVNC
+# SSL paths when the packaged key is unavailable.
+if [[ ! -r /etc/ssl/certs/ssl-cert-snakeoil.pem || ! -r /etc/ssl/private/ssl-cert-snakeoil.key ]]; then
+  cert_dir="${XDG_RUNTIME_DIR}/nodesktop-cert"
+  cert_file="${HOME}/.vnc/self.pem"
+  install -d -m 0700 "${cert_dir}"
+  openssl req -new -x509 -nodes -days 365 \
+    -out "${cert_dir}/cert.pem" \
+    -keyout "${cert_dir}/key.pem" \
+    -subj "/C=US/ST=NY/L=New York/O=Nodesktop/OU=Nodesktop/CN=nodesktop" \
+    >/dev/null 2>&1
+  cat "${cert_dir}/cert.pem" "${cert_dir}/key.pem" > "${cert_file}"
+  chmod 0600 "${cert_file}"
+  cat > "${HOME}/.vnc/kasmvnc.yaml" <<EOF
+network:
+  ssl:
+    pem_certificate: ${cert_file}
+    pem_key: ${cert_file}
+    require_ssl: true
+EOF
+fi
+
 printf '%s\n%s\n' "${vnc_password}" "${vnc_password}" \
   | vncpasswd -u "${VNC_USER}" -w -o "${HOME}/.kasmpasswd"
 unset vnc_password

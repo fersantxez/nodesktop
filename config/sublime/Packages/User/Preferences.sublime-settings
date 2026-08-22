@@ -1,0 +1,11 @@
+{
+  "color_scheme": "Packages/User/Nodesktop.sublime-color-scheme",
+  "theme": "Nodesktop.sublime-theme",
+  "font_face": "JetBrains Mono",
+  "font_size": 11,
+  "highlight_line": true,
+  "caret_style": "solid",
+  "line_padding_bottom": 1,
+  "line_padding_top": 1,
+  "show_definitions": false
+}

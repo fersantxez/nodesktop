@@ -1,0 +1,33 @@
+{
+  "policies": {
+    "DisableAppUpdate": true,
+    "DisableFirefoxStudies": true,
+    "DisableTelemetry": true,
+    "DontCheckDefaultBrowser": true,
+    "OverrideFirstRunPage": "",
+    "OverridePostUpdatePage": "",
+    "Preferences": {
+      "browser.theme.content-theme": {
+        "Status": "locked",
+        "Value": 0
+      },
+      "browser.theme.toolbar-theme": {
+        "Status": "locked",
+        "Value": 0
+      },
+      "ui.systemUsesDarkTheme": {
+        "Status": "locked",
+        "Value": 1
+      }
+    },
+    "UserMessaging": {
+      "ExtensionRecommendations": false,
+      "FeatureRecommendations": false,
+      "FirefoxLabs": false,
+      "Locked": true,
+      "MoreFromMozilla": false,
+      "SkipOnboarding": true,
+      "UrlbarInterventions": false
+    }
+  }
+}

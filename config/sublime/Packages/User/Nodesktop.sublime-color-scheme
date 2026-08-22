@@ -1,0 +1,48 @@
+{
+  "name": "Nodesktop",
+  "author": "Nodesktop",
+  "variables": {
+    "ink": "#0B0F0C",
+    "carbon": "#111612",
+    "surface": "#151C17",
+    "forest": "#1F5B3A",
+    "olive": "#73875A",
+    "sage": "#AFC39D",
+    "warm_white": "#F2F0E6",
+    "body": "#D7DBD2",
+    "muted": "#98A193",
+    "gold": "#B79A61"
+  },
+  "globals": {
+    "background": "var(ink)",
+    "foreground": "var(body)",
+    "caret": "var(sage)",
+    "block_caret": "var(sage)",
+    "selection": "#1F5B3AA8",
+    "selection_border": "var(sage)",
+    "inactive_selection": "#29342C99",
+    "line_highlight": "#151C17",
+    "gutter": "var(carbon)",
+    "gutter_foreground": "var(muted)",
+    "guide": "#29342C",
+    "active_guide": "var(olive)",
+    "find_highlight": "var(gold)",
+    "find_highlight_foreground": "var(ink)",
+    "misspelling": "#EF8B86",
+    "brackets_options": "underline",
+    "brackets_foreground": "var(sage)",
+    "tags_options": "underline",
+    "tags_foreground": "var(olive)"
+  },
+  "rules": [
+    {"scope": "comment", "foreground": "var(muted)", "font_style": "italic"},
+    {"scope": "string", "foreground": "#B9C99E"},
+    {"scope": "constant.numeric", "foreground": "var(gold)"},
+    {"scope": "constant.language, support.constant", "foreground": "var(olive)"},
+    {"scope": "keyword, storage", "foreground": "#82B88A"},
+    {"scope": "entity.name.function, support.function", "foreground": "var(sage)"},
+    {"scope": "entity.name.type, support.type", "foreground": "var(gold)"},
+    {"scope": "variable, meta.definition.variable", "foreground": "var(body)"},
+    {"scope": "invalid", "foreground": "var(warm_white)", "background": "#7F3434"}
+  ]
+}

@@ -1,0 +1,15 @@
+server {
+    listen 8080;
+    server_name _;
+
+    location / {
+        proxy_pass http://host.docker.internal:6904;
+        proxy_http_version 1.1;
+        proxy_set_header Authorization "Basic ${NODESKTOP_BASIC_AUTH}";
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_read_timeout 3600s;
+        proxy_send_timeout 3600s;
+    }
+}

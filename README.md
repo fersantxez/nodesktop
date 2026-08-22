@@ -1,84 +1,113 @@
-# Web Desktop on a Docker container
+# Nodesktop 3
 
-A Web-based ephemeral desktop environment running on a docker container and including a few handy things:
+Nodesktop is a fast, browser-accessible Debian desktop that runs in a hardened
+Docker container. The current design uses Debian 13.6, XFCE 4.20, and KasmVNC
+1.5.0 with mandatory TLS and modern video/rectangle encoding.
 
-* [**Firefox**](https://www.mozilla.org/)
-* [**Google Drive and Cloud Storage access through Odrive**](http://odrive.com)
-* [**Sublime Text**](https://www.sublimetext.com/)
-* [**Evince**](https://wiki.gnome.org/Apps/Evince)
-* [**Bash-it**](https://github.com/Bash-it/bash-it)
+The interface keeps the established dark-green identity and the selectable
+Turrell background, while its new default is an original low-bandwidth forest
+grid wallpaper. The compact Orchis Dark Green base uses near-black, forest,
+moss-olive, sage, warm white, and restrained gold. Inter Variable is the UI
+face, Newsreader is used for window titles, and JetBrains Mono is used in code
+and terminals. A small Nodesktop Forest overlay supplies recognizable semantic
+place icons while native application icons remain distinct.
 
-## TL;DR
+Sublime Text, Geany, Terminal, btop, Firefox, and GTK4/libadwaita applications
+receive supported dark adapters. Sublime inherits its native layout and changes
+only presentation. Papers and other libadwaita tools use dark mode with a green
+accent. Bash-it remains installed and the default user starts with its `zork`
+theme.
 
-On a host with docker and curl available:
+## What is included
 
-`source <(curl -s https://raw.githubusercontent.com/fernandosanchezmunoz/nodesktop/master/run_local.sh)`
+The `full` image adds current desktop tools to the lightweight `core` image:
 
-You can connect with a browser to:
+- Firefox 154.0
+- Sublime Text 4200 and Geany 2.0
+- FileZilla 3.68.1 and Transmission 4.1.3
+- Nicotine+ 3.3.10
+- Papers 48.3, 7-Zip 25.01, and btop 1.4.7
+- Rclone 1.75.0 (the lightweight replacement for the abandoned ODrive client)
+- Bash-it 3.2.0
+- Tor Browser 15.0.20 on AMD64
+- Tor 0.4.9.11 with an isolated Firefox proxy profile on ARM64, where the Tor
+  Project does not publish an official Linux Tor Browser bundle
 
-`http://[YOUR_HOST_IP]:6901`
+Versions are explicit build arguments in the `Dockerfile`, and every downloaded
+archive is checked against a pinned digest.
 
-Default password is 'nopassword'
+Firefox enterprise policy disables telemetry, studies, promotional messaging,
+and in-browser self-updates. Browser security updates are delivered by rebuilding
+the immutable image at the pinned Firefox version. Firefox may still show its
+Terms of Use on a new profile; Nodesktop does not accept legal terms for users.
 
-## Usage examples
+## Run locally
 
-- Run as privileged as current user replicating the identity and password of the host system, mounting your home directory and the host root filesystem under /mnt/root
+Docker Desktop or Colima is required. Build and start the complete image:
 
-      docker run -d --privileged --name nodesktop -p 6901:6901 -v $HOME:/mnt/home -v /:/mnt/root -v /etc/group:/etc/group:ro -v /etc/passwd:/etc/passwd:ro -v /etc/shadow:/etc/shadow:ro -v /etc/sudoers.d:/etc/sudoers.d:ro --user $(id -u):$(id -g) fernandosanchez/nodesktop
+```bash
+docker build --target full --tag nodesktop:3.0.0-full .
+./run_local.sh
+```
 
+The launcher asks for a password of at least 12 characters without displaying
+it, stores it in a dedicated read-only Docker volume, and opens only the loopback
+interface. Visit <https://127.0.0.1:6901> and sign in as `nodesktop`. A browser
+warning is expected because the image uses a locally generated self-signed TLS
+certificate.
 
-- Run anonymously mounting your home directory (user appears as "default" but has permissions on your directories):
+Non-interactive launch is supported without putting the password in the command
+line or container environment:
 
-      docker run -d --name nodesktop -p 6901:6901 -v $HOME:/mnt/home fernandosanchez/nodesktop
+```bash
+NODEDESKTOP_PASSWORD_FILE=/secure/path/password ./run_local.sh my-desktop
+```
 
-- If you want to get into the container use interactive mode `-it` and `bash`
-      
-      docker run -it --name nodesktop -p 6901:6901 -v $HOME:/mnt/home --user $(id -u):$(id -g) fernandosanchez/nodesktop /bin/bash
+Optional settings are `NODEDESKTOP_IMAGE`, `NODEDESKTOP_PORT`,
+`NODEDESKTOP_RESOLUTION`, and `NODEDESKTOP_UI_SCALE` (`100` or `125`).
 
-## Connect & Control
+## Runtime security
 
-* connect with __any web browser__: [`http://YOUR_HOST:6901`](http://localhost:6901), default password: `nopassword` 
+The supported launcher and `compose.yaml` run as UID/GID 1000 with all Linux
+capabilities dropped, `no-new-privileges`, a read-only root filesystem, isolated
+temporary filesystems, and no host filesystem mounts. Only HTTPS/KasmVNC on
+`127.0.0.1:6901` is published; raw VNC is not exposed. The desktop user has no
+`sudo` access.
 
-## Hints
+To expose this beyond the laptop, put an authenticated TLS reverse proxy or VPN
+in front of it. Do not publish port 6901 directly to the internet.
 
-### Change User of running Container
+## Compose
 
-Per default, all container processes will be executed with user id `1000`. You can change the user id as follows: 
+Create `.secrets/vnc_password` containing a 12+ character password, then run:
 
-#### Using root (user id `0`)
-Add the `--user` flag to your docker run command:
+```bash
+docker compose up --build --detach
+```
 
-    docker run -it --user 0 -p 6901:6901 fernandosanchez/nodesktop
+The `.secrets` directory is ignored by Git. `compose.yaml` uses the same
+hardened runtime defaults as the launcher.
 
-#### Using user and group id of host system
-Add the `--user` flag to your docker run command:
+## Images and validation
 
-    docker run -it -p 6901:6901 --user $(id -u):$(id -g) fernandosanchez/nodesktop
+Build the smaller core or complete image independently:
 
-### Override VNC environment variables
-The following VNC environment variables can be overwritten at the `docker run` phase to customize your desktop environment inside the container:
-* `VNC_COL_DEPTH`, default: `24`
-* `VNC_RESOLUTION`, default: `1280x1024`
-* `VNC_PW`, default: `my-pw`
+```bash
+docker build --target core --tag nodesktop:3.0.0-core .
+docker build --target full --tag nodesktop:3.0.0-full .
+```
 
-#### Example: Override the VNC password
-Simply overwrite the value of the environment variable `VNC_PW`. For example in
-the docker run command:
+After starting a container, run `./tests/static.sh`,
+`./tests/smoke.sh <container-name>`, and
+`./tests/functional.sh <container-name>` to verify source/config integrity,
+installed versions, process health, visual defaults, tool launchers, and runtime
+security settings.
 
-    docker run -it -p 5901:5901 -p 6901:6901 -e VNC_PW=my-pw fernandosanchez/nodesktop
+The legacy Google Cloud launcher is retained for reference but is not a
+supported Nodesktop 3 deployment path; it does not implement this local
+hardening model.
 
-#### Example: Override the VNC resolution
-Simply overwrite the value of the environment variable `VNC_RESOLUTION`. For example in
-the docker run command:
-
-    docker run -it -p 5901:5901 -p 6901:6901 -e VNC_RESOLUTION=800x600 fernandosanchez/nodesktop
-    
-### View only VNC
-It's possible to prevent unwanted control via VNC. Therefore you can set the environment variable `VNC_VIEW_ONLY=true`. If set, the startup script will create a random password for the control connection and use the value of `VNC_PW` for view only connection over the VNC connection.
-
-     docker run -it -p 5901:5901 -p 6901:6901 -e VNC_VIEW_ONLY=true fernandosanchez/nodesktop
-     
-### Credits
-
-This was largely forked/adapted from https://github.com/ConSol/docker-headless-vnc-container
-
+Published releases use an immutable version-and-distribution tag such as
+`fernandosanchez/nodesktop:3.0.0-trixie`. The shorter `3.0.0`, `trixie`, and
+`latest` tags are convenience aliases; production deployments must use the
+immutable tag or its registry digest.

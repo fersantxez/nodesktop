@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <radialGradient id="field" cx="52%" cy="30%" r="82%">
+      <stop offset="0" stop-color="#1B2B20"/>
+      <stop offset=".5" stop-color="#111612"/>
+      <stop offset="1" stop-color="#0B0F0C"/>
+    </radialGradient>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M24 0H0v24" fill="none" stroke="#AFC39D" stroke-opacity=".045" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="ridgeA" x1="0" y1="0" x2="1" y2=".2">
+      <stop stop-color="#1F5B3A" stop-opacity=".48"/>
+      <stop offset="1" stop-color="#73875A" stop-opacity=".16"/>
+    </linearGradient>
+    <linearGradient id="ridgeB" x1=".1" y1="0" x2="1" y2="1">
+      <stop stop-color="#73875A" stop-opacity=".24"/>
+      <stop offset="1" stop-color="#1F5B3A" stop-opacity=".05"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#field)"/>
+  <rect width="1920" height="1080" fill="url(#grid)"/>
+  <path d="M0 760C270 648 466 672 708 746c250 77 505 96 704-9 180-95 333-105 508-60v403H0z" fill="url(#ridgeA)"/>
+  <path d="M0 876c326-132 542-30 784 41 251 73 463 64 650-39 173-95 331-103 486-59v261H0z" fill="url(#ridgeB)"/>
+  <g transform="translate(1840 64)" fill="none" stroke="#B79A61" stroke-width="2" stroke-opacity=".85">
+    <circle r="8"/><path d="M-16 0h32M0-16v32"/>
+  </g>
+</svg>

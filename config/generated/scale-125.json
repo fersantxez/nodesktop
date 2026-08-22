@@ -1,0 +1,9 @@
+{
+  "bottom_panel": 50,
+  "cursor": 32,
+  "desktop_icon": 64,
+  "dpi": 120,
+  "font": "Inter Variable 11",
+  "terminal_font": "JetBrains Mono 13",
+  "top_panel": 40
+}

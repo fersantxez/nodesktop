@@ -1,0 +1,11 @@
+/* Generated from assets/design/tokens.json. */
+@define-color nodesktop_ink #0B0F0C;
+@define-color nodesktop_surface #151C17;
+@define-color nodesktop_forest #1F5B3A;
+@define-color nodesktop_olive #73875A;
+@define-color nodesktop_sage #AFC39D;
+@define-color nodesktop_warm_white #F2F0E6;
+@define-color nodesktop_rule #29342C;
+*:focus { outline-color: @nodesktop_sage; outline-width: 2px; outline-style: solid; outline-offset: 1px; }
+tooltip { border: 1px solid @nodesktop_rule; border-radius: 3px; }
+selection { background-color: @nodesktop_forest; color: @nodesktop_warm_white; }

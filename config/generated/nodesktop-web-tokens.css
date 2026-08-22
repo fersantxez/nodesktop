@@ -1,0 +1,20 @@
+:root {
+  --nodesktop-ink: #0B0F0C;
+  --nodesktop-carbon: #111612;
+  --nodesktop-surface: #151C17;
+  --nodesktop-forest: #1F5B3A;
+  --nodesktop-olive: #73875A;
+  --nodesktop-sage: #AFC39D;
+  --nodesktop-warm-white: #F2F0E6;
+  --nodesktop-body: #D7DBD2;
+  --nodesktop-muted: #98A193;
+  --nodesktop-rule: #29342C;
+  --nodesktop-gold: #B79A61;
+  --nodesktop-danger: #EF8B86;
+  --nodesktop-danger-fill: #7F3434;
+  --nodesktop-warning: #E0B35E;
+  --nodesktop-warning-fill: #8A5A12;
+  --nodesktop-success: #82B88A;
+  --nodesktop-success-fill: #2F6E43;
+  --nodesktop-information: #77B8C0;
+}

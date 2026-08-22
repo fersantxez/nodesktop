@@ -1,0 +1,9 @@
+# Nodesktop interactive shell configuration
+export BASH_IT=/opt/bash-it
+export BASH_IT_THEME=zork
+export SCM_CHECK=false
+if [[ -r "${BASH_IT}/bash_it.sh" ]]; then
+  source "${BASH_IT}/bash_it.sh"
+else
+  PS1='\[\e[38;5;108m\]\u@\h\[\e[0m\]:\[\e[38;5;144m\]\w\[\e[0m\]\\$ '
+fi

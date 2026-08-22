@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Tor Browser
+Comment=Official Tor Browser on amd64; hardened Tor proxy profile on arm64
+Exec=/usr/local/bin/nodesktop-tor-browser
+Icon=security-high
+Terminal=false
+Type=Application
+Categories=Network;WebBrowser;
+StartupNotify=true

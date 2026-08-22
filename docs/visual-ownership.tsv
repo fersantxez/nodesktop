@@ -1,0 +1,20 @@
+surface	executable_or_source	toolkit	owner	decision
+KasmVNC	/usr/share/kasmvnc/www	Web	Nodesktop overlay	presentation-only patch
+XFCE shell	xfce4-session	GTK3	Orchis/Nodesktop	fully themed
+XFWM	xfwm4	GTK3/XFWM	Orchis/Nodesktop	fully themed
+Thunar	thunar	GTK3	Orchis/Nodesktop	fully themed
+Whisker Menu	xfce4-popup-whiskermenu	GTK3	Orchis/Nodesktop	fully themed
+App Finder	xfce4-appfinder	GTK3	Orchis/Nodesktop	fully themed
+Terminal	xfce4-terminal	GTK3	Nodesktop palette	fully themed
+btop	btop	TUI	Nodesktop palette	fully themed
+Firefox	firefox	GTK3/Gecko	System/vendor	supported dark integration
+Geany	geany	GTK3	Nodesktop	GTK plus editor scheme
+Papers	papers	GTK4/libadwaita	Vendor/native	supported dark preference
+7zip	7z	CLI	Terminal	terminal-owned
+Sublime Text	sublime_text	Custom GTK	Nodesktop	supported app theme
+FileZilla	filezilla	wxGTK	GTK bridge	verify visually
+Transmission	transmission-gtk	GTK4	Orchis/Nodesktop	verify progress/error
+Nicotine+	nicotine	GTK4/Python	Orchis/Nodesktop	verify offline/error
+rclone	rclone	CLI	Terminal	terminal-owned
+Tor	tor	CLI	Terminal	terminal-owned
+Tor Browser	start-tor-browser	Gecko	Vendor/native	security exception

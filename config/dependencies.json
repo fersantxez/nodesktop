@@ -1,0 +1,72 @@
+{
+  "schema": 2,
+  "generated": "2026-08-21",
+  "assets": [
+    {
+      "name": "debian", "version": "13.6-slim",
+      "source": "docker.io/library/debian",
+      "digest": "sha256:3a39a0592364683e6bab97937b72cad5a8fa6dcbbee90edb3bb48c7f8e94f258",
+      "update": "Debian stable point releases", "license": "mixed Debian main"
+    },
+    {
+      "name": "KasmVNC", "version": "1.5.0",
+      "source": "https://github.com/kasmtech/KasmVNC/releases/tag/v1.5.0",
+      "sha256": {
+        "amd64": "80b241de7dfe53bba2b7e1cc5ac8c5246d72271efa16be2d4f76607f30fab1c4",
+        "arm64": "fbb11589958a2acccd2d67f67944be79ac1e8e3a1d6172c0e6db6dc59e55a919"
+      }, "license": "GPL-2.0"
+    },
+    {
+      "name": "Firefox", "version": "154.0",
+      "source": "https://archive.mozilla.org/pub/firefox/releases/154.0/",
+      "sha512": {
+        "amd64": "0e57c27d947a78f88b5d9d3407e67b67316a41b82f747cddcee15f71f5e80691fc9be488f98e8bb6cca183739f953e2e09dc5429ec030fbe4b8060886dafdf62",
+        "arm64": "72fd961d7dba59ed9205f282ad2daeecc15bbd773b3f4d5ba8576c85114c68bdce8cd0472e16ec74bc5c9b502bd48f87cdc33c059b82442d0fc0a5732ad13354"
+      }, "license": "MPL-2.0"
+    },
+    {
+      "name": "Orchis", "version": "2026-07-07",
+      "source": "https://github.com/vinceliuice/Orchis-theme/releases/tag/2026-07-07",
+      "sha256": "a977ecfeb13a7e68a40393dfed1b578864dfb968ff21b9eceda83ffbef9e460f",
+      "license": "GPL-3.0"
+    },
+    {
+      "name": "btop", "version": "1.4.7",
+      "source": "https://github.com/aristocratos/btop/releases/tag/v1.4.7",
+      "sha256": {
+        "amd64": "5099054dd6a101bd12eb6ff3702a9a6a3f57aaa27923a0da478ae5b517faf335",
+        "arm64": "6270de0ef4c84cf0eea61cb148b3ad9ae91a11e9c3309867ffc6b3751024c252"
+      }, "license": "Apache-2.0"
+    },
+    {
+      "name": "rclone", "version": "1.75.0",
+      "source": "https://github.com/rclone/rclone/commit/9ee9d0a0cafd5e5fe3b271d2280b090ab6e64048",
+      "source_sha256": "5798e275444d1d2405b529144203786fc1da9698b60bb86299f78afbb182c691",
+      "builder": {
+        "go": "1.26.6",
+        "image_digest": "sha256:3889b425f035be855a72fb4755265311293b6d414521f0a519d819df32222d83",
+        "golang.org/x/image": "0.45.0"
+      }, "license": "MIT"
+    },
+    {
+      "name": "Tor Browser", "version": "15.0.20",
+      "source": "https://dist.torproject.org/torbrowser/15.0.20/",
+      "sha256": {"amd64": "d4302633d6059d2dad94e2c883b31141dc7b3daa2bfa5aabb0fd29dda18d22e9"},
+      "license": "mixed free software"
+    },
+    {
+      "name": "Bash-it", "version": "3.2.0",
+      "source": "https://github.com/Bash-it/bash-it/releases/tag/v3.2.0",
+      "sha256": "e6fbe4efee5f4f63e8e5788f957d66df541839d066d078f6bb8f07c7213114a5",
+      "license": "MIT"
+    },
+    {
+      "name": "Newsreader", "version": "cfcb4f7af0e52c25e8df2a2431814c8e5fe2e155",
+      "source": "https://github.com/productiontype/Newsreader",
+      "sha256": "8a08d13f8a6c0d51be379a60af84f945f65369a67e509ee3c3bdcc421254d7c1",
+      "license_sha256": "fdfad38143ec470553cae82a1e45320bdd1b9ec70415d37bd0171051d8a4ded8",
+      "license": "OFL-1.1"
+    }
+  ],
+  "apt_managed": ["Inter Variable", "JetBrains Mono", "XFCE", "Whisker Menu", "Geany", "Papers", "FileZilla", "Transmission", "Nicotine+", "Tor"]
+}

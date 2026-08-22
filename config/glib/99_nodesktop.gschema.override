@@ -1,0 +1,8 @@
+[org.gnome.desktop.interface]
+color-scheme='prefer-dark'
+accent-color='green'
+font-name='Inter Variable 10'
+monospace-font-name='JetBrains Mono 11'
+
+[org.gnome.Papers]
+night-mode=true

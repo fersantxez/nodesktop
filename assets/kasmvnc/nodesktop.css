@@ -1,0 +1,72 @@
+@import url("./nodesktop-web-tokens.css");
+
+html, body {
+  background: var(--nodesktop-ink) !important;
+  color: var(--nodesktop-body) !important;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .32;
+  background-image: linear-gradient(var(--nodesktop-rule) 1px, transparent 1px), linear-gradient(90deg, var(--nodesktop-rule) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+#noVNC_control_bar,
+#noVNC_connect_dlg > *,
+.noVNC_panel,
+.sidenavnew,
+.canvas,
+#noVNC_fallback_error > div {
+  background: var(--nodesktop-surface) !important;
+  color: var(--nodesktop-body) !important;
+  border: 1px solid var(--nodesktop-rule) !important;
+  border-radius: 5px !important;
+  box-shadow: none !important;
+}
+
+.noVNC_logo img { display: none !important; }
+.noVNC_logo a { display: flex; min-height: 48px; align-items: center; gap: 10px; color: var(--nodesktop-warm-white); text-decoration: none; }
+.noVNC_logo a::before { content: ""; width: 36px; height: 36px; background: url("./nodesktop-mark.svg") center/contain no-repeat; }
+.noVNC_logo a::after { content: "Nodesktop"; font-weight: 700; letter-spacing: .02em; }
+
+button, input[type="button"], input[type="submit"], .button, .noVNC_submit {
+  min-height: 32px;
+  border-radius: 3px !important;
+  border: 1px solid var(--nodesktop-rule) !important;
+  background: var(--nodesktop-forest) !important;
+  color: var(--nodesktop-warm-white) !important;
+}
+
+button:hover, input[type="button"]:hover, input[type="submit"]:hover, .button:hover { border-color: var(--nodesktop-sage) !important; }
+button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, .button:focus-visible {
+  outline: 2px solid var(--nodesktop-sage) !important;
+  outline-offset: 2px !important;
+}
+
+input, textarea, select {
+  background: var(--nodesktop-carbon) !important;
+  color: var(--nodesktop-warm-white) !important;
+  border: 1px solid var(--nodesktop-rule) !important;
+  border-radius: 3px !important;
+}
+
+#noVNC_status, #noVNC_transition { background: var(--nodesktop-carbon) !important; color: var(--nodesktop-body) !important; }
+.noVNC_status_error { background: var(--nodesktop-danger-fill) !important; color: var(--nodesktop-warm-white) !important; }
+.noVNC_status_warn { background: var(--nodesktop-warning-fill) !important; color: var(--nodesktop-warm-white) !important; }
+.noVNC_selected, .selected, .noVNC_active { background: var(--nodesktop-forest) !important; color: var(--nodesktop-warm-white) !important; }
+.noVNC_disabled, [disabled] { opacity: .58 !important; }
+.noVNC_spinner { border-color: var(--nodesktop-rule) !important; border-top-color: var(--nodesktop-sage) !important; }
+
+@media (max-width: 1024px), (min-resolution: 2dppx) {
+  button, input, .button, .noVNC_button { min-height: 40px; }
+  #noVNC_control_bar { max-width: min(92vw, 380px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

@@ -1,0 +1,6 @@
+.secrets/*
+!.secrets/.gitignore
+*.log
+artifacts/
+assets/fonts/
+.github/workflows/

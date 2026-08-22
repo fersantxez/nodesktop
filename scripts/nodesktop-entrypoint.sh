@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+if (( $# > 0 )); then
+  exec "$@"
+fi
+
+ui_scale="${NODESKTOP_UI_SCALE:-100}"
+if [[ "${ui_scale}" != 100 && "${ui_scale}" != 125 ]]; then
+  printf 'NODESKTOP_UI_SCALE must be 100 or 125, not %s.\n' "${ui_scale}" >&2
+  exit 64
+fi
+/usr/local/bin/migrate-style.py --home "${HOME}" --scale "${ui_scale}"
+
+password_file="${VNC_PASSWORD_FILE:-/run/secrets/vnc_password}"
+if [[ ! -f "${password_file}" || ! -r "${password_file}" ]]; then
+  printf 'A readable VNC password file is required at %s.\n' "${password_file}" >&2
+  exit 64
+fi
+
+vnc_password=""
+IFS= read -r vnc_password < "${password_file}" || true
+if (( ${#vnc_password} < 12 )); then
+  printf 'The VNC password must contain at least 12 characters.\n' >&2
+  exit 64
+fi
+
+if [[ ! "${VNC_RESOLUTION}" =~ ^[0-9]+x[0-9]+$ ]]; then
+  printf 'Invalid VNC_RESOLUTION: %s\n' "${VNC_RESOLUTION}" >&2
+  exit 64
+fi
+
+install -d -m 0700 "${HOME}/.vnc" "${XDG_RUNTIME_DIR}"
+chmod 0700 "${XDG_RUNTIME_DIR}"
+install -d -m 1777 /tmp/.X11-unix /tmp/.ICE-unix
+
+printf '%s\n%s\n' "${vnc_password}" "${vnc_password}" \
+  | vncpasswd -u "${VNC_USER}" -w -o "${HOME}/.kasmpasswd"
+unset vnc_password
+
+rm -f "/tmp/.X1-lock"
+rm -f "/tmp/.X11-unix/X1"
+
+printf 'Nodesktop is starting at https://0.0.0.0:%s (display %s, %s).\n' \
+  "${VNC_PORT}" "${VNC_DISPLAY}" "${VNC_RESOLUTION}"
+
+exec vncserver "${VNC_DISPLAY}" \
+  -fg \
+  -select-de xfce \
+  -geometry "${VNC_RESOLUTION}" \
+  -depth 24 \
+  -interface 0.0.0.0 \
+  -websocketPort "${VNC_PORT}"

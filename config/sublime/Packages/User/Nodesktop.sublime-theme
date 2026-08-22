@@ -1,0 +1,30 @@
+{
+  "extends": "Adaptive.sublime-theme",
+  "variables": {
+    "ink": "#0B0F0C",
+    "carbon": "#111612",
+    "surface": "#151C17",
+    "forest": "#1F5B3A",
+    "olive": "#73875A",
+    "sage": "#AFC39D",
+    "body": "#D7DBD2",
+    "muted": "#98A193",
+    "rule": "#29342C"
+  },
+  "rules": [
+    {"class": "window_control", "layer0.tint": "var(surface)"},
+    {"class": "title_bar", "layer0.tint": "var(carbon)"},
+    {"class": "sidebar_container", "layer0.tint": "var(surface)"},
+    {"class": "sidebar_label", "fg": "var(body)"},
+    {"class": "sidebar_label", "parents": [{"class": "tree_row", "attributes": ["selected"]}], "fg": "#F2F0E6"},
+    {"class": "tree_row", "attributes": ["selected"], "layer0.tint": "var(forest)"},
+    {"class": "tab_control", "layer0.tint": "var(carbon)"},
+    {"class": "tab_control", "attributes": ["selected"], "layer0.tint": "var(surface)"},
+    {"class": "tab_label", "fg": "var(muted)"},
+    {"class": "tab_label", "parents": [{"class": "tab_control", "attributes": ["selected"]}], "fg": "#F2F0E6"},
+    {"class": "status_bar", "layer0.tint": "var(carbon)"},
+    {"class": "status_label", "fg": "var(body)"},
+    {"class": "text_line_control", "layer0.tint": "var(ink)", "fg": "var(body)", "caret": "var(sage)"},
+    {"class": "popup_control", "layer0.tint": "var(surface)"}
+  ]
+}

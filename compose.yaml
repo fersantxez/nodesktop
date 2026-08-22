@@ -1,0 +1,33 @@
+services:
+  desktop:
+    image: nodesktop:3.0.0-full
+    build:
+      context: .
+      target: full
+    ports:
+      - "127.0.0.1:${NODE_DESKTOP_PORT:-6901}:6901"
+    environment:
+      VNC_RESOLUTION: "${VNC_RESOLUTION:-1440x900}"
+      NODESKTOP_UI_SCALE: "${NODESKTOP_UI_SCALE:-100}"
+    secrets:
+      - vnc_password
+    volumes:
+      - nodesktop-home:/home/nodesktop
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:rw,nosuid,nodev,noexec,mode=1777,size=512m
+      - /run:rw,nosuid,nodev,noexec,mode=755,size=64m
+    init: false
+    shm_size: 512mb
+    restart: unless-stopped
+
+secrets:
+  vnc_password:
+    file: ${VNC_PASSWORD_PATH:-.secrets/vnc_password}
+
+volumes:
+  nodesktop-home:

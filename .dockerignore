@@ -1,0 +1,13 @@
+.codex
+.git
+.github
+.secrets
+AGENTS.md
+assets/fonts
+README.md
+run_*.sh
+startup.sh
+install
+tests
+xfce
+*.log

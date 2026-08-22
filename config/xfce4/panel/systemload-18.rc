@@ -1,0 +1,27 @@
+[Main]
+Timeout=250
+Timeout_Seconds=5
+Use_Timeout_Seconds=true
+Use_Click_Command=true
+Click_Command=xfce4-terminal --command=btop
+
+[SL_Cpu]
+Enabled=true
+Use_Label=false
+Color=#AFC39D
+Text=cpu
+
+[SL_Mem]
+Enabled=true
+Use_Label=false
+Color=#73875A
+Text=mem
+
+[SL_Swap]
+Enabled=false
+Use_Label=false
+Color=#B79A61
+Text=swap
+
+[SL_Uptime]
+Enabled=true

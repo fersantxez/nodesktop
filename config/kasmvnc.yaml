@@ -1,0 +1,47 @@
+desktop:
+  resolution:
+    width: 1440
+    height: 900
+  allow_resize: true
+  pixel_depth: 24
+
+network:
+  protocol: http
+  interface: 0.0.0.0
+  websocket_port: 6901
+  use_ipv4: true
+  use_ipv6: false
+  ssl:
+    pem_certificate: /etc/ssl/certs/ssl-cert-snakeoil.pem
+    pem_key: /etc/ssl/private/ssl-cert-snakeoil.key
+    require_ssl: true
+
+user_session:
+  new_session_disconnects_existing_exclusive_session: true
+  concurrent_connections_prompt: false
+  idle_timeout: never
+
+security:
+  brute_force_protection:
+    blacklist_threshold: 5
+    blacklist_timeout: 10
+
+encoding:
+  max_frame_rate: 30
+  video_encoding_mode:
+    max_resolution:
+      width: 2560
+      height: 1600
+  rect_encoding_mode:
+    min_quality: 7
+    max_quality: 8
+    rectangle_compress_threads: auto
+
+server:
+  http:
+    headers:
+      - Cross-Origin-Embedder-Policy=require-corp
+      - Cross-Origin-Opener-Policy=same-origin
+      - Referrer-Policy=no-referrer
+      - X-Content-Type-Options=nosniff
+    httpd_directory: /usr/local/share/nodesktop/kasmvnc-www

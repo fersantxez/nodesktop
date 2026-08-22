@@ -1,0 +1,51 @@
+desktop:
+  resolution:
+    width: 1440
+    height: 900
+  allow_resize: true
+  pixel_depth: 24
+
+# HTTP is permitted only for browser automation on a loopback-only port.
+network:
+  protocol: http
+  interface: 0.0.0.0
+  websocket_port: 6901
+  use_ipv4: true
+  use_ipv6: false
+  ssl:
+    require_ssl: false
+
+user_session:
+  new_session_disconnects_existing_exclusive_session: true
+  concurrent_connections_prompt: false
+  idle_timeout: never
+
+security:
+  brute_force_protection:
+    blacklist_threshold: 5
+    blacklist_timeout: 10
+
+encoding:
+  max_frame_rate: 60
+  video_encoding_mode:
+    max_resolution:
+      width: 2560
+      height: 1600
+  rect_encoding_mode:
+    min_quality: 7
+    max_quality: 8
+    rectangle_compress_threads: auto
+
+server:
+  http:
+    headers:
+      - Cross-Origin-Embedder-Policy=require-corp
+      - Cross-Origin-Opener-Policy=same-origin
+      - Referrer-Policy=no-referrer
+      - X-Content-Type-Options=nosniff
+    httpd_directory: /usr/local/share/nodesktop/kasmvnc-www
+
+logging:
+  log_writer_name: all
+  log_dest: logfile
+  level: 100

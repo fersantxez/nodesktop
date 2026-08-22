@@ -1,147 +1,78 @@
 #!/usr/bin/env bash
+set -Eeuo pipefail
 
-# No-desktop pre-flight script
-# Fernando Sanchez <fernandosanchezmunoz@gmail.com>
+image="${NODEDESKTOP_IMAGE:-nodesktop:3.0.0-full}"
+name="${1:-nodesktop-v3}"
+port="${NODEDESKTOP_PORT:-6901}"
+resolution="${NODEDESKTOP_RESOLUTION:-1440x900}"
+ui_scale="${NODEDESKTOP_UI_SCALE:-100}"
+password_file="${NODEDESKTOP_PASSWORD_FILE:-}"
 
-# every exit != 0 fails the script
-set -e
-
-# =============================================================================
-# Default values
-# =============================================================================
-
-export DOCKER_IMAGE=fernandosanchez/nodesktop:bullseye
-export VNC_COL_DEPTH=24
-export VNC_RESOLUTION=1280x1024
-export VNC_PORT=5901
-export NOVNC_PORT=6901
-export HOME_MOUNT_DIR=/mnt/home
-export ROOT_MOUNT_DIR=/mnt/root
-export SILENT=false
-export MINIMAL=false
-
-# =============================================================================
-# Pretty colours
-# =============================================================================
-
-RED='\033[0;31m'
-BLUE='\033[1;34m'
-NC='\033[0m' # No Color
-
-# =============================================================================
-# Functions
-# =============================================================================
-
-# Prefixes output and writes to STDERR:
-error() {
-	echo -e "\n\n${RED}nodesktop error${NC}: $@\n" >&2
+fail() {
+  printf 'nodesktop: %s\n' "$*" >&2
+  exit 1
 }
 
-# Checks for command presence in $PATH, errors:
-check_command() {
-	TESTCOMMAND=$1
-	HELPTEXT=$2
+command -v docker >/dev/null 2>&1 || fail "Docker is required."
+[[ "${name}" =~ ^[a-zA-Z0-9][a-zA-Z0-9_.-]*$ ]] || fail "Invalid container name: ${name}"
+if [[ ! "${port}" =~ ^[0-9]+$ ]] || (( port < 1 || port > 65535 )); then
+  fail "Invalid NODEDESKTOP_PORT: ${port}"
+fi
+[[ "${resolution}" =~ ^[0-9]+x[0-9]+$ ]] \
+  || fail "Invalid NODEDESKTOP_RESOLUTION: ${resolution}"
+[[ "${ui_scale}" == 100 || "${ui_scale}" == 125 ]] \
+  || fail "NODEDESKTOP_UI_SCALE must be 100 or 125."
 
-	printf '%-50s' " - $TESTCOMMAND..."
-	command -v $TESTCOMMAND >/dev/null 2>&1 || {
-		echo "[ MISSING ]"
-		error "The '$TESTCOMMAND' command was not found. $HELPTEXT"
-
-		exit 1
-	}
-	echo "[ OK ]"
-}
-
-# =============================================================================
-# Banner
-# =============================================================================
-
-echo -e "${BLUE}
-           _         _   _           
- ___ ___ _| |___ ___| |_| |_ ___ ___ 
-|   | . | . | -_|_ -| '_|  _| . | . |
-|_|_|___|___|___|___|_,_|_| |___|  _|
-                                |_|  
-${NC}"
-
-# =============================================================================
-# Base sanity checking
-# =============================================================================
-
-# Check for our requisite binaries:
-echo "Checking for requisite binaries..."
-check_command docker "Please install Docker. Visit https://docs.docker.com/install/ for more information."
-
-# =============================================================================
-# FIXME: Usage
-# =============================================================================
-
-# =============================================================================
-# Get Name
-# =============================================================================
-
-#first argument is the name
-if [ $# -le 0 ]
-  then
-    read -p "** Enter a name for the instance: " NAME
-else
-  export NAME=$1
+if docker container inspect "${name}" >/dev/null 2>&1; then
+  fail "A container named ${name} already exists. Remove or rename it first."
 fi
 
-# =============================================================================
-# Get Password
-# =============================================================================
-
-#second argument is the password
-if [ $# -le 1 ]
-  then
-    read -p "** Enter a password for the NoVNC session: " VNC_PW
-else
-  export VNC_PW=$2
+if ! docker image inspect "${image}" >/dev/null 2>&1; then
+  printf 'Building %s...\n' "${image}"
+  docker build --target production --tag "${image}" .
 fi
 
-echo "*** Starting instance "$NAME" with password "$VNC_PW
+password=""
+if [[ -n "${password_file}" ]]; then
+  [[ -f "${password_file}" && -r "${password_file}" ]] \
+    || fail "NODEDESKTOP_PASSWORD_FILE is not readable."
+  IFS= read -r password < "${password_file}" || true
+else
+  read -r -s -p "Choose a desktop password (12+ characters): " password
+  printf '\n'
+fi
+(( ${#password} >= 12 )) || fail "The desktop password must contain at least 12 characters."
 
-# =============================================================================
-# Run with selected arguments
-# =============================================================================
-declare -a VARS=( \
-"NAME" \
-"DOCKER_IMAGE" \
-"VNC_COL_DEPTH" \
-"VNC_RESOLUTION" \
-"VNC_PW" \
-"VNC_PORT" \
-"NOVNC_PORT" \
-"HOME_MOUNT_DIR" \
-"ROOT_MOUNT_DIR" \
-"SILENT" \
-"MINIMAL"
-)
+secret_volume="${name}-secret"
+home_volume="${name}-home"
+docker volume create "${secret_volume}" >/dev/null
+docker volume create "${home_volume}" >/dev/null
 
-for var in "${VARS[@]}"; do
-    while [ -z "${!var}" ]; do 
-        echo "**ERROR: "$var" is unset or empty."
-        read -r -p "**INFO: Please enter a value for "$var" : " $var
-    done
-    echo "**DEBUG: "$var" is set to "${!var}
-done
+printf '%s\n' "${password}" \
+  | docker run --rm --interactive \
+      --user 0 \
+      --entrypoint /bin/sh \
+      --volume "${secret_volume}:/secret" \
+      "${image}" \
+      -c 'umask 0333; IFS= read -r secret; printf "%s\n" "$secret" > /secret/vnc_password; chmod 0444 /secret/vnc_password'
+unset password
 
-docker run -d \
---privileged \
---name ${NAME} \
--p ${VNC_PORT}:5901 \
--p ${NOVNC_PORT}:6901 \
--v ${HOME}:${HOME_MOUNT_DIR} \
--v /:${ROOT_MOUNT_DIR} \
--v /etc/group:/etc/group:ro \
--v /etc/passwd:/etc/passwd:ro \
--v /etc/shadow:/etc/shadow:ro \
--v /etc/sudoers.d:/etc/sudoers.d:ro \
---user $(id -u):$(id -g) \
--e VNC_COL_DEPTH=${VNC_COL_DEPTH} \
--e VNC_RESOLUTION=${VNC_RESOLUTION} \
--e VNC_PW=${VNC_PW} \
-${DOCKER_IMAGE}
+docker run --detach \
+  --name "${name}" \
+  --restart unless-stopped \
+  --publish "127.0.0.1:${port}:6901" \
+  --env "VNC_RESOLUTION=${resolution}" \
+  --env "NODESKTOP_UI_SCALE=${ui_scale}" \
+  --cap-drop ALL \
+  --security-opt no-new-privileges=true \
+  --read-only \
+  --tmpfs /tmp:rw,nosuid,nodev,noexec,mode=1777,size=512m \
+  --tmpfs /run:rw,nosuid,nodev,noexec,mode=755,size=64m \
+  --shm-size 512m \
+  --volume "${home_volume}:/home/nodesktop" \
+  --volume "${secret_volume}:/run/secrets:ro" \
+  "${image}" >/dev/null
 
-
+printf 'Nodesktop is starting at https://127.0.0.1:%s\n' "${port}"
+printf 'Username: nodesktop\n'
+printf 'Check readiness with: docker inspect --format={{.State.Health.Status}} %s\n' "${name}"

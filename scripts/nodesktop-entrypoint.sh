@@ -77,6 +77,8 @@ fi
         -c xfwm4 -p /general/title_font -s "Inter Variable 10" >/dev/null 2>&1 || true
       DISPLAY="${VNC_DISPLAY}" xfconf-query \
         -c xsettings -p /Gtk/FontName -s "Inter Variable 10" >/dev/null 2>&1 || true
+      DISPLAY="${VNC_DISPLAY}" xfconf-query \
+        -c xsettings -p /Net/IconThemeName -s "Nodesktop-Forest" >/dev/null 2>&1 || true
       break
     fi
     sleep 1
@@ -95,14 +97,16 @@ install -d -m 1777 /tmp/.X11-unix /tmp/.ICE-unix
 if [[ ! -r /etc/ssl/certs/ssl-cert-snakeoil.pem || ! -r /etc/ssl/private/ssl-cert-snakeoil.key ]]; then
   cert_dir="${XDG_RUNTIME_DIR}/nodesktop-cert"
   cert_file="${HOME}/.vnc/self.pem"
-  install -d -m 0700 "${cert_dir}"
-  openssl req -new -x509 -nodes -days 365 \
-    -out "${cert_dir}/cert.pem" \
-    -keyout "${cert_dir}/key.pem" \
-    -subj "/C=US/ST=NY/L=New York/O=Nodesktop/OU=Nodesktop/CN=nodesktop" \
-    >/dev/null 2>&1
-  cat "${cert_dir}/cert.pem" "${cert_dir}/key.pem" > "${cert_file}"
-  chmod 0600 "${cert_file}"
+  if [[ ! -r "${cert_file}" ]]; then
+    install -d -m 0700 "${cert_dir}"
+    openssl req -new -x509 -nodes -days 365 \
+      -out "${cert_dir}/cert.pem" \
+      -keyout "${cert_dir}/key.pem" \
+      -subj "/C=US/ST=NY/L=New York/O=Nodesktop/OU=Nodesktop/CN=nodesktop" \
+      >/dev/null 2>&1
+    cat "${cert_dir}/cert.pem" "${cert_dir}/key.pem" > "${cert_file}"
+    chmod 0600 "${cert_file}"
+  fi
   cat > "${HOME}/.vnc/kasmvnc.yaml" <<EOF
 network:
   ssl:

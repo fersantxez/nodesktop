@@ -161,7 +161,7 @@ def main() -> int:
         xsettings,
         "IconThemeName",
         "Nodesktop-Forest",
-        {"Moka", "Nodesktop-Forest"},
+        {"Moka", "Nodesktop-Tela-73875A-dark", "Nodesktop-Forest"},
     )
     for current, target in (({"30", "32", "40"}, str(scale["top_panel"])), ({"38", "40", "50"}, str(scale["bottom_panel"]))):
         tree = ET.parse(panel)

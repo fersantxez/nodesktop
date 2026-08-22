@@ -18,7 +18,7 @@ cp "${repo}/config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml" \
 sed -i.bak 's/Inter Variable 10/Roobert Light 10/; s/JetBrains Mono 11/Inconsolata Medium 12/' \
   "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
 sed -i.bak \
-  's/Nodesktop-Orchis-Green-Dark-Compact/Arc/; s/Nodesktop-Forest/Moka/' \
+  's/Nodesktop-Orchis-Green-Dark-Compact/Arc/' \
   "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
 rm "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml.bak"
 printf '%s\n' 'export BASH_IT_THEME=clean' 'export MY_SETTING=preserved' > "${home}/.bashrc"
@@ -51,10 +51,13 @@ mkdir -p "${home}/.config/xfce4/xfconf/xfce-perchannel-xml" "${home}/.config/nod
 cp "${repo}/config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml" \
   "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
 sed -i.bak \
-  's/Nodesktop-Orchis-Green-Dark-Compact/Arc/; s/Nodesktop-Forest/Moka/' \
+  's/Nodesktop-Orchis-Green-Dark-Compact/Arc/' \
   "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
 rm "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml.bak"
 printf '%s\n' 'lookupdate-2' > "${home}/.config/nodesktop/style-version"
+sed -i.bak 's/Nodesktop-Forest/Nodesktop-Tela-73875A-dark/' \
+  "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
+rm "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml.bak"
 "${repo}/scripts/migrate-style.py" --home "${home}" --defaults "${defaults}" --scale 100
 grep -Fq 'value="Nodesktop-Orchis-Green-Dark-Compact"' \
   "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"

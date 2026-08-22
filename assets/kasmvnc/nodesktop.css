@@ -6,16 +6,6 @@ html, body {
   font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: .32;
-  background-image: linear-gradient(var(--nodesktop-rule) 1px, transparent 1px), linear-gradient(90deg, var(--nodesktop-rule) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-
 #noVNC_control_bar,
 #noVNC_connect_dlg > *,
 .noVNC_panel,

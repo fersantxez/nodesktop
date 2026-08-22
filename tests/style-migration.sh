@@ -15,7 +15,7 @@ cp -R "${repo}/config/btop" "${defaults}/btop"
 cp "${repo}/config/bashrc" "${defaults}/bashrc"
 cp "${repo}/config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml" \
   "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
-sed -i.bak 's/Inter 10/Roobert Light 10/; s/JetBrains Mono 11/Inconsolata Medium 12/' \
+sed -i.bak 's/Inter Variable 10/Roobert Light 10/; s/JetBrains Mono 11/Inconsolata Medium 12/' \
   "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
 rm "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml.bak"
 printf '%s\n' 'export BASH_IT_THEME=clean' 'export MY_SETTING=preserved' > "${home}/.bashrc"
@@ -41,7 +41,7 @@ rm -rf "${home}"
 mkdir -p "${home}/.config/xfce4/xfconf/xfce-perchannel-xml"
 cp "${repo}/config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml" \
   "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
-sed -i.bak 's/Inter 10/Roobert Light 10/' \
+sed -i.bak 's/Inter Variable 10/Roobert Light 10/' \
   "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
 rm "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml.bak"
 "${repo}/scripts/migrate-style.py" --home "${home}" --defaults "${defaults}" --scale 100

@@ -66,6 +66,10 @@ fi
       -c xfce4-panel \
       -p /panels/panel-2/position \
       -s "p=12;x=${panel_center};y=0" >/dev/null 2>&1; then
+      DISPLAY="${VNC_DISPLAY}" xfconf-query \
+        -c xfwm4 -p /general/title_font -s "Inter Variable 10" >/dev/null 2>&1 || true
+      DISPLAY="${VNC_DISPLAY}" xfconf-query \
+        -c xsettings -p /Gtk/FontName -s "Inter Variable 10" >/dev/null 2>&1 || true
       break
     fi
     sleep 1

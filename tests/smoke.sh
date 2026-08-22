@@ -16,7 +16,7 @@ health="$(docker inspect --format '{{.State.Health.Status}}' "${container}")"
 
 docker exec "${container}" test -s /home/nodesktop/.kasmpasswd \
   || fail "KasmVNC authentication database is empty."
-docker exec "${container}" grep -Fqx 'lookupdate-2' /home/nodesktop/.config/nodesktop/style-version \
+docker exec "${container}" grep -Fqx 'lookupdate-3' /home/nodesktop/.config/nodesktop/style-version \
   || fail "The current style migration was not applied."
 
 runtime="$(docker inspect --format '{{.Config.User}}|{{.HostConfig.Privileged}}|{{.HostConfig.ReadonlyRootfs}}|{{json .HostConfig.CapDrop}}|{{json .HostConfig.SecurityOpt}}|{{(index (index .NetworkSettings.Ports "6901/tcp") 0).HostIp}}' "${container}")"

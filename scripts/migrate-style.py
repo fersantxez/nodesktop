@@ -13,7 +13,7 @@ import tempfile
 import time
 import xml.etree.ElementTree as ET
 
-VERSION = "lookupdate-2"
+VERSION = "lookupdate-3"
 PRIOR_DEFAULT = "forest-semantic-4"
 
 
@@ -147,6 +147,22 @@ def main() -> int:
     set_xfce_property(xsettings, "DPI", str(scale["dpi"]), {"96", "120"})
     set_xfce_property(xsettings, "LastCustomDPI", str(scale["dpi"]), {"96", "120"})
     set_xfce_property(xsettings, "FontName", scale["font"], {"Inter 10", "Inter Variable 10", "Inter Variable 11"})
+    # The original Nodesktop image selected Arc with the blue Moka icon set.
+    # Upgrade only those known historical defaults so a persistent TrueNAS
+    # profile receives the current olive visual contract without overwriting a
+    # theme that the user selected explicitly.
+    set_xfce_property(
+        xsettings,
+        "ThemeName",
+        "Nodesktop-Orchis-Green-Dark-Compact",
+        {"Arc", "Arc-Dark", "Nodesktop-Orchis-Green-Dark-Compact"},
+    )
+    set_xfce_property(
+        xsettings,
+        "IconThemeName",
+        "Nodesktop-Forest",
+        {"Moka", "Nodesktop-Forest"},
+    )
     for current, target in (({"30", "32", "40"}, str(scale["top_panel"])), ({"38", "40", "50"}, str(scale["bottom_panel"]))):
         tree = ET.parse(panel)
         sizes = [element for element in tree.iter("property") if element.get("name") == "size"]

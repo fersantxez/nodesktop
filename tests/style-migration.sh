@@ -17,15 +17,22 @@ cp "${repo}/config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml" \
   "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
 sed -i.bak 's/Inter Variable 10/Roobert Light 10/; s/JetBrains Mono 11/Inconsolata Medium 12/' \
   "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
+sed -i.bak \
+  's/Nodesktop-Orchis-Green-Dark-Compact/Arc/; s/Nodesktop-Forest/Moka/' \
+  "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
 rm "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml.bak"
 printf '%s\n' 'export BASH_IT_THEME=clean' 'export MY_SETTING=preserved' > "${home}/.bashrc"
 
 "${repo}/scripts/migrate-style.py" --home "${home}" --defaults "${defaults}" --scale 125
 grep -Fq 'value="Inter Variable 11"' "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
 grep -Fq 'value="120"' "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
+grep -Fq 'name="ThemeName" type="string" value="Nodesktop-Orchis-Green-Dark-Compact"' \
+  "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
+grep -Fq 'name="IconThemeName" type="string" value="Nodesktop-Forest"' \
+  "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
 grep -Fq 'export BASH_IT_THEME=zork' "${home}/.bashrc"
 grep -Fq 'export MY_SETTING=preserved' "${home}/.bashrc"
-grep -Fqx 'lookupdate-2' "${home}/.config/nodesktop/style-version"
+grep -Fqx 'lookupdate-3' "${home}/.config/nodesktop/style-version"
 test -s "${home}/.config/sublime-text/Packages/User/Nodesktop.sublime-color-scheme"
 before="$(find "${home}/.config/nodesktop/backups" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')"
 "${repo}/scripts/migrate-style.py" --home "${home}" --defaults "${defaults}" --scale 125
@@ -36,6 +43,40 @@ after="$(find "${home}/.config/nodesktop/backups" -mindepth 1 -maxdepth 1 -type 
 "${repo}/scripts/nodesktop-style-rollback" --home "${home}"
 grep -Fq 'value="Roobert Light 10"' "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
 grep -Fqx 'forest-semantic-4' "${home}/.config/nodesktop/style-version"
+
+# A persisted profile already marked with the previous migration must still
+# receive the olive theme upgrade used by HQ.
+rm -rf "${home}"
+mkdir -p "${home}/.config/xfce4/xfconf/xfce-perchannel-xml" "${home}/.config/nodesktop"
+cp "${repo}/config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml" \
+  "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
+sed -i.bak \
+  's/Nodesktop-Orchis-Green-Dark-Compact/Arc/; s/Nodesktop-Forest/Moka/' \
+  "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
+rm "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml.bak"
+printf '%s\n' 'lookupdate-2' > "${home}/.config/nodesktop/style-version"
+"${repo}/scripts/migrate-style.py" --home "${home}" --defaults "${defaults}" --scale 100
+grep -Fq 'value="Nodesktop-Orchis-Green-Dark-Compact"' \
+  "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
+grep -Fq 'value="Nodesktop-Forest"' \
+  "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
+grep -Fqx 'lookupdate-3' "${home}/.config/nodesktop/style-version"
+
+# Explicitly selected third-party themes are not Nodesktop legacy defaults and
+# must remain untouched.
+rm -rf "${home}"
+mkdir -p "${home}/.config/xfce4/xfconf/xfce-perchannel-xml"
+cp "${repo}/config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml" \
+  "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
+sed -i.bak \
+  's/Nodesktop-Orchis-Green-Dark-Compact/User-Gtk-Theme/; s/Nodesktop-Forest/User-Icon-Theme/' \
+  "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
+rm "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml.bak"
+"${repo}/scripts/migrate-style.py" --home "${home}" --defaults "${defaults}" --scale 100
+grep -Fq 'value="User-Gtk-Theme"' \
+  "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
+grep -Fq 'value="User-Icon-Theme"' \
+  "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
 
 rm -rf "${home}"
 mkdir -p "${home}/.config/xfce4/xfconf/xfce-perchannel-xml"

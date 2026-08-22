@@ -57,6 +57,21 @@ if count:
 PY
 fi
 
+# The XFCE session can restore its own panel state after the XML defaults are
+# read. Retry through xfconf once the session bus/panel is available so the
+# running panel uses the same framebuffer-derived center.
+(
+  for _ in {1..30}; do
+    if DISPLAY="${VNC_DISPLAY}" xfconf-query \
+      -c xfce4-panel \
+      -p /panels/panel-2/position \
+      -s "p=12;x=${panel_center};y=0" >/dev/null 2>&1; then
+      break
+    fi
+    sleep 1
+  done
+) &
+
 install -d -m 0700 "${HOME}/.vnc" "${XDG_RUNTIME_DIR}"
 chmod 0700 "${XDG_RUNTIME_DIR}"
 install -d -m 1777 /tmp/.X11-unix /tmp/.ICE-unix

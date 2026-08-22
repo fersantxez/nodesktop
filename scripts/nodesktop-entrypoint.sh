@@ -21,8 +21,14 @@ if [[ -z "${vnc_password}" ]]; then
   fi
   IFS= read -r vnc_password < "${password_file}" || true
 fi
-if (( ${#vnc_password} < 12 )); then
-  printf 'The VNC password must contain at least 12 characters.\n' >&2
+minimum_password_length=12
+if [[ -n "${VNC_PW:-}" ]]; then
+  # Keep compatibility with the legacy TrueNAS manifest, whose existing
+  # password is shorter than the modern secret-file policy.
+  minimum_password_length=8
+fi
+if (( ${#vnc_password} < minimum_password_length )); then
+  printf 'The VNC password must contain at least %s characters.\n' "${minimum_password_length}" >&2
   exit 64
 fi
 

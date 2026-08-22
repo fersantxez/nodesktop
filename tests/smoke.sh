@@ -72,10 +72,10 @@ done
 [[ "${style_output}" == $'Nodesktop-Orchis-Green-Dark-Compact\nNodesktop-Forest\nNodesktop-Orchis-Green-Dark-Compact\nThunarDetailsView' ]] \
   || fail "Unexpected desktop style: ${style_output}"
 
-docker exec "${container}" grep -qx 'Color_In=#AFC39D' \
+docker exec "${container}" grep -Eq '^Color_In=(#AFC39D|rgb\(175,195,157\))$' \
   /home/nodesktop/.config/xfce4/panel/netload-17.rc \
   || fail "Network input accent is not sage."
-docker exec "${container}" grep -qx 'Color_Out=#73875A' \
+docker exec "${container}" grep -Eq '^Color_Out=(#73875A|rgb\(115,135,90\))$' \
   /home/nodesktop/.config/xfce4/panel/netload-17.rc \
   || fail "Network output accent is not moss olive."
 docker exec "${container}" grep -qx 'Update_Interval=5000' \

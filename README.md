@@ -1,149 +1,93 @@
-# Nodesktop 3
+# Nodesktop
 
-Nodesktop is a fast, browser-accessible Debian desktop that runs in a hardened
-Docker container. The current design uses Debian 13.6, XFCE 4.20, and KasmVNC
-1.5.0 with mandatory TLS and modern video/rectangle encoding.
+Nodesktop is a browser-accessible Debian desktop distributed as a Docker image.
+It combines XFCE, KasmVNC, and a practical set of desktop and terminal tools
+in a reproducible, isolated runtime.
 
-## Desktop configuration
+## What it provides
 
-The desktop uses a dark green palette and supports the selectable Turrell
-background. The default wallpaper is a low-bandwidth forest design. The Orchis
-Dark Green theme combines near-black, forest, dark olive, sage, warm white, and
-small gold accents. Inter Variable is used for interface text, Newsreader for
-window titles, and JetBrains Mono for terminals and code. The custom icon layer
-is limited to desktop place shortcuts; application icons remain those supplied
-by the applications themselves.
+- Debian 13.6, XFCE 4.20, and KasmVNC 1.5.0
+- HTTPS desktop access on port `6901` (HTTP redirects to HTTPS)
+- AMD64 and ARM64 builds
+- `core` and `full` image targets
+- Pinned application versions and checksums for downloaded archives
+- A read-only root filesystem, dropped capabilities, and no host filesystem
+  mounts in the supported local launchers
 
-Theme configuration is included for Sublime Text, Geany, Terminal, btop,
-Firefox, and GTK4/libadwaita applications. It changes colors and typography
-without replacing their native layouts. Bash-it is installed and the default
-shell uses its `zork` theme.
+The `full` image includes Firefox, Sublime Text, Geany, FileZilla,
+Transmission, Nicotine+, Papers, btop, 7-Zip, Rclone, Tor, Bash-it, and the
+Tor Browser bundle on AMD64. The exact versions are defined in `Dockerfile`.
 
-## What is included
+## Desktop appearance
 
-The `full` image adds current desktop tools to the lightweight `core` image:
+The default desktop uses an Orchis Dark Green theme: near-black, forest, dark
+olive, sage, warm white, and restrained gold. It includes a lightweight forest
+wallpaper and an alternative Turrell background. Inter Variable is used for
+interface text, Newsreader for window titles, and JetBrains Mono for terminals
+and code.
 
-- Firefox 154.0
-- Sublime Text 4200 and Geany 2.0
-- FileZilla 3.68.1 and Transmission 4.1.3
-- Nicotine+ 3.3.10
-- Papers 48.3, 7-Zip 25.01, and btop 1.4.7
-- Rclone 1.75.0 (the lightweight replacement for the abandoned ODrive client)
-- Bash-it 3.2.0
-- Tor Browser 15.0.20 on AMD64
-- Tor 0.4.9.11 with an isolated Firefox proxy profile on ARM64, where the Tor
-  Project does not publish an official Linux Tor Browser bundle
-
-Versions are explicit build arguments in the `Dockerfile`, and every downloaded
-archive is checked against a pinned digest.
-
-Firefox enterprise policy disables telemetry, studies, promotional messaging,
-and in-browser self-updates. Browser security updates are delivered by rebuilding
-the immutable image at the pinned Firefox version. Firefox may still show its
-Terms of Use on a new profile; Nodesktop does not accept legal terms for users.
+Theme settings are supplied for Sublime Text, Geany, XFCE Terminal, btop,
+Firefox, and GTK4/libadwaita applications. They adjust presentation without
+replacing native application layouts. The custom icon theme is limited to
+desktop places and panel controls; application icons remain native. Bash-it is
+included in the `full` image and uses the `zork` theme.
 
 ## Run locally
 
-Docker Desktop or Colima is required. Build and start the complete image:
+Requirements: Docker Desktop, Docker Engine, or a compatible Docker runtime.
 
 ```bash
 docker build --target production --tag nodesktop:local .
 NODEDESKTOP_IMAGE=nodesktop:local ./run_local.sh
 ```
 
-The launcher asks for a password of at least 12 characters without displaying
-it, stores it in a dedicated read-only Docker volume, and opens only the loopback
-interface. Visit <https://127.0.0.1:6901> and sign in as `nodesktop`. A browser
-warning is expected because the image uses a locally generated self-signed TLS
-certificate. For compatibility with existing bookmarks, plain HTTP on port
-6901 returns a redirect to the equivalent HTTPS URL; the VNC/WebSocket service
-remains TLS-only.
+The launcher asks for a password without displaying it, stores the password and
+desktop profile in named Docker volumes, binds the web port to loopback, and
+runs the desktop as the unprivileged `nodesktop` user.
 
-Non-interactive launch is supported without putting the password in the command
-line or container environment:
+Open <https://127.0.0.1:6901> and sign in as `nodesktop`. A certificate warning
+is expected during local development because the image creates a self-signed
+certificate. Use a trusted TLS reverse proxy when exposing the service beyond
+the local machine.
+
+For unattended startup, keep the password in a protected file:
 
 ```bash
-NODEDESKTOP_PASSWORD_FILE=/secure/path/password ./run_local.sh my-desktop
+NODEDESKTOP_PASSWORD_FILE=/path/to/vnc_password ./run_local.sh my-desktop
 ```
 
-Optional settings are `NODEDESKTOP_IMAGE`, `NODEDESKTOP_PORT`,
+Useful launcher variables are `NODEDESKTOP_IMAGE`, `NODEDESKTOP_PORT`,
 `NODEDESKTOP_RESOLUTION`, and `NODEDESKTOP_UI_SCALE` (`100` or `125`).
-
-The local launcher is intentionally isolated: it creates named Docker volumes
-for the password and desktop profile, publishes only loopback, and does not
-mount the host home or root filesystem. The default local account is
-`nodesktop`; the password is selected interactively or read from
-`NODEDESKTOP_PASSWORD_FILE`.
-
-## Runtime security
-
-The supported launcher and `compose.yaml` run as UID/GID 1000 with all Linux
-capabilities dropped, `no-new-privileges`, a read-only root filesystem, isolated
-temporary filesystems, and no host filesystem mounts. Port `6901` accepts only
-an HTTP-to-HTTPS redirect or HTTPS/KasmVNC traffic; raw VNC is not exposed. The desktop user has no
-`sudo` access.
-
-To expose this beyond the laptop, put an authenticated TLS reverse proxy or VPN
-in front of it. Do not publish port 6901 directly to the internet.
 
 ## Compose
 
-Create `.secrets/vnc_password` containing a 12+ character password, then run:
+Create a local secret and start the complete image:
 
 ```bash
+mkdir -p .secrets
+umask 077
+printf '%s\n' 'choose-a-long-password' > .secrets/vnc_password
 docker compose up --build --detach
 ```
 
-The `.secrets` directory is ignored by Git. `compose.yaml` uses the same
-hardened runtime defaults as the launcher.
+The supplied `compose.yaml` persists `/home/nodesktop` in a named volume,
+publishes port `6901` only on loopback, and applies the same runtime
+restrictions as the local launcher. Do not commit passwords, private keys,
+host paths, or credential-bearing environment files.
 
-To use a registry image instead of building locally, set `NODEDESKTOP_IMAGE`
-in the Compose environment and keep the password in the secret file. Never
-put credentials directly in `compose.yaml`, a shell command, or a committed
-environment file.
-
-## TrueNAS and other container platforms
-
-Nodesktop can be installed as a custom TrueNAS application or equivalent
-container workload. Keep the application configuration generic and provide
-storage mappings through the platform UI or manifest:
-
-- `VNC_RESOLUTION`: `<width>x<height>` (for example, `1680x1050`)
-- `NODESKTOP_UI_SCALE`: `100` or `125`
-- `VNC_USER`: the desktop account exposed by the platform
-- `VNC_PASSWORD_FILE`: a read-only secret-file path
-- `HOME`: the writable profile mount used by the desktop account
-
-Map only the directories the operator intends to expose, such as a media
-directory to `/mnt/Media` or a downloads directory to `/mnt/Downloads`.
-Prefer an unprivileged container, read-only root, dropped capabilities, and
-platform-managed secrets. The legacy `VNC_PW` environment variable is retained
-only for migration of older manifests; secret files are the recommended mode.
-Likewise, host `/etc/passwd`, `/etc/group`, `/etc/shadow`, broad privileges, and
-host-root mounts are compatibility features for legacy deployments and should
-not be enabled for a new installation.
-
-The application should expose the HTTPS/KasmVNC port only through the
-platform's authenticated portal or a private network. Do not commit a real
-hostname, username, password, dataset path, or personal mount layout to a
-manifest or this repository.
-
-## Images and validation
-
-Build the smaller core or complete image independently:
+## Image targets
 
 ```bash
 docker build --target core --tag nodesktop:local-core .
 docker build --target full --tag nodesktop:local-full .
 ```
 
-After starting a container, run `./tests/static.sh`,
-`./tests/smoke.sh <container-name>`, and
-`./tests/functional.sh <container-name>` to verify source/config integrity,
-installed versions, process health, visual defaults, tool launchers, and runtime
-security settings.
+`core` is the smaller desktop image. `full` adds the application set listed
+above. `production` is the default runtime target and is based on `full`.
 
-For a complete local verification, run the checks in this order:
+## Verification
+
+Run the checks from the repository root:
 
 ```bash
 ./tests/static.sh
@@ -152,13 +96,18 @@ For a complete local verification, run the checks in this order:
 ./tests/performance.sh <container-name>
 ```
 
-The legacy Google Cloud launcher is retained for reference but is not a
-supported Nodesktop 3 deployment path; it does not implement this local
-hardening model.
+The suite checks source files, generated assets, Dockerfile syntax, image
+health, installed versions, desktop settings, theme assets, launchers, and
+runtime restrictions.
 
-Published releases use an immutable version-and-distribution tag such as
-`<registry>/<namespace>/nodesktop:3.0.0-trixie`. The shorter version,
-distribution, and `latest` tags are convenience aliases; production
-deployments should use the immutable tag or its registry digest. The registry
-namespace is deployment-specific and is deliberately not hard-coded in this
-repository's documentation.
+## Security notes
+
+The local launchers are intentionally isolated and do not mount the host home
+or root filesystem. Port `6901` carries only the HTTPS web desktop and its
+TLS-protected WebSocket connection; raw VNC is not exposed. For remote access,
+use a private network or an authenticated TLS reverse proxy instead of
+publishing the port directly to the internet.
+
+Use immutable image tags or registry digests for repeatable deployments. Update
+the version argument and checksum together in `Dockerfile`, then run the full
+verification suite before publishing a release.

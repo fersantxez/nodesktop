@@ -4,19 +4,20 @@ Nodesktop is a fast, browser-accessible Debian desktop that runs in a hardened
 Docker container. The current design uses Debian 13.6, XFCE 4.20, and KasmVNC
 1.5.0 with mandatory TLS and modern video/rectangle encoding.
 
-The interface keeps the established dark-green identity and the selectable
-Turrell background, while its new default is an original low-bandwidth forest
-grid wallpaper. The compact Orchis Dark Green base uses near-black, forest,
-moss-olive, sage, warm white, and restrained gold. Inter Variable is the UI
-face, Newsreader is used for window titles, and JetBrains Mono is used in code
-and terminals. A small Nodesktop Forest overlay supplies recognizable semantic
-place icons while native application icons remain distinct.
+## Desktop configuration
 
-Sublime Text, Geany, Terminal, btop, Firefox, and GTK4/libadwaita applications
-receive supported dark adapters. Sublime inherits its native layout and changes
-only presentation. Papers and other libadwaita tools use dark mode with a green
-accent. Bash-it remains installed and the default user starts with its `zork`
-theme.
+The desktop uses a dark green palette and supports the selectable Turrell
+background. The default wallpaper is a low-bandwidth forest design. The Orchis
+Dark Green theme combines near-black, forest, dark olive, sage, warm white, and
+small gold accents. Inter Variable is used for interface text, Newsreader for
+window titles, and JetBrains Mono for terminals and code. The custom icon layer
+is limited to desktop place shortcuts; application icons remain those supplied
+by the applications themselves.
+
+Theme configuration is included for Sublime Text, Geany, Terminal, btop,
+Firefox, and GTK4/libadwaita applications. It changes colors and typography
+without replacing their native layouts. Bash-it is installed and the default
+shell uses its `zork` theme.
 
 ## What is included
 

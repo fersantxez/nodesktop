@@ -54,7 +54,9 @@ The launcher asks for a password of at least 12 characters without displaying
 it, stores it in a dedicated read-only Docker volume, and opens only the loopback
 interface. Visit <https://127.0.0.1:6901> and sign in as `nodesktop`. A browser
 warning is expected because the image uses a locally generated self-signed TLS
-certificate.
+certificate. For compatibility with existing bookmarks, plain HTTP on port
+6901 returns a redirect to the equivalent HTTPS URL; the VNC/WebSocket service
+remains TLS-only.
 
 Non-interactive launch is supported without putting the password in the command
 line or container environment:
@@ -76,8 +78,8 @@ mount the host home or root filesystem. The default local account is
 
 The supported launcher and `compose.yaml` run as UID/GID 1000 with all Linux
 capabilities dropped, `no-new-privileges`, a read-only root filesystem, isolated
-temporary filesystems, and no host filesystem mounts. Only HTTPS/KasmVNC on
-`127.0.0.1:6901` is published; raw VNC is not exposed. The desktop user has no
+temporary filesystems, and no host filesystem mounts. Port `6901` accepts only
+an HTTP-to-HTTPS redirect or HTTPS/KasmVNC traffic; raw VNC is not exposed. The desktop user has no
 `sudo` access.
 
 To expose this beyond the laptop, put an authenticated TLS reverse proxy or VPN

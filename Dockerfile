@@ -86,6 +86,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     NO_AT_BRIDGE=1 \
     VNC_DISPLAY=:1 \
     VNC_PORT=6901 \
+    VNC_BACKEND_PORT=6902 \
     VNC_RESOLUTION=1440x900 \
     VNC_USER=nodesktop \
     XDG_RUNTIME_DIR=/tmp/runtime-nodesktop
@@ -260,10 +261,11 @@ COPY config/applications/firefox.desktop /usr/share/applications/firefox.desktop
 FROM core-filesystem AS core
 
 COPY scripts/nodesktop-entrypoint.sh /usr/local/bin/nodesktop-entrypoint
+COPY scripts/nodesktop-http-redirect.py /usr/local/bin/nodesktop-http-redirect.py
 COPY config/firefox/policies.json /opt/firefox/distribution/policies.json
 COPY config/bashrc /home/nodesktop/.bashrc
 
-RUN chmod 0755 /usr/local/bin/nodesktop-entrypoint \
+RUN chmod 0755 /usr/local/bin/nodesktop-entrypoint /usr/local/bin/nodesktop-http-redirect.py \
  && chown nodesktop:nodesktop /home/nodesktop/.bashrc
 
 USER nodesktop
@@ -341,9 +343,10 @@ COPY config/bashrc /home/nodesktop/.bashrc
 COPY config/firefox/policies.json /opt/firefox/distribution/policies.json
 COPY config/tor-user.js /home/nodesktop/.mozilla/nodesktop-tor/user.js
 COPY scripts/nodesktop-entrypoint.sh /usr/local/bin/nodesktop-entrypoint
+COPY scripts/nodesktop-http-redirect.py /usr/local/bin/nodesktop-http-redirect.py
 COPY scripts/nodesktop-tor-browser.sh /usr/local/bin/nodesktop-tor-browser
 
-RUN chmod 0755 /usr/local/bin/nodesktop-entrypoint /usr/local/bin/nodesktop-tor-browser \
+RUN chmod 0755 /usr/local/bin/nodesktop-entrypoint /usr/local/bin/nodesktop-http-redirect.py /usr/local/bin/nodesktop-tor-browser \
  && chown -R nodesktop:nodesktop /home/nodesktop/.bashrc /home/nodesktop/.mozilla
 
 # Overlay the two XFCE panel glyphs after the application layers so small visual

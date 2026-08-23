@@ -36,6 +36,10 @@ if [[ ! "${VNC_RESOLUTION}" =~ ^[0-9]+x[0-9]+$ ]]; then
   printf 'Invalid VNC_RESOLUTION: %s\n' "${VNC_RESOLUTION}" >&2
   exit 64
 fi
+if [[ ! "${VNC_PORT}" =~ ^[0-9]+$ || ! "${VNC_BACKEND_PORT}" =~ ^[0-9]+$ || "${VNC_PORT}" == "${VNC_BACKEND_PORT}" ]]; then
+  printf 'VNC_PORT and VNC_BACKEND_PORT must be different numeric ports.\n' >&2
+  exit 64
+fi
 
 # XFCE stores the horizontal panel center in pixels. Derive it from the
 # requested framebuffer so the compact launcher/status rail stays centered
@@ -123,13 +127,26 @@ unset vnc_password
 rm -f "/tmp/.X1-lock"
 rm -f "/tmp/.X11-unix/X1"
 
-printf 'Nodesktop is starting at https://0.0.0.0:%s (display %s, %s).\n' \
+printf 'Nodesktop is starting at https://0.0.0.0:%s (HTTP redirects enabled; display %s, %s).\n' \
   "${VNC_PORT}" "${VNC_DISPLAY}" "${VNC_RESOLUTION}"
 
-exec vncserver "${VNC_DISPLAY}" \
+"/usr/local/bin/nodesktop-http-redirect.py" \
+  --listen "${VNC_PORT}" \
+  --backend "${VNC_BACKEND_PORT}" &
+redirect_pid=$!
+
+vncserver "${VNC_DISPLAY}" \
   -fg \
   -select-de xfce \
   -geometry "${VNC_RESOLUTION}" \
   -depth 24 \
   -interface 0.0.0.0 \
-  -websocketPort "${VNC_PORT}"
+  -websocketPort "${VNC_BACKEND_PORT}" &
+vnc_pid=$!
+
+cleanup() {
+  kill -TERM "${vnc_pid}" "${redirect_pid}" 2>/dev/null || true
+}
+trap cleanup INT TERM EXIT
+
+wait "${vnc_pid}"

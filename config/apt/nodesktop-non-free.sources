@@ -3,10 +3,10 @@ Types: deb
 URIs: https://deb.debian.org/debian
 Suites: trixie trixie-updates
 Components: non-free
-Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+Signed-By: /usr/share/keyrings/debian-archive-keyring.pgp
 
 Types: deb
 URIs: https://deb.debian.org/debian-security
 Suites: trixie-security
 Components: non-free
-Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+Signed-By: /usr/share/keyrings/debian-archive-keyring.pgp

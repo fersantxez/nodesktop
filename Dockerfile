@@ -64,7 +64,7 @@ ARG GROUP_ID=1000
 ARG NEWSREADER_COMMIT=cfcb4f7af0e52c25e8df2a2431814c8e5fe2e155
 ARG NEWSREADER_SHA256=8a08d13f8a6c0d51be379a60af84f945f65369a67e509ee3c3bdcc421254d7c1
 ARG NEWSREADER_OFL_SHA256=fdfad38143ec470553cae82a1e45320bdd1b9ec70415d37bd0171051d8a4ded8
-ARG VERSION=3.0.0
+ARG VERSION=3.0.4-rar
 ARG REVISION=unknown
 ARG CREATED=unknown
 
@@ -211,15 +211,25 @@ ARG BTOP_VERSION=1.4.7
 ARG BTOP_SHA256_AMD64=5099054dd6a101bd12eb6ff3702a9a6a3f57aaa27923a0da478ae5b517faf335
 ARG BTOP_SHA256_ARM64=6270de0ef4c84cf0eea61cb148b3ad9ae91a11e9c3309867ffc6b3751024c252
 
+COPY config/apt/nodesktop-non-free.sources /etc/apt/sources.list.d/nodesktop-non-free.sources
+
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
       7zip \
+      bzip2 \
       geany \
+      gzip \
       libasound2t64 \
       libdbus-glib-1-2 \
       libgtk-3-0t64 \
       papers \
+      tar \
+      thunar-archive-plugin \
+      unrar \
+      unzip \
+      xarchiver \
       xz-utils \
+      zip \
  && case "${TARGETARCH}" in \
       amd64) firefox_arch=x86_64; firefox_sha="${FIREFOX_SHA512_AMD64}"; btop_arch=x86_64; btop_sha="${BTOP_SHA256_AMD64}" ;; \
       arm64) firefox_arch=aarch64; firefox_sha="${FIREFOX_SHA512_ARM64}"; btop_arch=aarch64; btop_sha="${BTOP_SHA256_ARM64}" ;; \
@@ -247,7 +257,6 @@ RUN apt-get update \
  && cp -R /tmp/btop/themes /tmp/btop/Img /usr/local/share/btop/ \
  && install -m 0644 /usr/local/share/nodesktop/generated/nodesktop-btop.theme \
       /usr/local/share/btop/themes/nodesktop.theme \
- && apt-get purge -y --auto-remove xz-utils \
  && apt-get clean \
  && find /usr/share/doc -type f ! -name copyright -delete \
  && find /usr/share/doc -depth -type d -empty -delete \
@@ -257,6 +266,8 @@ RUN apt-get update \
  && rm -rf /usr/share/man/* /var/lib/apt/lists/* /var/cache/apt/archives/* /tmp/*
 
 COPY config/applications/firefox.desktop /usr/share/applications/firefox.desktop
+COPY config/mimeapps.list /etc/xdg/mimeapps.list
+RUN update-desktop-database /usr/share/applications
 
 FROM core-filesystem AS core
 
@@ -331,7 +342,7 @@ RUN echo "deb https://deb.debian.org/debian trixie-backports main" > /etc/apt/so
       "/opt/bash-it-${BASH_IT_VERSION}/test" \
       "/opt/bash-it-${BASH_IT_VERSION}/test_lib" \
  && ln -s "/opt/bash-it-${BASH_IT_VERSION}" /opt/bash-it \
- && apt-get purge -y --auto-remove gnupg xz-utils \
+ && apt-get purge -y --auto-remove gnupg \
  && apt-get clean \
  && find /usr/share/doc -type f ! -name copyright -delete \
  && find /usr/share/doc -depth -type d -empty -delete \

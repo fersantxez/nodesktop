@@ -15,8 +15,11 @@ in a reproducible, isolated runtime.
   mounts in the supported local launchers
 
 The `full` image includes Firefox, Sublime Text, Geany, FileZilla,
-Transmission, Nicotine+, Papers, btop, 7-Zip, Rclone, Tor, Bash-it, and the
-Tor Browser bundle on AMD64. The exact versions are defined in `Dockerfile`.
+Transmission, Nicotine+, Papers, btop, Xarchiver, 7-Zip, Rclone, Tor, Bash-it,
+and the Tor Browser bundle on AMD64. Xarchiver is integrated with Thunar, so
+RAR, ZIP, 7z and TAR archives open or extract from the file manager; RAR
+extraction uses Debian's UnRAR backend. The exact versions are defined in
+`Dockerfile`.
 
 ## Desktop appearance
 

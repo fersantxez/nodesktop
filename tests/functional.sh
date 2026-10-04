@@ -41,6 +41,18 @@ docker exec "${container}" bash -lc '
   cp "$root/source/specimen.txt" "$HOME/nodesktop-e2e.txt"
 ' || fail "rclone/7zip/local fixture workflow failed"
 
+for package in xarchiver thunar-archive-plugin unrar; do
+  docker exec "${container}" dpkg-query -W -f='${Status}' "${package}" \
+    | grep -Fq 'install ok installed' \
+    || fail "archive integration package is missing: ${package}"
+done
+
+docker exec "${container}" bash -lc '
+  set -Eeuo pipefail
+  [[ "$(xdg-mime query default application/vnd.rar)" == xarchiver.desktop ]]
+  xarchiver --info | awk "/^rar4,/ { rar=1; next } rar && /unrar/ { found=1 } END { exit !found }"
+' || fail "RAR is not associated with an available Xarchiver/UnRAR backend"
+
 launch_check() {
   local pattern="$1"
   shift
@@ -59,6 +71,7 @@ launch_check() {
 
 launch_check 'xfce4-terminal' xfce4-terminal --disable-server
 launch_check 'thunar' thunar --window /home/nodesktop
+launch_check 'xarchiver' xarchiver /home/nodesktop/.cache/nodesktop-e2e/specimen.7z
 launch_check 'geany' geany --new-instance /home/nodesktop/nodesktop-e2e.txt
 launch_check 'papers' papers /home/nodesktop/nodesktop-e2e.txt
 launch_check 'sublime_text' subl --new-window /home/nodesktop/nodesktop-e2e.txt

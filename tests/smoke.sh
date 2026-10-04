@@ -37,6 +37,8 @@ version_output="$(docker exec "${container}" bash -lc '
   papers --version 2>&1
   btop --version 2>&1
   7z | grep -m1 "7-Zip" || true
+  xarchiver --version 2>&1
+  unrar | head -1
   rclone version | head -1
   tor --version | head -1
 ')"
@@ -62,6 +64,8 @@ for expected in \
   'Papers 48.3' \
   '1.4.7+' \
   '7-Zip 25.01' \
+  'Xarchiver' \
+  'UNRAR' \
   'rclone v1.75.0' \
   'Tor version 0.4.9.11'; do
   grep -Fq "${expected}" <<<"${version_output}" \

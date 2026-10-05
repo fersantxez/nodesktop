@@ -342,6 +342,7 @@ RUN echo "deb https://deb.debian.org/debian trixie-backports main" > /etc/apt/so
       "/opt/bash-it-${BASH_IT_VERSION}/test" \
       "/opt/bash-it-${BASH_IT_VERSION}/test_lib" \
  && ln -s "/opt/bash-it-${BASH_IT_VERSION}" /opt/bash-it \
+ && install -d /opt/bash-it/enabled \
  && ln -s ../plugins/available/base.plugin.bash /opt/bash-it/enabled/250---base.plugin.bash \
  && ln -s ../completion/available/system.completion.bash /opt/bash-it/enabled/325---system.completion.bash \
  && ln -s ../completion/available/bash-it.completion.bash /opt/bash-it/enabled/350---bash-it.completion.bash \

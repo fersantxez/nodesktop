@@ -13,7 +13,7 @@ import tempfile
 import time
 import xml.etree.ElementTree as ET
 
-VERSION = "terminal-dank-neon-1"
+VERSION = "terminal-dank-neon-2"
 PRIOR_DEFAULT = "forest-semantic-4"
 
 
@@ -186,6 +186,10 @@ def main() -> int:
         # read-only copy at /opt/bash-it, which also works with persisted homes.
         updated = updated.replace('export BASH_IT="/headless/.bash_it"', 'export BASH_IT="/opt/bash-it"')
         updated = updated.replace("export BASH_IT='/headless/.bash_it'", "export BASH_IT='/opt/bash-it'")
+        # This startup helper belonged to the pre-2024 container layout and
+        # does not exist in the current image.
+        updated = updated.replace("source $STARTUPDIR/generate_container_user.sh\n", "")
+        updated = updated.replace("source ${STARTUPDIR}/generate_container_user.sh\n", "")
         if updated != text:
             bashrc.write_text(updated, encoding="utf-8")
 

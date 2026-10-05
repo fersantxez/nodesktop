@@ -1,4 +1,4 @@
-# Nodesktop managed
+# Nodesktop managed: dank_neon
 [Configuration]
 FontName=JetBrains Mono 13
 MiscAlwaysShowTabs=FALSE
@@ -15,10 +15,10 @@ MiscConfirmClose=TRUE
 MiscHighlightUrls=TRUE
 MiscCopyOnSelect=FALSE
 MiscRewrapOnResize=TRUE
-ColorCursor=#AFC39D
-ColorPalette=#0B0F0C;#A85F5A;#5F986C;#B79A61;#73875A;#8B7652;#82B88A;#D7DBD2;#657066;#EF8B86;#82B88A;#E0B35E;#98A193;#B79A61;#AFC39D;#F2F0E6
+ColorCursor=#EFF0F6
+ColorPalette=#191B2A;#AC3756;#2DAD86;#FFCA7A;#7496CC;#A37CA9;#01A8AD;#858DB7;#2A2D46;#FF476E;#39FFBA;#FFEE7A;#94BFFF;#F2B3F1;#01F7F7;#EFF0F6
 ColorBoldUseDefault=FALSE
-ColorForeground=#D7DBD2
-ColorBackground=#111612
-ColorBold=#F2F0E6
-ColorSelection=#1F5B3A
+ColorForeground=#EFF0F6
+ColorBackground=#191B2A
+ColorBold=#EFF0F6
+ColorSelection=#3C4367

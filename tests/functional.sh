@@ -18,8 +18,8 @@ if docker exec "${container}" pgrep -f \
 fi
 
 docker exec "${container}" bash -lic \
-  '[[ ${BASH_IT_THEME} == zork ]] && [[ -r /opt/bash-it/bash_it.sh ]]' \
-  || fail "Bash-it with Zork is not active for the default user"
+  '[[ ${BASH_IT_THEME} == zork ]] && [[ ${BASH_IT} == /opt/bash-it ]] && [[ -r /opt/bash-it/bash_it.sh ]] && declare -F prompt >/dev/null' \
+  || fail "Bash-it with the workstation Zork profile is not active for the default user"
 
 for family in 'Inter Variable' 'JetBrains Mono' 'Newsreader'; do
   docker exec "${container}" fc-match "${family}" | grep -Fq "${family%% Variable}" \

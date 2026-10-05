@@ -16,7 +16,7 @@ health="$(docker inspect --format '{{.State.Health.Status}}' "${container}")"
 
 docker exec "${container}" test -s /home/nodesktop/.kasmpasswd \
   || fail "KasmVNC authentication database is empty."
-docker exec "${container}" grep -Fqx 'lookupdate-3' /home/nodesktop/.config/nodesktop/style-version \
+docker exec "${container}" grep -Fqx 'terminal-dank-neon-1' /home/nodesktop/.config/nodesktop/style-version \
   || fail "The current style migration was not applied."
 
 runtime="$(docker inspect --format '{{.Config.User}}|{{.HostConfig.Privileged}}|{{.HostConfig.ReadonlyRootfs}}|{{json .HostConfig.CapDrop}}|{{json .HostConfig.SecurityOpt}}|{{(index (index .NetworkSettings.Ports "6901/tcp") 0).HostIp}}' "${container}")"
@@ -88,12 +88,12 @@ docker exec "${container}" grep -qx 'Update_Interval=5000' \
 docker exec "${container}" grep -qx 'Timeout_Seconds=5' \
   /home/nodesktop/.config/xfce4/panel/systemload-18.rc \
   || fail "System monitor refresh interval is not the efficient five-second cadence."
-docker exec "${container}" grep -qx 'ColorBackground=#111612' \
+docker exec "${container}" grep -qx 'ColorBackground=#191B2A' \
   /home/nodesktop/.config/xfce4/terminal/terminalrc \
-  || fail "Terminal background is not near-black green."
-docker exec "${container}" grep -qx 'ColorForeground=#D7DBD2' \
+  || fail "Terminal background is not the default dank_neon profile."
+docker exec "${container}" grep -qx 'ColorForeground=#EFF0F6' \
   /home/nodesktop/.config/xfce4/terminal/terminalrc \
-  || fail "Terminal foreground is not warm white."
+  || fail "Terminal foreground is not the dank_neon foreground."
 docker exec "${container}" grep -Fq '"extends": "Adaptive.sublime-theme"' \
   /home/nodesktop/.config/sublime-text/Packages/User/Nodesktop.sublime-theme \
   || fail "Sublime does not inherit its supported native layout."

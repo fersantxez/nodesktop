@@ -342,6 +342,14 @@ RUN echo "deb https://deb.debian.org/debian trixie-backports main" > /etc/apt/so
       "/opt/bash-it-${BASH_IT_VERSION}/test" \
       "/opt/bash-it-${BASH_IT_VERSION}/test_lib" \
  && ln -s "/opt/bash-it-${BASH_IT_VERSION}" /opt/bash-it \
+ && ln -s ../plugins/available/base.plugin.bash /opt/bash-it/enabled/250---base.plugin.bash \
+ && ln -s ../completion/available/system.completion.bash /opt/bash-it/enabled/325---system.completion.bash \
+ && ln -s ../completion/available/bash-it.completion.bash /opt/bash-it/enabled/350---bash-it.completion.bash \
+ && ln -s ../aliases/available/bash-it.aliases.bash /opt/bash-it/enabled/750---bash-it.aliases.bash \
+ && ln -s ../aliases/available/directory.aliases.bash /opt/bash-it/enabled/750---directory.aliases.bash \
+ && ln -s ../aliases/available/editor.aliases.bash /opt/bash-it/enabled/750---editor.aliases.bash \
+ && ln -s ../aliases/available/general.aliases.bash /opt/bash-it/enabled/750---general.aliases.bash \
+ && ln -s ../completion/available/aliases.completion.bash /opt/bash-it/enabled/800---aliases.completion.bash \
  && apt-get purge -y --auto-remove gnupg \
  && apt-get clean \
  && find /usr/share/doc -type f ! -name copyright -delete \

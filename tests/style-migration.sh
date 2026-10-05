@@ -21,7 +21,7 @@ sed -i.bak \
   's/Nodesktop-Orchis-Green-Dark-Compact/Arc/' \
   "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
 rm "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml.bak"
-printf '%s\n' 'export BASH_IT_THEME=clean' 'export MY_SETTING=preserved' > "${home}/.bashrc"
+printf '%s\n' 'export BASH_IT="/headless/.bash_it"' 'export BASH_IT_THEME=clean' 'export MY_SETTING=preserved' > "${home}/.bashrc"
 
 "${repo}/scripts/migrate-style.py" --home "${home}" --defaults "${defaults}" --scale 125
 grep -Fq 'value="Inter Variable 11"' "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
@@ -30,9 +30,12 @@ grep -Fq 'name="ThemeName" type="string" value="Nodesktop-Orchis-Green-Dark-Comp
   "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
 grep -Fq 'name="IconThemeName" type="string" value="Nodesktop-Forest"' \
   "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
+grep -Fq 'export BASH_IT="/opt/bash-it"' "${home}/.bashrc"
 grep -Fq 'export BASH_IT_THEME=zork' "${home}/.bashrc"
 grep -Fq 'export MY_SETTING=preserved' "${home}/.bashrc"
-grep -Fqx 'lookupdate-3' "${home}/.config/nodesktop/style-version"
+grep -Fq 'ColorBackground=#191B2A' "${home}/.config/xfce4/terminal/terminalrc"
+grep -Fq 'ColorPalette=#191B2A;#AC3756;#2DAD86' "${home}/.config/xfce4/terminal/terminalrc"
+grep -Fqx 'terminal-dank-neon-1' "${home}/.config/nodesktop/style-version"
 test -s "${home}/.config/sublime-text/Packages/User/Nodesktop.sublime-color-scheme"
 before="$(find "${home}/.config/nodesktop/backups" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')"
 "${repo}/scripts/migrate-style.py" --home "${home}" --defaults "${defaults}" --scale 125
@@ -54,7 +57,7 @@ sed -i.bak \
   's/Nodesktop-Orchis-Green-Dark-Compact/Arc/' \
   "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
 rm "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml.bak"
-printf '%s\n' 'lookupdate-2' > "${home}/.config/nodesktop/style-version"
+printf '%s\n' 'lookupdate-3' > "${home}/.config/nodesktop/style-version"
 sed -i.bak 's/Nodesktop-Forest/Nodesktop-Tela-73875A-dark/' \
   "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
 rm "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml.bak"
@@ -63,7 +66,7 @@ grep -Fq 'value="Nodesktop-Orchis-Green-Dark-Compact"' \
   "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
 grep -Fq 'value="Nodesktop-Forest"' \
   "${home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
-grep -Fqx 'lookupdate-3' "${home}/.config/nodesktop/style-version"
+grep -Fqx 'terminal-dank-neon-1' "${home}/.config/nodesktop/style-version"
 
 # Explicitly selected third-party themes are not Nodesktop legacy defaults and
 # must remain untouched.

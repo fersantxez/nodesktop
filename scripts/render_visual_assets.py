@@ -50,14 +50,28 @@ def validate(data: dict) -> None:
         ratio = contrast(palette[foreground], palette[background])
         if ratio < minimum:
             raise ValueError(f"contrast {foreground}/{background}={ratio:.2f} below {minimum}")
+    terminal = data["terminal_profile"]
+    required_terminal = {"name", "background", "foreground", "bold", "cursor", "selection", "palette"}
+    missing_terminal = required_terminal - terminal.keys()
+    if missing_terminal:
+        raise ValueError(f"missing terminal profile values: {sorted(missing_terminal)}")
+    for key in ("background", "foreground", "bold", "cursor", "selection"):
+        rgb(terminal[key])
+    if len(terminal["palette"]) != 16:
+        raise ValueError("terminal palette must contain exactly 16 ANSI colors")
+    for color in terminal["palette"]:
+        rgb(color)
+    if contrast(terminal["foreground"], terminal["background"]) < 4.5:
+        raise ValueError("terminal foreground contrast is below 4.5")
     if set(data["scale_profiles"]) != {"100", "125"}:
         raise ValueError("scale profiles must be exactly 100 and 125")
 
 
 def render(data: dict, destination: pathlib.Path) -> None:
     palette = data["palette"]
+    terminal_profile = data["terminal_profile"]
     destination.mkdir(parents=True, exist_ok=True)
-    terminal_template = """# Nodesktop managed
+    terminal_template = """# Nodesktop managed: {terminal_name}
 [Configuration]
 FontName={terminal_font}
 MiscAlwaysShowTabs=FALSE
@@ -74,16 +88,25 @@ MiscConfirmClose=TRUE
 MiscHighlightUrls=TRUE
 MiscCopyOnSelect=FALSE
 MiscRewrapOnResize=TRUE
-ColorCursor={sage}
-ColorPalette=#0B0F0C;#A85F5A;#5F986C;#B79A61;#73875A;#8B7652;#82B88A;#D7DBD2;#657066;#EF8B86;#82B88A;#E0B35E;#98A193;#B79A61;#AFC39D;#F2F0E6
+ColorCursor={terminal_cursor}
+ColorPalette={terminal_palette}
 ColorBoldUseDefault=FALSE
-ColorForeground={body}
-ColorBackground={carbon}
-ColorBold={warm_white}
-ColorSelection={forest}
+ColorForeground={terminal_foreground}
+ColorBackground={terminal_background}
+ColorBold={terminal_bold}
+ColorSelection={terminal_selection}
 """
+    terminal_values = {
+        "terminal_name": terminal_profile["name"],
+        "terminal_cursor": terminal_profile["cursor"],
+        "terminal_palette": ";".join(terminal_profile["palette"]),
+        "terminal_foreground": terminal_profile["foreground"],
+        "terminal_background": terminal_profile["background"],
+        "terminal_bold": terminal_profile["bold"],
+        "terminal_selection": terminal_profile["selection"],
+    }
     for scale, profile in data["scale_profiles"].items():
-        terminal = terminal_template.format(terminal_font=profile["terminal_font"], **palette)
+        terminal = terminal_template.format(terminal_font=profile["terminal_font"], **palette, **terminal_values)
         (destination / f"terminalrc-{scale}").write_text(terminal, encoding="utf-8")
     btop = f"""theme[main_bg]=\"{palette['ink']}\"
 theme[main_fg]=\"{palette['body']}\"

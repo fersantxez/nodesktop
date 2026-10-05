@@ -13,7 +13,7 @@ import tempfile
 import time
 import xml.etree.ElementTree as ET
 
-VERSION = "lookupdate-3"
+VERSION = "terminal-dank-neon-1"
 PRIOR_DEFAULT = "forest-semantic-4"
 
 
@@ -181,8 +181,13 @@ def main() -> int:
         atomic_copy(defaults / "bashrc", bashrc)
     else:
         text = bashrc.read_text(encoding="utf-8")
-        if "export BASH_IT_THEME=clean" in text:
-            bashrc.write_text(text.replace("export BASH_IT_THEME=clean", "export BASH_IT_THEME=zork"), encoding="utf-8")
+        updated = text.replace("export BASH_IT_THEME=clean", "export BASH_IT_THEME=zork")
+        # Legacy images put Bash-it under /headless.  The current image owns a
+        # read-only copy at /opt/bash-it, which also works with persisted homes.
+        updated = updated.replace('export BASH_IT="/headless/.bash_it"', 'export BASH_IT="/opt/bash-it"')
+        updated = updated.replace("export BASH_IT='/headless/.bash_it'", "export BASH_IT='/opt/bash-it'")
+        if updated != text:
+            bashrc.write_text(updated, encoding="utf-8")
 
     adapters = {
         defaults / "sublime": home / ".config/sublime-text/Packages/User",

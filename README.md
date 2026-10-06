@@ -96,12 +96,34 @@ Run the checks from the repository root:
 ./tests/static.sh
 ./tests/smoke.sh <container-name>
 ./tests/functional.sh <container-name>
-./tests/performance.sh <container-name>
+./tests/performance.sh <image> <secret-volume>
+./tests/encoding.sh <container-name>
+docker exec -i <container-name> python3 - < tests/xvnc-cpu.py
 ```
 
 The suite checks source files, generated assets, Dockerfile syntax, image
 health, installed versions, desktop settings, theme assets, launchers, and
 runtime restrictions.
+
+## Desktop CPU policy
+
+The default KasmVNC profile sends changed image regions, caps updates at 15 FPS,
+uses two rectangle compression threads, gives WebP a zero-time budget before
+JPEG fallback, and disables full-frame video streaming. Server settings take precedence over saved browser
+presets. This keeps terminals, file browsing, and archive extraction inexpensive
+while retaining the existing image quality. XFCE compositing is also disabled.
+
+On HQ, switching a connected 1680×906 desktop from software H.265 to image
+encoding reduced an observed ten-second Xvnc CPU sample from 60.71% to 1.90%
+of one core. This is a workload-specific measurement, not a CPU limit or a
+guarantee for video playback. Recheck with `tests/xvnc-cpu.py` while connected
+and under the same workload; the cold-start test does not measure encoding CPU.
+
+For a deployment dedicated to video, explicitly configure and benchmark a
+hardware encoder with its render device available before enabling streaming.
+Do not enable automatic software H.265 selection on a shared NAS by default.
+KasmVNC settings are in `config/kasmvnc.yaml`; server-policy changes take effect
+when the desktop session restarts.
 
 ## Security notes
 

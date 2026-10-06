@@ -26,16 +26,26 @@ security:
     blacklist_threshold: 5
     blacklist_timeout: 10
 
+runtime_configuration:
+  # Saved browser presets must not silently re-enable costly encoding.
+  allow_client_to_override_kasm_server_settings: false
+
 encoding:
-  max_frame_rate: 30
+  max_frame_rate: 15
+  video_streaming_mode:
+    # KasmVNC 1.5.0: an empty codec disables full-frame video streaming.
+    # File management and terminals use changed rectangles instead of x265.
+    codec: ""
   video_encoding_mode:
+    # Fall back to JPEG as soon as WebP consumes measurable encoding time.
+    webp_encoding_time: 0
     max_resolution:
-      width: 2560
-      height: 1600
+      width: 1920
+      height: 1080
   rect_encoding_mode:
     min_quality: 7
     max_quality: 8
-    rectangle_compress_threads: auto
+    rectangle_compress_threads: 2
 
 server:
   http:

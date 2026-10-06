@@ -109,8 +109,8 @@ runtime restrictions.
 
 The default KasmVNC profile sends changed image regions, caps updates at 15 FPS,
 uses two rectangle compression threads, gives WebP a zero-time budget before
-JPEG fallback, and disables full-frame video streaming. Server settings take precedence over saved browser
-presets. This keeps terminals, file browsing, and archive extraction inexpensive
+JPEG fallback, and disables full-frame video streaming. Server settings take
+precedence over saved browser presets. This keeps terminals, file browsing, and archive extraction inexpensive
 while retaining the existing image quality. XFCE compositing is also disabled.
 
 On HQ, switching a connected 1680×906 desktop from software H.265 to image
@@ -124,6 +124,12 @@ hardware encoder with its render device available before enabling streaming.
 Do not enable automatic software H.265 selection on a shared NAS by default.
 KasmVNC settings are in `config/kasmvnc.yaml`; server-policy changes take effect
 when the desktop session restarts.
+
+The AMD64 `3.0.6-cpu-saver` maintenance release uses
+`releases/3.0.6-cpu-saver.Dockerfile` to apply this configuration to the pinned
+`3.0.5-dank-neon` image without updating application packages. Publish both the
+version tag and `latest`; verify their registry digests match before recreating
+HQ. Rollback is the previous version tag.
 
 ## Security notes
 

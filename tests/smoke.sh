@@ -38,7 +38,7 @@ version_output="$(docker exec "${container}" bash -lc '
   btop --version 2>&1
   7z | grep -m1 "7-Zip" || true
   xarchiver --version 2>&1
-  unrar | head -1
+  unrar | grep -m1 UNRAR
   rclone version | head -1
   tor --version | head -1
 ')"
@@ -51,8 +51,10 @@ style_output="$(docker exec "${container}" bash -lc '
   xfconf-query --channel thunar --property /default-view
 ')"
 
+# APT security updates can advance Debian and Tor patch versions independently
+# of the pinned base-image tag. Verify their supported release lines.
 for expected in \
-  'Debian=13.6' \
+  'Debian=13.' \
   'xfce4-session 4.20' \
   'KasmVNC 1.5.0' \
   'Mozilla Firefox 154.0' \
@@ -64,10 +66,10 @@ for expected in \
   'Papers 48.3' \
   '1.4.7+' \
   '7-Zip 25.01' \
-  'Xarchiver' \
+  'xarchiver 0.5.' \
   'UNRAR' \
   'rclone v1.75.0' \
-  'Tor version 0.4.9.11'; do
+  'Tor version 0.4.9.'; do
   grep -Fq "${expected}" <<<"${version_output}" \
     || fail "Missing expected version: ${expected}"
 done

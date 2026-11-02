@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-image="${NODEDESKTOP_IMAGE:-nodesktop:3.0.0-full}"
+image="${NODEDESKTOP_IMAGE:-fernandosanchez/nodesktop:latest}"
 name="${1:-nodesktop-v3}"
 port="${NODEDESKTOP_PORT:-6901}"
 resolution="${NODEDESKTOP_RESOLUTION:-1440x900}"
@@ -31,8 +31,13 @@ if docker container inspect "${name}" >/dev/null 2>&1; then
 fi
 
 if ! docker image inspect "${image}" >/dev/null 2>&1; then
-  printf 'Building %s...\n' "${image}"
-  docker build --target production --tag "${image}" .
+  if [[ -z "${NODEDESKTOP_IMAGE:-}" ]]; then
+    printf 'Pulling %s...\n' "${image}"
+    docker pull "${image}"
+  else
+    printf 'Building %s...\n' "${image}"
+    docker build --target production --tag "${image}" .
+  fi
 fi
 
 password=""

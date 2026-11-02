@@ -1,197 +1,28 @@
-# Nodesktop
+# Nodesktop Slim
 
-Nodesktop is a browser-accessible Debian desktop distributed as a Docker image.
-It combines XFCE, KasmVNC, and a practical set of desktop and terminal tools
-in a reproducible, isolated runtime.
+Nodesktop Slim is a minimal browser-accessible Linux desktop. This branch
+documents the Slim edition; the repository's default
+[`main` branch](https://github.com/fersantxez/nodesktop/tree/main) documents
+the full multimedia desktop. The default Docker image,
+`fernandosanchez/nodesktop:latest`, includes VLC and streams desktop video and
+application audio to the browser. HQ runs the full edition.
 
-## Editions
+## What Slim includes
 
-The default GitHub branch, [`main`](https://github.com/fersantxez/nodesktop/tree/main),
-documents the **full multimedia desktop**. Its published default image is
-[`fernandosanchez/nodesktop:latest`](https://hub.docker.com/r/fernandosanchez/nodesktop),
-also available as `3.0.8-multimedia` (currently Linux AMD64). It includes VLC,
-desktop applications, and streaming of the desktop video and application audio
-to the browser. HQ runs this full edition.
+- Debian, Openbox, KasmVNC, Firefox ESR, Thunar, Mousepad, and xterm.
+- Multilingual and emoji fonts, HTTPS browser access, and password protection.
+- Published Linux AMD64 and ARM64 images under
+  [`fernandosanchez/nodesktop:slim`](https://hub.docker.com/r/fernandosanchez/nodesktop).
 
-For a smaller desktop, see the [`slim` branch](https://github.com/fersantxez/nodesktop/tree/slim)
-and the `fernandosanchez/nodesktop:slim` image (Linux AMD64 and ARM64). Slim
-provides a browser, terminal, editor, and file manager without desktop audio
-or VLC; it is a separate option, not the default image.
+Right-click the desktop for the application menu. Slim deliberately omits
+desktop audio streaming and VLC; use the [full edition](https://github.com/fersantxez/nodesktop/tree/main)
+for audio and video playback in the browser. The versioned Slim image is
+`fernandosanchez/nodesktop:slim-0.2.0`.
 
-## What it provides
+## Run Slim locally
 
-- Debian 13.6, XFCE 4.20, and KasmVNC 1.5.0
-- HTTPS desktop access on port `6901` (HTTP redirects to HTTPS)
-- AMD64 and ARM64 source build targets; the published full `latest` image is AMD64
-- `core` and `full` image targets
-- Pinned application versions and checksums for downloaded archives
-- A read-only root filesystem, dropped capabilities, and no host filesystem
-  mounts in the supported local launchers
-
-The `full` image includes Firefox, Sublime Text, Geany, FileZilla,
-Transmission, Nicotine+, Papers, btop, Xarchiver, 7-Zip, Rclone, Tor, Bash-it,
-and the Tor Browser bundle on AMD64. Xarchiver is integrated with Thunar, so
-RAR, ZIP, 7z and TAR archives open or extract from the file manager; RAR
-extraction uses Debian's UnRAR backend. The exact versions are defined in
-`Dockerfile`.
-
-## Desktop appearance
-
-The default desktop uses an Orchis Dark Green theme: near-black, forest, dark
-olive, sage, warm white, and restrained gold. It includes a lightweight forest
-wallpaper and an alternative Turrell background. Inter Variable is used for
-interface text, Newsreader for window titles, and JetBrains Mono for terminals
-and code.
-
-Theme settings are supplied for Sublime Text, Geany, XFCE Terminal, btop,
-Firefox, and GTK4/libadwaita applications. They adjust presentation without
-replacing native application layouts. The custom icon theme is limited to
-desktop places and panel controls; application icons remain native. Bash-it is
-included in the `full` image and uses the `zork` theme.
-
-## Run locally
-
-Requirements: Docker Desktop, Docker Engine, or a compatible Docker runtime.
-
-```bash
-docker build --target production --tag nodesktop:local .
-NODEDESKTOP_IMAGE=nodesktop:local ./run_local.sh
-```
-
-The launcher asks for a password without displaying it, stores the password and
-desktop profile in named Docker volumes, binds the web port to loopback, and
-runs the desktop as the unprivileged `nodesktop` user.
-
-Open <https://127.0.0.1:6901> and sign in as `nodesktop`. A certificate warning
-is expected during local development because the image creates a self-signed
-certificate. Use a trusted TLS reverse proxy when exposing the service beyond
-the local machine.
-
-For unattended startup, keep the password in a protected file:
-
-```bash
-NODEDESKTOP_PASSWORD_FILE=/path/to/vnc_password ./run_local.sh my-desktop
-```
-
-Useful launcher variables are `NODEDESKTOP_IMAGE`, `NODEDESKTOP_PORT`,
-`NODEDESKTOP_RESOLUTION`, and `NODEDESKTOP_UI_SCALE` (`100` or `125`).
-
-## Multimedia
-
-The full image includes VLC and associates common audio and video files with it.
-Double-click a media file in the remote desktop to play it in VLC; its video
-appears in the browser's desktop view and its audio streams to that browser.
-Use the **Enable sound** button in the desktop page to enable playback in the
-local browser; browsers require a user gesture before they can play audio.
-Audio from applications in the desktop is mixed into the same stream. The
-current stream uses uncompressed stereo audio and can require approximately
-1.5 Mbit/s per listening browser, in addition to desktop video traffic.
-
-The default `desktop` video profile retains the low-CPU 15 FPS desktop policy.
-To try the higher-motion software H.264 profile at 30 FPS, start the local
-launcher with `NODEDESKTOP_VIDEO_PROFILE=video`. Compose uses
-`NODESKTOP_VIDEO_PROFILE=video`. This can use substantially more CPU and
-bandwidth; video and audio travel separately and can become out of sync.
-
-## Compose
-
-Create a local secret and start the complete image:
-
-```bash
-mkdir -p .secrets
-umask 077
-printf '%s\n' 'choose-a-long-password' > .secrets/vnc_password
-docker compose up --build --detach
-```
-
-The supplied `compose.yaml` persists `/home/nodesktop` in a named volume,
-publishes port `6901` only on loopback, and applies the same runtime
-restrictions as the local launcher. Do not commit passwords, private keys,
-host paths, or credential-bearing environment files.
-
-## Image targets
-
-```bash
-docker build --target core --tag nodesktop:local-core .
-docker build --target full --tag nodesktop:local-full .
-```
-
-`core` is the smaller desktop image. `full` adds the application set listed
-above. `production` is the default runtime target and is based on `full`.
-
-## Verification
-
-Run the checks from the repository root:
-
-```bash
-./tests/static.sh
-./tests/smoke.sh <container-name>
-./tests/functional.sh <container-name>
-./tests/performance.sh <image> <secret-volume>
-./tests/encoding.sh <container-name>
-docker exec -i <container-name> python3 - < tests/xvnc-cpu.py
-```
-
-The suite checks source files, generated assets, Dockerfile syntax, image
-health, installed versions, desktop settings, theme assets, launchers, and
-runtime restrictions.
-
-## Desktop CPU policy
-
-The default KasmVNC profile sends changed image regions, caps updates at 15 FPS,
-uses two rectangle compression threads, gives WebP a zero-time budget before
-JPEG fallback, and disables full-frame video streaming. Server settings take
-precedence over saved browser presets. This keeps terminals, file browsing, and archive extraction inexpensive
-while retaining the existing image quality. XFCE compositing is also disabled.
-
-On HQ, switching a connected 1680×906 desktop from software H.265 to image
-encoding reduced an observed ten-second Xvnc CPU sample from 60.71% to 1.90%
-of one core. This is a workload-specific measurement, not a CPU limit or a
-guarantee for video playback. Recheck with `tests/xvnc-cpu.py` while connected
-and under the same workload; the cold-start test does not measure encoding CPU.
-
-For a deployment dedicated to video, explicitly configure and benchmark a
-hardware encoder with its render device available before enabling streaming.
-Do not enable automatic software H.265 selection on a shared NAS by default.
-KasmVNC settings are in `config/kasmvnc.yaml`; server-policy changes take effect
-when the desktop session restarts.
-
-The AMD64 `3.0.6-cpu-saver` maintenance release uses
-`releases/3.0.6-cpu-saver.Dockerfile` to apply this configuration to the pinned
-`3.0.5-dank-neon` image without updating application packages. Publish both the
-version tag and `latest`; verify their registry digests match before recreating
-HQ. Rollback is the previous version tag.
-
-The HQ multimedia maintenance image uses
-`releases/3.0.8-multimedia.Dockerfile`, based on the pinned 3.0.6 image. HQ's
-TrueNAS app is configured to use the locally built `nodesktop:3.0.8-multimedia`
-image with pull policy `never`; retain that image when pruning Docker storage.
-The previous image is retained locally as `nodesktop:rollback-3.0.6-cpu-saver`.
-To roll back, set the app image repository to `nodesktop`, tag to
-`rollback-3.0.6-cpu-saver`, and pull policy to `never`.
-
-## Security notes
-
-The local launchers are intentionally isolated and do not mount the host home
-or root filesystem. Port `6901` carries only the HTTPS web desktop and its
-TLS-protected WebSocket connection; raw VNC is not exposed. For remote access,
-use a private network or an authenticated TLS reverse proxy instead of
-publishing the port directly to the internet.
-
-Use immutable image tags or registry digests for repeatable deployments. Update
-the version argument and checksum together in `Dockerfile`, then run the full
-verification suite before publishing a release.
-
-## Slim image
-
-For Slim-specific documentation and source, visit the
-[`slim` branch](https://github.com/fersantxez/nodesktop/tree/slim).
-
-The Slim image uses Openbox, Firefox ESR, Thunar, Mousepad and xterm, with
-multilingual and emoji fonts. Right-click the desktop for its application menu.
-It does not include desktop audio or VLC. The `slim` tag supports Linux AMD64
-and ARM64. To run it locally, first set `VNC_PW` to a password of at least 12
-characters, then run:
+With Docker installed, set `VNC_PW` to a password of at least 12 characters,
+then run:
 
 ```bash
 docker run -d --name nodesktop-slim -p 127.0.0.1:6901:6901 \
@@ -199,19 +30,22 @@ docker run -d --name nodesktop-slim -p 127.0.0.1:6901:6901 \
   fernandosanchez/nodesktop:slim
 ```
 
-Open `https://127.0.0.1:6901` and sign in as `nodesktop`. The default
-certificate is self-signed. For deployments that use secrets instead of an
-environment variable, mount a readable password file at
-`/run/secrets/vnc_password`, or set `VNC_PASSWORD_FILE` to its path.
+Open <https://127.0.0.1:6901> and sign in as `nodesktop`. The certificate is
+self-signed by default. For access beyond the local machine, use a private
+network or an authenticated TLS reverse proxy.
 
-Build Slim separately with:
+For deployments using secrets instead of an environment variable, mount a
+readable password file at `/run/secrets/vnc_password`, or set
+`VNC_PASSWORD_FILE` to its path. Use a separate home volume for Slim rather
+than sharing the full desktop's profile.
+
+## Build and verify
 
 ```bash
 docker build -f slim/Dockerfile -t nodesktop:slim .
+./tests/static.sh
+./tests/slim-smoke.sh <running-slim-container>
 ```
 
-Use a separate home volume for Slim. Its Openbox session has its own startup
-configuration and should not overwrite an existing full desktop profile.
-
-The published tag is `fernandosanchez/nodesktop:slim`. HQ runs the full
-multimedia image; Slim is available for separate deployments.
+The build definition and session files are in [`slim/`](slim/); the smoke test
+checks the desktop processes, applications, fonts, authentication, and HTTPS.

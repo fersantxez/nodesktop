@@ -178,3 +178,16 @@ docker build -f slim/Dockerfile -t nodesktop:slim .
 
 Use a separate home volume for Slim. Its Openbox session has its own startup
 configuration and should not overwrite an existing full desktop profile.
+
+On HQ, the separate `nodesktop-slim` container listens on loopback port 16909
+and has its own home and secret volumes. Access it through an SSH tunnel:
+
+```bash
+ssh -N -L 16909:127.0.0.1:16909 hq
+```
+
+Then open `https://127.0.0.1:16909` and sign in as `nodesktop`. An
+administrator can retrieve its generated password with
+`ssh hq 'docker exec nodesktop-slim cat /run/secrets/vnc_password'`.
+The local HQ container uses the `nodesktop:slim-candidate` image; it is not a
+TrueNAS-managed app. The published tag is `fernandosanchez/nodesktop:slim`.

@@ -31,7 +31,7 @@ if docker container inspect "${name}" >/dev/null 2>&1; then
 fi
 
 if ! docker image inspect "${image}" >/dev/null 2>&1; then
-  if [[ -z "${NODEDESKTOP_IMAGE:-}" ]]; then
+  if [[ -z "${NODEDESKTOP_IMAGE:-}" || "${image}" == fernandosanchez/nodesktop:* ]]; then
     printf 'Pulling %s...\n' "${image}"
     docker pull "${image}"
   else

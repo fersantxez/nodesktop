@@ -12,6 +12,8 @@ docker exec "$container" sh -c '
   ! command -v vlc >/dev/null
   ! command -v pulseaudio >/dev/null
   test "$(curl -ks -o /dev/null -w "%{http_code}" https://127.0.0.1:6901/)" = 401
-  test "$(curl -ks -u "$VNC_USER:$VNC_PW" -o /dev/null -w "%{http_code}" https://127.0.0.1:6901/)" = 200
+  password="${VNC_PW:-}"
+  if [ -z "$password" ]; then IFS= read -r password < "${VNC_PASSWORD_FILE:-/run/secrets/vnc_password}"; fi
+  test "$(curl -ks -u "$VNC_USER:$password" -o /dev/null -w "%{http_code}" https://127.0.0.1:6901/)" = 200
 '
 printf 'PASS: Slim desktop, tools, authentication and HTTPS.\n'

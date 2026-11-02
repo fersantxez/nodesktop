@@ -165,3 +165,16 @@ publishing the port directly to the internet.
 Use immutable image tags or registry digests for repeatable deployments. Update
 the version argument and checksum together in `Dockerfile`, then run the full
 verification suite before publishing a release.
+
+## Slim image
+
+The experimental Slim image uses Openbox, Firefox ESR, Thunar, Mousepad and
+xterm. Right-click the desktop for its application menu. It does not include
+desktop audio or VLC. Build it separately with:
+
+```bash
+docker build -f slim/Dockerfile -t nodesktop:slim .
+```
+
+Use a separate home volume for Slim. Its Openbox session has its own startup
+configuration and should not overwrite an existing full desktop profile.

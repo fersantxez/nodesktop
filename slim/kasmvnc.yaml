@@ -1,0 +1,17 @@
+network:
+  protocol: http
+  interface: 127.0.0.1
+  ssl:
+    pem_certificate: /etc/ssl/certs/ssl-cert-snakeoil.pem
+    pem_key: /etc/ssl/private/ssl-cert-snakeoil.key
+    require_ssl: true
+runtime_configuration:
+  allow_client_to_override_kasm_server_settings: false
+encoding:
+  max_frame_rate: 15
+  video_streaming_mode:
+    codec: ""
+  video_encoding_mode:
+    webp_encoding_time: 0
+  rect_encoding_mode:
+    rectangle_compress_threads: 2

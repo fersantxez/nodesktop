@@ -9,6 +9,8 @@ docker exec "$container" sh -c '
   command -v mousepad >/dev/null
   command -v xterm >/dev/null
   command -v thunar >/dev/null
+  fc-match -f "%{family}\n" :lang=zh-cn | grep -qi "WenQuanYi"
+  fc-match -f "%{family}\n" emoji | grep -qi "Noto Color Emoji"
   ! command -v vlc >/dev/null
   ! command -v pulseaudio >/dev/null
   test "$(curl -ks -o /dev/null -w "%{http_code}" https://127.0.0.1:6901/)" = 401

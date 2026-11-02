@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-version="${1:-3.0.0}"
+version="${1:-3.0.8-multimedia}"
 repository="${NODESKTOP_REPOSITORY:-fernandosanchez/nodesktop}"
 debian_release="${NODESKTOP_DEBIAN_RELEASE:-trixie}"
 immutable_tag="${repository}:${version}-${debian_release}"

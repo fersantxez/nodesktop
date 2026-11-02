@@ -168,9 +168,24 @@ verification suite before publishing a release.
 
 ## Slim image
 
-The experimental Slim image uses Openbox, Firefox ESR, Thunar, Mousepad and
-xterm. Right-click the desktop for its application menu. It does not include
-desktop audio or VLC. Build it separately with:
+The Slim image uses Openbox, Firefox ESR, Thunar, Mousepad and xterm, with
+multilingual and emoji fonts. Right-click the desktop for its application menu.
+It does not include desktop audio or VLC. The `slim` tag supports Linux AMD64
+and ARM64. To run it locally, first set `VNC_PW` to a password of at least 12
+characters, then run:
+
+```bash
+docker run -d --name nodesktop-slim -p 127.0.0.1:6901:6901 \
+  -e VNC_PW -v nodesktop-slim-home:/home/nodesktop \
+  fernandosanchez/nodesktop:slim
+```
+
+Open `https://127.0.0.1:6901` and sign in as `nodesktop`. The default
+certificate is self-signed. For deployments that use secrets instead of an
+environment variable, mount a readable password file at
+`/run/secrets/vnc_password`, or set `VNC_PASSWORD_FILE` to its path.
+
+Build Slim separately with:
 
 ```bash
 docker build -f slim/Dockerfile -t nodesktop:slim .
@@ -179,15 +194,5 @@ docker build -f slim/Dockerfile -t nodesktop:slim .
 Use a separate home volume for Slim. Its Openbox session has its own startup
 configuration and should not overwrite an existing full desktop profile.
 
-On HQ, the separate `nodesktop-slim` container listens on loopback port 16909
-and has its own home and secret volumes. Access it through an SSH tunnel:
-
-```bash
-ssh -N -L 16909:127.0.0.1:16909 hq
-```
-
-Then open `https://127.0.0.1:16909` and sign in as `nodesktop`. An
-administrator can retrieve its generated password with
-`ssh hq 'docker exec nodesktop-slim cat /run/secrets/vnc_password'`.
-The local HQ container uses the `nodesktop:slim-candidate` image; it is not a
-TrueNAS-managed app. The published tag is `fernandosanchez/nodesktop:slim`.
+The published tag is `fernandosanchez/nodesktop:slim`. HQ runs the full
+multimedia image; Slim is available for separate deployments.

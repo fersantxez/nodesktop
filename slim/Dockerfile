@@ -14,6 +14,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
  && apt-get install -y --no-install-recommends "/tmp/$f" \
  && groupadd --gid 1000 nodesktop && useradd --uid 1000 --gid 1000 --create-home --shell /bin/bash nodesktop && usermod -aG ssl-cert nodesktop \
  && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* /tmp/*
+# Keep multilingual text and emoji readable in the remote browser.
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends fonts-wqy-zenhei fonts-noto-color-emoji \
+ && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 COPY slim/start.sh /usr/local/bin/nodesktop-slim-start
 COPY slim/menu.xml /etc/xdg/openbox/menu.xml
 COPY slim/kasmvnc.yaml /etc/kasmvnc/kasmvnc.yaml

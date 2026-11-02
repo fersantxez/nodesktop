@@ -12,6 +12,13 @@ if [[ "${ui_scale}" != 100 && "${ui_scale}" != 125 ]]; then
 fi
 /usr/local/bin/migrate-style.py --home "${HOME}" --scale "${ui_scale}"
 
+# New VLC profiles default to local playback without a first-run network prompt.
+# Existing profiles retain their own settings.
+if command -v vlc >/dev/null && [[ ! -e "${HOME}/.config/vlc/vlcrc" ]]; then
+  install -d -m 0700 "${HOME}/.config/vlc"
+  printf '[qt]\nqt-privacy-ask=0\n' > "${HOME}/.config/vlc/vlcrc"
+fi
+
 password_file="${VNC_PASSWORD_FILE:-/run/secrets/vnc_password}"
 vnc_password="${VNC_PW:-}"
 if [[ -z "${vnc_password}" ]]; then
@@ -40,6 +47,16 @@ if [[ ! "${VNC_PORT}" =~ ^[0-9]+$ || ! "${VNC_BACKEND_PORT}" =~ ^[0-9]+$ || "${V
   printf 'VNC_PORT and VNC_BACKEND_PORT must be different numeric ports.\n' >&2
   exit 64
 fi
+if [[ "${VNC_PORT}" == 6903 || "${VNC_BACKEND_PORT}" == 6903 ]]; then
+  printf 'Port 6903 is reserved for the local audio proxy.\n' >&2
+  exit 64
+fi
+video_args=()
+case "${NODESKTOP_VIDEO_PROFILE:-desktop}" in
+  desktop) ;;
+  video) video_args=(-FrameRate 30 -videoCodec h264) ;;
+  *) printf 'NODESKTOP_VIDEO_PROFILE must be desktop or video.\n' >&2; exit 64 ;;
+esac
 
 # XFCE stores the horizontal panel center in pixels. Derive it from the
 # requested framebuffer so the compact launcher/status rail stays centered
@@ -120,6 +137,27 @@ network:
 EOF
 fi
 
+proxy_cert=/etc/ssl/certs/ssl-cert-snakeoil.pem
+proxy_key=/etc/ssl/private/ssl-cert-snakeoil.key
+if [[ -n "${cert_file:-}" ]]; then
+  proxy_cert="${cert_file}"
+  proxy_key="${cert_file}"
+elif [[ -f "${HOME}/.vnc/kasmvnc.yaml" ]]; then
+  # Respect user-provided TLS paths in persistent desktop profiles.
+  mapfile -t user_tls_paths < <(perl -MYAML::Tiny -e '
+    my $data = YAML::Tiny->read($ARGV[0]) or die YAML::Tiny->errstr;
+    my $ssl = $data->[0]{network}{ssl} || {};
+    print(($ssl->{pem_certificate} // ""), "\n", ($ssl->{pem_key} // ""), "\n");
+  ' "${HOME}/.vnc/kasmvnc.yaml")
+  [[ -z "${user_tls_paths[0]:-}" ]] || proxy_cert="${user_tls_paths[0]}"
+  [[ -z "${user_tls_paths[1]:-}" ]] || proxy_key="${user_tls_paths[1]}"
+fi
+
+# A private, hardware-independent output for every application in this session.
+pulseaudio --start --exit-idle-time=-1
+pactl load-module module-null-sink sink_name=nodesktop sink_properties=device.description=Nodesktop >/dev/null
+pactl set-default-sink nodesktop
+
 printf '%s\n%s\n' "${vnc_password}" "${vnc_password}" \
   | vncpasswd -u "${VNC_USER}" -w -o "${HOME}/.kasmpasswd"
 unset vnc_password
@@ -132,20 +170,26 @@ printf 'Nodesktop is starting at https://0.0.0.0:%s (HTTP redirects enabled; dis
 
 "/usr/local/bin/nodesktop-http-redirect.py" \
   --listen "${VNC_PORT}" \
-  --backend "${VNC_BACKEND_PORT}" &
+  --backend 6903 &
 redirect_pid=$!
+
+python3 /usr/local/bin/nodesktop-audio-proxy.py --port 6903 \
+  --backend "${VNC_BACKEND_PORT}" --cert "${proxy_cert}" --key "${proxy_key}" &
+audio_proxy_pid=$!
 
 vncserver "${VNC_DISPLAY}" \
   -fg \
   -select-de xfce \
   -geometry "${VNC_RESOLUTION}" \
   -depth 24 \
-  -interface 0.0.0.0 \
+  "${video_args[@]}" \
+  -interface 127.0.0.1 \
   -websocketPort "${VNC_BACKEND_PORT}" &
 vnc_pid=$!
 
 cleanup() {
-  kill -TERM "${vnc_pid}" "${redirect_pid}" 2>/dev/null || true
+  kill -TERM "${vnc_pid}" "${redirect_pid}" "${audio_proxy_pid}" 2>/dev/null || true
+  pulseaudio --kill 2>/dev/null || true
 }
 trap cleanup INT TERM EXIT
 

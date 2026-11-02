@@ -9,6 +9,7 @@ services:
     environment:
       VNC_RESOLUTION: "${VNC_RESOLUTION:-1440x900}"
       NODESKTOP_UI_SCALE: "${NODESKTOP_UI_SCALE:-100}"
+      NODESKTOP_VIDEO_PROFILE: "${NODESKTOP_VIDEO_PROFILE:-desktop}"
     secrets:
       - vnc_password
     volumes:

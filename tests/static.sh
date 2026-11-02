@@ -16,7 +16,7 @@ while IFS= read -r document; do
   jq -e . "${document}" >/dev/null
 done < <(find config assets -type f -name '*.json' -print | sort)
 
-python3 -m py_compile scripts/migrate-style.py scripts/nodesktop-style-rollback scripts/render_visual_assets.py
+python3 -m py_compile scripts/migrate-style.py scripts/nodesktop-style-rollback scripts/render_visual_assets.py scripts/nodesktop-audio-proxy.py tests/audio-e2e.py tests/vlc-e2e.py
 scripts/build-visual-assets.sh --check
 tests/style-migration.sh
 docker build --check .

@@ -6,6 +6,7 @@ name="${1:-nodesktop-v3}"
 port="${NODEDESKTOP_PORT:-6901}"
 resolution="${NODEDESKTOP_RESOLUTION:-1440x900}"
 ui_scale="${NODEDESKTOP_UI_SCALE:-100}"
+video_profile="${NODEDESKTOP_VIDEO_PROFILE:-desktop}"
 password_file="${NODEDESKTOP_PASSWORD_FILE:-}"
 
 fail() {
@@ -22,6 +23,8 @@ fi
   || fail "Invalid NODEDESKTOP_RESOLUTION: ${resolution}"
 [[ "${ui_scale}" == 100 || "${ui_scale}" == 125 ]] \
   || fail "NODEDESKTOP_UI_SCALE must be 100 or 125."
+[[ "${video_profile}" == desktop || "${video_profile}" == video ]] \
+  || fail "NODEDESKTOP_VIDEO_PROFILE must be desktop or video."
 
 if docker container inspect "${name}" >/dev/null 2>&1; then
   fail "A container named ${name} already exists. Remove or rename it first."
@@ -63,6 +66,7 @@ docker run --detach \
   --publish "127.0.0.1:${port}:6901" \
   --env "VNC_RESOLUTION=${resolution}" \
   --env "NODESKTOP_UI_SCALE=${ui_scale}" \
+  --env "NODESKTOP_VIDEO_PROFILE=${video_profile}" \
   --cap-drop ALL \
   --security-opt no-new-privileges=true \
   --read-only \

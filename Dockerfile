@@ -113,6 +113,9 @@ RUN apt-get update \
       libswscale8 \
       libva2 \
       procps \
+      pulseaudio \
+      pulseaudio-utils \
+      python3-aiohttp \
       python3-minimal \
       ssl-cert \
       tini \
@@ -174,7 +177,7 @@ COPY config/sublime/Packages/User/ /usr/local/share/nodesktop/sublime/
 COPY config/geany/ /usr/local/share/nodesktop/geany/
 COPY config/btop/ /usr/local/share/nodesktop/btop/
 COPY config/bashrc /usr/local/share/nodesktop/bashrc
-COPY assets/kasmvnc/nodesktop.css config/generated/nodesktop-web-tokens.css assets/brand/nodesktop-mark.svg /usr/local/share/nodesktop/kasm-assets/
+COPY assets/kasmvnc/nodesktop.css assets/kasmvnc/nodesktop-audio.js config/generated/nodesktop-web-tokens.css assets/brand/nodesktop-mark.svg /usr/local/share/nodesktop/kasm-assets/
 COPY scripts/migrate-style.py scripts/nodesktop-style-rollback scripts/patch-kasmvnc.sh /usr/local/bin/
 
 RUN cp -R /usr/local/share/nodesktop/xfce4/. /home/nodesktop/.config/xfce4/ \
@@ -273,6 +276,7 @@ FROM core-filesystem AS core
 
 COPY scripts/nodesktop-entrypoint.sh /usr/local/bin/nodesktop-entrypoint
 COPY scripts/nodesktop-http-redirect.py /usr/local/bin/nodesktop-http-redirect.py
+COPY scripts/nodesktop-audio-proxy.py /usr/local/bin/nodesktop-audio-proxy.py
 COPY config/firefox/policies.json /opt/firefox/distribution/policies.json
 COPY config/bashrc /home/nodesktop/.bashrc
 
@@ -287,7 +291,7 @@ EXPOSE 6901
 VOLUME ["/home/nodesktop"]
 
 HEALTHCHECK --interval=10s --timeout=5s --start-period=30s --retries=6 \
-  CMD ["pgrep", "--exact", "Xvnc"]
+  CMD ["bash", "-c", "pgrep --exact Xvnc >/dev/null && pgrep --exact pulseaudio >/dev/null && pgrep -f '^python3 /usr/local/bin/nodesktop-audio-proxy.py' >/dev/null"]
 
 ENTRYPOINT ["/usr/bin/tini", "--", "/usr/local/bin/nodesktop-entrypoint"]
 CMD []
@@ -304,6 +308,7 @@ ARG BASH_IT_SHA256=e6fbe4efee5f4f63e8e5788f957d66df541839d066d078f6bb8f07c721311
 USER root
 
 COPY --from=rclone-builder /out/rclone /usr/local/bin/rclone
+COPY config/multimedia-mimeapps.list /tmp/multimedia-mimeapps.list
 
 RUN echo "deb https://deb.debian.org/debian trixie-backports main" > /etc/apt/sources.list.d/trixie-backports.list \
  && apt-get update \
@@ -312,7 +317,10 @@ RUN echo "deb https://deb.debian.org/debian trixie-backports main" > /etc/apt/so
       gnupg \
       nicotine \
       tor \
+      vlc \
       xz-utils \
+ && cat /tmp/multimedia-mimeapps.list >> /etc/xdg/mimeapps.list \
+ && rm /tmp/multimedia-mimeapps.list \
  && apt-get install -y --no-install-recommends --target-release trixie-backports transmission-gtk \
  && curl --fail --location --retry 5 https://download.sublimetext.com/sublimehq-pub.gpg \
       | gpg --dearmor --yes --output /usr/share/keyrings/sublimehq-archive.gpg \
@@ -364,6 +372,7 @@ COPY config/firefox/policies.json /opt/firefox/distribution/policies.json
 COPY config/tor-user.js /home/nodesktop/.mozilla/nodesktop-tor/user.js
 COPY scripts/nodesktop-entrypoint.sh /usr/local/bin/nodesktop-entrypoint
 COPY scripts/nodesktop-http-redirect.py /usr/local/bin/nodesktop-http-redirect.py
+COPY scripts/nodesktop-audio-proxy.py /usr/local/bin/nodesktop-audio-proxy.py
 COPY scripts/nodesktop-tor-browser.sh /usr/local/bin/nodesktop-tor-browser
 
 RUN chmod 0755 /usr/local/bin/nodesktop-entrypoint /usr/local/bin/nodesktop-http-redirect.py /usr/local/bin/nodesktop-tor-browser \
@@ -391,7 +400,7 @@ EXPOSE 6901
 VOLUME ["/home/nodesktop"]
 
 HEALTHCHECK --interval=10s --timeout=5s --start-period=30s --retries=6 \
-  CMD ["pgrep", "--exact", "Xvnc"]
+  CMD ["bash", "-c", "pgrep --exact Xvnc >/dev/null && pgrep --exact pulseaudio >/dev/null && pgrep -f '^python3 /usr/local/bin/nodesktop-audio-proxy.py' >/dev/null"]
 
 ENTRYPOINT ["/usr/bin/tini", "--", "/usr/local/bin/nodesktop-entrypoint"]
 CMD []

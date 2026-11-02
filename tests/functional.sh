@@ -49,6 +49,13 @@ done
 
 docker exec "${container}" bash -lc '
   set -Eeuo pipefail
+  dpkg-query -s vlc | grep -Fxq "Status: install ok installed"
+  [[ "$(xdg-mime query default audio/mpeg)" == vlc.desktop ]]
+  [[ "$(xdg-mime query default video/mp4)" == vlc.desktop ]]
+' || fail "VLC or its multimedia associations are missing"
+
+docker exec "${container}" bash -lc '
+  set -Eeuo pipefail
   [[ "$(xdg-mime query default application/vnd.rar)" == xarchiver.desktop ]]
   xarchiver --info | awk "/^rar4,/ { rar=1; next } rar && /unrar/ { found=1 } END { exit !found }"
 ' || fail "RAR is not associated with an available Xarchiver/UnRAR backend"

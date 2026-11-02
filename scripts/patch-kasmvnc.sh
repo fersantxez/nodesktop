@@ -20,6 +20,7 @@ grep -Fq 'id="noVNC_control_bar"' "${source_dir}/index.html" || {
 
 install -d "${target_dir}"
 cp -a "${source_dir}/." "${target_dir}/"
+install -m 0644 "${assets_dir}/nodesktop-audio.js" "${target_dir}/nodesktop-audio.js"
 install -m 0644 "${assets_dir}/nodesktop.css" "${target_dir}/nodesktop.css"
 install -m 0644 "${assets_dir}/nodesktop-web-tokens.css" "${target_dir}/nodesktop-web-tokens.css"
 install -m 0644 "${assets_dir}/nodesktop-mark.svg" "${target_dir}/nodesktop-mark.svg"
@@ -28,6 +29,7 @@ for page in index.html vnc.html screen.html disconnected.html; do
   [[ -f "${target_dir}/${page}" ]] || continue
   sed -i 's#</head>#<link rel="icon" type="image/svg+xml" href="./nodesktop-mark.svg"><link rel="stylesheet" href="./nodesktop.css"></head>#' "${target_dir}/${page}"
 done
+sed -i 's#</body>#<script defer src="./nodesktop-audio.js"></script></body>#' "${target_dir}/index.html"
 sed -i 's#<title>KasmVNC</title>#<title>Nodesktop</title>#' "${target_dir}/index.html"
 
 grep -Fq 'href="./nodesktop.css"' "${target_dir}/index.html"

@@ -62,6 +62,21 @@ NODEDESKTOP_PASSWORD_FILE=/path/to/vnc_password ./run_local.sh my-desktop
 Useful launcher variables are `NODEDESKTOP_IMAGE`, `NODEDESKTOP_PORT`,
 `NODEDESKTOP_RESOLUTION`, and `NODEDESKTOP_UI_SCALE` (`100` or `125`).
 
+## Multimedia
+
+The full image includes VLC and associates common audio and video files with it.
+Use the **Enable sound** button in the desktop page to enable playback in the
+local browser; browsers require a user gesture before they can play audio.
+Audio from applications in the desktop is mixed into the same stream. The
+current stream uses uncompressed stereo audio and can require approximately
+1.5 Mbit/s per listening browser, in addition to desktop video traffic.
+
+The default `desktop` video profile retains the low-CPU 15 FPS desktop policy.
+To try the higher-motion software H.264 profile at 30 FPS, start the local
+launcher with `NODEDESKTOP_VIDEO_PROFILE=video`. Compose uses
+`NODESKTOP_VIDEO_PROFILE=video`. This can use substantially more CPU and
+bandwidth; video and audio travel separately and can become out of sync.
+
 ## Compose
 
 Create a local secret and start the complete image:
@@ -130,6 +145,14 @@ The AMD64 `3.0.6-cpu-saver` maintenance release uses
 `3.0.5-dank-neon` image without updating application packages. Publish both the
 version tag and `latest`; verify their registry digests match before recreating
 HQ. Rollback is the previous version tag.
+
+The HQ multimedia maintenance image uses
+`releases/3.0.8-multimedia.Dockerfile`, based on the pinned 3.0.6 image. HQ's
+TrueNAS app is configured to use the locally built `nodesktop:3.0.8-multimedia`
+image with pull policy `never`; retain that image when pruning Docker storage.
+The previous image is retained locally as `nodesktop:rollback-3.0.6-cpu-saver`.
+To roll back, set the app image repository to `nodesktop`, tag to
+`rollback-3.0.6-cpu-saver`, and pull policy to `never`.
 
 ## Security notes
 

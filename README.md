@@ -4,11 +4,25 @@ Nodesktop is a browser-accessible Debian desktop distributed as a Docker image.
 It combines XFCE, KasmVNC, and a practical set of desktop and terminal tools
 in a reproducible, isolated runtime.
 
+## Editions
+
+The default GitHub branch, [`main`](https://github.com/fersantxez/nodesktop/tree/main),
+documents the **full multimedia desktop**. Its published default image is
+[`fernandosanchez/nodesktop:latest`](https://hub.docker.com/r/fernandosanchez/nodesktop),
+also available as `3.0.8-multimedia` (currently Linux AMD64). It includes VLC,
+desktop applications, and streaming of the desktop video and application audio
+to the browser. HQ runs this full edition.
+
+For a smaller desktop, see the [`slim` branch](https://github.com/fersantxez/nodesktop/tree/slim)
+and the `fernandosanchez/nodesktop:slim` image (Linux AMD64 and ARM64). Slim
+provides a browser, terminal, editor, and file manager without desktop audio
+or VLC; it is a separate option, not the default image.
+
 ## What it provides
 
 - Debian 13.6, XFCE 4.20, and KasmVNC 1.5.0
 - HTTPS desktop access on port `6901` (HTTP redirects to HTTPS)
-- AMD64 and ARM64 builds
+- AMD64 and ARM64 source build targets; the published full `latest` image is AMD64
 - `core` and `full` image targets
 - Pinned application versions and checksums for downloaded archives
 - A read-only root filesystem, dropped capabilities, and no host filesystem
@@ -65,6 +79,8 @@ Useful launcher variables are `NODEDESKTOP_IMAGE`, `NODEDESKTOP_PORT`,
 ## Multimedia
 
 The full image includes VLC and associates common audio and video files with it.
+Double-click a media file in the remote desktop to play it in VLC; its video
+appears in the browser's desktop view and its audio streams to that browser.
 Use the **Enable sound** button in the desktop page to enable playback in the
 local browser; browsers require a user gesture before they can play audio.
 Audio from applications in the desktop is mixed into the same stream. The
@@ -167,6 +183,9 @@ the version argument and checksum together in `Dockerfile`, then run the full
 verification suite before publishing a release.
 
 ## Slim image
+
+For Slim-specific documentation and source, visit the
+[`slim` branch](https://github.com/fersantxez/nodesktop/tree/slim).
 
 The Slim image uses Openbox, Firefox ESR, Thunar, Mousepad and xterm, with
 multilingual and emoji fonts. Right-click the desktop for its application menu.
